@@ -1,2 +1,12 @@
 server:
   port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/marketplace
+    username: root
+    password: 212109
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
