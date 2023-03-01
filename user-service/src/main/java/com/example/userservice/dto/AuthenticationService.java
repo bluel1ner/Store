@@ -1,8 +1,8 @@
 package com.example.userservice.dto;
 
-import com.userservice.userservice.config.JwtService;
-import com.userservice.userservice.entity.User;
-import com.userservice.userservice.repository.UserRepository;
+import com.example.userservice.config.JwtService;
+import com.example.userservice.entity.User;
+import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

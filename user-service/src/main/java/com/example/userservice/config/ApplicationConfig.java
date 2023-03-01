@@ -1,6 +1,6 @@
 package com.example.userservice.config;
 
-import com.userservice.userservice.repository.UserRepository;
+import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
