@@ -1,6 +1,5 @@
 package com.example.userservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,8 +23,7 @@ public class Address {
     private String apartment;
 
 
-    @JsonIgnore
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

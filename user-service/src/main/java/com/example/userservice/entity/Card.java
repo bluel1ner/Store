@@ -1,10 +1,8 @@
 package com.example.userservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Entity
 @Table(name = "card")
@@ -24,8 +22,7 @@ public class Card {
     private String owner;
     private String cvv;
 
-    @JsonIgnore
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
