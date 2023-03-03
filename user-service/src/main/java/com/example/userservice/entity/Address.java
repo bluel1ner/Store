@@ -2,6 +2,9 @@ package com.example.userservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.aspectj.weaver.ast.Or;
+
+import java.util.List;
 
 @Entity
 @Table(name = "address")
@@ -21,10 +24,14 @@ public class Address {
     private String street;
     private String house;
     private String apartment;
+    //TODO: check cascade and fetchtype for all Order
 
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "address")
+//    @JoinColumn(name = "address_id")
+    private List<Order> orderList;
 }
