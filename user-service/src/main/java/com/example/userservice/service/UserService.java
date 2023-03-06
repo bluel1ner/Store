@@ -1,6 +1,7 @@
 package com.example.userservice.service;
 
 
+import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.User;
 
 import java.util.List;
@@ -11,7 +12,9 @@ import java.util.List;
  * @date 2/13/2023 10:45 AM
  */
 public interface UserService {
-    List<User> getAllUsers();
+    List<UserResponse> getAllUsers();
 
     void createUser(User user);
+
+    UserResponse getUser();
 }

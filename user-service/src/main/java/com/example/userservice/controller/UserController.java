@@ -1,5 +1,6 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.User;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/getFirst")
-    private List<User> get() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
+    @GetMapping("/getAllUsers")
+    private List<UserResponse> getAll() {
         return userService.getAllUsers();
     }
+
+    @GetMapping("/getUser")
+    private UserResponse getUser() {
+        //TODO get id from Principle
+        return userService.getUser();
+    }
+
+
 
     @PostMapping("/createUser")
     private ResponseEntity<String> createUser(@RequestBody User user) {
