@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,37 +46,26 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
-    @Override
-    public void createUser(User user) {
-        userRepository.save(user);
-        //FIXME: delete this method from service
-    }
 
     @Override
     public UserResponse getUser() {
-        Long userId = getUserId();
-        Optional<User> user = userRepository.findById(userId);
-        if(user.isPresent()) {
-            User userFromOptional = user.get();
-            return UserResponse.builder()
-                    .firstName(userFromOptional.getFirstName())
-                    .lastName(userFromOptional.getLastName())
-                    .email(userFromOptional.getEmail())
-                    .phoneNumber(userFromOptional.getPhoneNumber())
-                    .role(userFromOptional.getRole())
-                    .build();
-
-        } else {
-            //TODO: throw exception if user not found(create exception "USER NOT FOUND")
-            return null;
-        }
+        User userById = getUserById();
+        return UserResponse.builder()
+                .firstName(userById.getFirstName())
+                .lastName(userById.getLastName())
+                .email(userById.getEmail())
+                .phoneNumber(userById.getPhoneNumber())
+                .role(userById.getRole())
+                .build();
     }
 
 
-    private Long getUserId() {
+    private User getUserById() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return userRepository.findByEmail(email).get().getId();
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
 

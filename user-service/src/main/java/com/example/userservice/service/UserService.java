@@ -14,7 +14,6 @@ import java.util.List;
 public interface UserService {
     List<UserResponse> getAllUsers();
 
-    void createUser(User user);
 
     UserResponse getUser();
 }

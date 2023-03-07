@@ -29,20 +29,13 @@ public class UserController {
     }
 
     @GetMapping("/getAllUsers")
-    private List<UserResponse> getAll() {
-        return userService.getAllUsers();
+    private ResponseEntity<List<UserResponse>> getAll() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/getUser")
-    private UserResponse getUser() {
-        //TODO get id from Principle
-        return userService.getUser();
-    }
-
-    @PostMapping("/createUser")
-    private ResponseEntity<String> createUser(@RequestBody User user) {
-        userService.createUser(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+    private ResponseEntity<UserResponse> getUser() {
+        return ResponseEntity.ok(userService.getUser());
     }
 
 
