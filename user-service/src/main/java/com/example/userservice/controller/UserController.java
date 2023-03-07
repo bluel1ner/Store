@@ -39,11 +39,11 @@ public class UserController {
         return userService.getUser();
     }
 
-
-
     @PostMapping("/createUser")
     private ResponseEntity<String> createUser(@RequestBody User user) {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 }
