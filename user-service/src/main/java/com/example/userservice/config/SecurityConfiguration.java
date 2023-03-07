@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/**")
+                .requestMatchers("/user/**", "/product/**")
 //                .antMatchers("/user/**")
                 .permitAll()
                 .anyRequest()
@@ -50,7 +50,8 @@ public class SecurityConfiguration {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/user").allowedOrigins("/localhost:3000");
+                registry.addMapping("/user/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/product/**").allowedOrigins("http://localhost:3000");
             }
         };
     }
