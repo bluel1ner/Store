@@ -4,11 +4,16 @@ import com.example.userservice.dto.response.AddressResponse;
 import com.example.userservice.entity.Address;
 import com.example.userservice.repository.AddressRepository;
 import com.example.userservice.service.AddressService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+/**
+ * @author Neevels
+ * @version 1.0
+ * @date 3/8/2023 12:49 PM
+ */
 @RestController()
 @RequestMapping("/address")
 public class AddressController {
@@ -21,9 +26,15 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    @PostMapping
-    public AddressResponse createAddress(@RequestBody Address address) {
-        addressService.addAddress(address);
-        return null;
+    @PostMapping("/create")
+    public ResponseEntity<AddressResponse> createAddress(@RequestBody Address address) {
+        return ResponseEntity.ok(addressService.addAddress(address));
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<AddressResponse>> getAllAddresses() {
+        return ResponseEntity.ok(addressService.getAllAddresses());
+    }
+
+
 }

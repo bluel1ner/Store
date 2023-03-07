@@ -34,4 +34,5 @@ public class Address {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "address")
 //    @JoinColumn(name = "address_id")
     private List<Order> orderList;
+
 }
