@@ -1,6 +1,6 @@
 package com.example.userservice.service.impl;
 
-import com.example.userservice.dto.ProductDto;
+import com.example.userservice.dto.response.ProductResponse;
 import com.example.userservice.entity.Product;
 import com.example.userservice.repository.ProductRepository;
 import com.example.userservice.service.ProductService;
@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public void createProduct(Product product) {
@@ -19,9 +22,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getCompanyById(Integer id) {
+    public ProductResponse getProductById(Integer id) {
         Product product = productRepository.findById(id).orElse(null);
-        return ProductDto.builder()
+        return ProductResponse.builder()
                 .id(product.getId())
                 .productType(product.getProductType())
                 .name(product.getName())

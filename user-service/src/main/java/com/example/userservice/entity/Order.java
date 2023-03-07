@@ -14,7 +14,7 @@ import java.util.List;
  * @date 3/2/2023 7:26 PM
  */
 @Entity
-@Table(name = "'order'")
+@Table(name = "`order`")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -33,11 +33,11 @@ public class Order {
     @Enumerated(value = EnumType.STRING)
     private PaymentType paymentType;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 

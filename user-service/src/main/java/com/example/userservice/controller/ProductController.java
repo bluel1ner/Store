@@ -1,10 +1,12 @@
 package com.example.userservice.controller;
 
-import com.example.userservice.dto.ProductDto;
+import com.example.userservice.dto.response.ProductResponse;
 import com.example.userservice.entity.Product;
 import com.example.userservice.service.ProductService;
+import jakarta.persistence.Access;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("/getProduct/{id}")
-    public ProductDto getProductById(@PathVariable Integer id) {
-        return productService.getCompanyById(id);
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Integer id) {
+        return ResponseEntity.ok(productService.getProductById(id));
     }
 }

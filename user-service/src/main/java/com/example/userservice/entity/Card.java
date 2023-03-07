@@ -16,7 +16,6 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String number;
     private String validityDate;
     private String owner;

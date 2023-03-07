@@ -1,10 +1,10 @@
-package com.example.userservice.dto;
+package com.example.userservice.dto.response;
 
 import com.example.userservice.entity.enums.ProductType;
 import lombok.Builder;
 
 @Builder
-public record ProductDto(
+public record ProductResponse(
         Integer id,
         Double price,
         String brand,

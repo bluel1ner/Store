@@ -14,6 +14,7 @@ public class InitDb {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
+
     public InitDb(ProductRepository productRepository, UserRepository userRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;

@@ -1,4 +1,4 @@
-package com.example.userservice.dto;
+package com.example.userservice.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,11 +10,8 @@ import lombok.NoArgsConstructor;
  * @version 1.0
  * @date 2/7/2023 3:24 PM
  */
-@Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class AuthenticationResponse {
-
-    private String token;
+public record AuthenticationResponse(
+        String token
+) {
 }

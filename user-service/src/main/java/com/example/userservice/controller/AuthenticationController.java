@@ -1,9 +1,9 @@
 package com.example.userservice.controller;
 
-import com.example.userservice.dto.AuthenticationRequest;
-import com.example.userservice.dto.AuthenticationResponse;
-import com.example.userservice.dto.AuthenticationService;
-import com.example.userservice.dto.RegisterRequest;
+import com.example.userservice.dto.request.AuthenticationRequest;
+import com.example.userservice.dto.response.AuthenticationResponse;
+import com.example.userservice.service.impl.AuthenticationService;
+import com.example.userservice.dto.request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2/7/2023 3:23 PM
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

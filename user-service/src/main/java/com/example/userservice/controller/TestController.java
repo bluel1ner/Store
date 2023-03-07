@@ -1,10 +1,12 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.config.InitDb;
 import com.example.userservice.entity.Address;
 import com.example.userservice.entity.User;
 import com.example.userservice.repository.AddressRepository;
 import com.example.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,6 +16,8 @@ public class TestController {
 
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    @Autowired
+    private ApplicationContext ctx;
 
     @Autowired
     public TestController(UserRepository userRepository, AddressRepository addressRepository) {
@@ -24,6 +28,7 @@ public class TestController {
 
     @GetMapping("/getInfo")
     public User getInfo() {
+        ctx.getBean(InitDb.class);
         User byId = userRepository.findById(1);
         return null;
     }
