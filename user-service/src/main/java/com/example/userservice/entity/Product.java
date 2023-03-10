@@ -4,6 +4,8 @@ import com.example.userservice.entity.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 /**
  * @author Neevels
  * @version 1.0
@@ -30,4 +32,8 @@ public class Product {
     private String originCountry;
     private Integer amount;
     private Float averageRate;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> commentList;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    private Cart cart;
 }
