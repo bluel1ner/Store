@@ -8,20 +8,23 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+def springfoxVersion = '3.0.0'
+def springfoxUiVersion = '2.9.2'
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
 
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-//    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.1'
-
-//    compileOnly 'org.slf4j:slf4j-log4j'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.1'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.1'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.1'
@@ -32,7 +35,6 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
-//    implementation group: 'org.postgresql', name: 'postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }

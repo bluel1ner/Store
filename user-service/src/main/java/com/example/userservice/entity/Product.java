@@ -2,7 +2,6 @@ package com.example.userservice.entity;
 
 import com.example.userservice.entity.enums.ProductType;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
 
 /**
