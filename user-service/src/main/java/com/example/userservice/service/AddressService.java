@@ -9,5 +9,9 @@ public interface AddressService {
     AddressResponse addAddress(Address address);
 
     List<AddressResponse> getAllAddresses();
+
+    AddressResponse editAddress(Address address);
+
+    void deleteById(Integer id);
 }
 

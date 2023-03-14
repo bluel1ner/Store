@@ -4,6 +4,7 @@ import com.example.userservice.dto.response.AddressResponse;
 import com.example.userservice.entity.Address;
 import com.example.userservice.repository.AddressRepository;
 import com.example.userservice.service.AddressService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +32,21 @@ public class AddressController {
         return ResponseEntity.ok(addressService.addAddress(address));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<AddressResponse> editAddress(@RequestBody Address address) {
+        addressService.editAddress(address);
+        return ResponseEntity.status(200).body(addressService.editAddress(address));
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<List<AddressResponse>> getAllAddresses() {
         return ResponseEntity.ok(addressService.getAllAddresses());
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/delete/{id}")
+    public void deleteAddress(@PathVariable Integer id) {
+        addressService.deleteById(id);
     }
 
 

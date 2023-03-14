@@ -30,7 +30,7 @@ public class Address {
     //TODO: check cascade and fetchtype for all Order
 
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

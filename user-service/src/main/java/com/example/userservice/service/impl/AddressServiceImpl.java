@@ -69,4 +69,33 @@ public class AddressServiceImpl implements AddressService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    @Override
+    public AddressResponse editAddress(Address address) {
+        Address getAddressFromDb = addressRepository
+                .findById(address.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        getAddressFromDb.setApartment(address.getApartment());
+        getAddressFromDb.setCity(address.getCity());
+        getAddressFromDb.setCountry(address.getCountry());
+        getAddressFromDb.setHouse(address.getHouse());
+        getAddressFromDb.setState(address.getState());
+        getAddressFromDb.setApartment(address.getApartment());
+        Address save = addressRepository.save(getAddressFromDb);
+
+        return AddressResponse.builder()
+                .country(save.getCountry())
+                .house(save.getHouse())
+                .city(save.getCity())
+                .street(save.getStreet())
+                .state(save.getState())
+                .apartment(save.getApartment())
+                .build();
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        addressRepository.deleteById(id);
+    }
+
+
 }

@@ -2,12 +2,11 @@ server:
   port: 8081
 spring:
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/marketplace
-    username: root
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/marketplace
+    username: postgres
     password: 212109
   jpa:
-    hibernate.ddl-auto: create
-    generate-ddl: true
+    database: POSTGRESQL
+    hibernate.ddl-auto: validate
     show-sql: true
-
