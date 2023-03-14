@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

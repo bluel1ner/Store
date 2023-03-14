@@ -60,19 +60,12 @@ public class AddressServiceImpl implements AddressService {
                 ).toList();
     }
 
-
-    private User getUserById() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        return userRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
-
     @Override
     public AddressResponse editAddress(Address address) {
         Address getAddressFromDb = addressRepository
                 .findById(address.getId())
+                //FIXME: change type of exception
+
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         getAddressFromDb.setApartment(address.getApartment());
         getAddressFromDb.setCity(address.getCity());
@@ -98,4 +91,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
 
+    private User getUserById() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 }

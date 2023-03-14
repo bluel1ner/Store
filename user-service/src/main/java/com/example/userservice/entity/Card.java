@@ -11,7 +11,6 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +18,9 @@ public class Card {
     private String number;
     private String validityDate;
     private String owner;
-    private String cvv;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "user_id")
     private User user;
 
 
