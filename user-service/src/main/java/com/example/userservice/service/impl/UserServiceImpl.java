@@ -1,5 +1,6 @@
 package com.example.userservice.service.impl;
 
+import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.User;
 import com.example.userservice.repository.UserRepository;
@@ -56,6 +57,22 @@ public class UserServiceImpl implements UserService {
                 .email(userById.getEmail())
                 .phoneNumber(userById.getPhoneNumber())
                 .role(userById.getRole())
+                .build();
+    }
+
+    @Override
+    public UserResponse updateUser(UserRequest userRequest) {
+        User userById = getUserById();
+        userById.setFirstName(userRequest.getFirstName());
+        userById.setLastName(userRequest.getLastName());
+        userById.setPhoneNumber(userRequest.getPhoneNumber());
+        User savedUser = userRepository.save(userById);
+        return UserResponse.builder()
+                .email(savedUser.getEmail())
+                .role(savedUser.getRole())
+                .firstName(savedUser.getFirstName())
+                .lastName(savedUser.getLastName())
+                .phoneNumber(savedUser.getPhoneNumber())
                 .build();
     }
 

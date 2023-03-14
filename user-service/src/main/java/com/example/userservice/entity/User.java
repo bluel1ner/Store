@@ -2,6 +2,7 @@ package com.example.userservice.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.parsing.FailFastProblemReporter;
@@ -35,6 +36,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     @Column(unique = true, nullable = false)
+    @Email
     private String email;
     private String password;
     private String phoneNumber;

@@ -1,6 +1,7 @@
 package com.example.userservice.service;
 
 
+import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.User;
 
@@ -16,4 +17,6 @@ public interface UserService {
 
 
     UserResponse getUser();
+
+    UserResponse updateUser(UserRequest userRequest);
 }

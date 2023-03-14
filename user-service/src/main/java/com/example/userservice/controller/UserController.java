@@ -1,6 +1,8 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
+import com.example.userservice.entity.User;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +27,18 @@ public class UserController {
     }
 
     @GetMapping("/getAllUsers")
-    private ResponseEntity<List<UserResponse>> getAll() {
+    public ResponseEntity<List<UserResponse>> getAll() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/getUser")
-    private ResponseEntity<UserResponse> getUser() {
+    public ResponseEntity<UserResponse> getUser() {
         return ResponseEntity.ok(userService.getUser());
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest) {
+        return ResponseEntity.ok(userService.updateUser(userRequest));
     }
 
 
