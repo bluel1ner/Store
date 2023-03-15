@@ -1,4 +1,4 @@
-package com.example.userservice.exception.type;
+package com.example.userservice.exception.type.user;
 
 /**
  * @author Neevels

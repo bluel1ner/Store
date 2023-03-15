@@ -4,13 +4,10 @@ package com.example.userservice.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.beans.factory.parsing.FailFastProblemReporter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;

@@ -3,7 +3,6 @@ package com.example.userservice.service;
 
 import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
-import com.example.userservice.entity.User;
 
 import java.util.List;
 
@@ -14,7 +13,6 @@ import java.util.List;
  */
 public interface UserService {
     List<UserResponse> getAllUsers();
-
 
     UserResponse getUser();
 

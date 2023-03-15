@@ -1,9 +1,9 @@
 package com.example.userservice.service.impl;
 
 import com.example.userservice.dto.response.CardResponse;
-import com.example.userservice.entity.Address;
 import com.example.userservice.entity.Card;
 import com.example.userservice.entity.User;
+import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.CardRepository;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.CardService;
@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -83,6 +82,6 @@ public class CardServiceImpl implements CardService {
         String email = authentication.getName();
         return userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with email: %s not found", email)));
     }
 }

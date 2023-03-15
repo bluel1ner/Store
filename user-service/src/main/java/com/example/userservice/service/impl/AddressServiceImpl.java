@@ -3,6 +3,8 @@ package com.example.userservice.service.impl;
 import com.example.userservice.dto.response.AddressResponse;
 import com.example.userservice.entity.Address;
 import com.example.userservice.entity.User;
+import com.example.userservice.exception.type.address.AddressNotFoundException;
+import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.AddressRepository;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.AddressService;
@@ -12,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -64,9 +65,7 @@ public class AddressServiceImpl implements AddressService {
     public AddressResponse editAddress(Address address) {
         Address getAddressFromDb = addressRepository
                 .findById(address.getId())
-                //FIXME: change type of exception
-
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+          .orElseThrow(() -> new AddressNotFoundException(String.format("Address with id: %d not found", address.getId())));
         getAddressFromDb.setApartment(address.getApartment());
         getAddressFromDb.setCity(address.getCity());
         getAddressFromDb.setCountry(address.getCountry());

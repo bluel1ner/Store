@@ -3,17 +3,15 @@ package com.example.userservice.service.impl;
 import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.User;
+import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Neevels
@@ -82,7 +80,7 @@ public class UserServiceImpl implements UserService {
         String email = authentication.getName();
         return userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with email: %s not found", email)));
     }
 
 

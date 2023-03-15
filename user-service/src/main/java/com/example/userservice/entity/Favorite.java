@@ -1,6 +1,5 @@
 package com.example.userservice.entity;
 
-import java.util.Set;
 
 import lombok.*;
 import jakarta.persistence.*;

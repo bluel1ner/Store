@@ -3,8 +3,6 @@ package com.example.userservice.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 /**
  * @author Neevels
  * @version 1.0
