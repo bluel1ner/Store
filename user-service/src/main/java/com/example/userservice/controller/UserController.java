@@ -4,6 +4,7 @@ import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.User;
 import com.example.userservice.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
  * @version 1.0
  * @date 2/7/2023 12:49 PM
  */
+@Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -33,6 +35,7 @@ public class UserController {
 
     @GetMapping("/getUser")
     public ResponseEntity<UserResponse> getUser() {
+        log.info("Get User controller");
         return ResponseEntity.ok(userService.getUser());
     }
 

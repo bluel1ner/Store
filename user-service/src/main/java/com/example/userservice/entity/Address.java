@@ -1,12 +1,7 @@
 package com.example.userservice.entity;
 
-
 import lombok.*;
-
 import jakarta.persistence.*;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 import java.util.List;
 
 @Entity

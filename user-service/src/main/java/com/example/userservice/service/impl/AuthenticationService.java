@@ -5,6 +5,8 @@ import com.example.userservice.dto.request.AuthenticationRequest;
 import com.example.userservice.dto.request.RegisterRequest;
 import com.example.userservice.dto.response.AuthenticationResponse;
 import com.example.userservice.entity.User;
+import com.example.userservice.exception.type.UserAlreadyExistException;
+import com.example.userservice.exception.type.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,8 +43,7 @@ public class AuthenticationService {
                     .token(jwtToken)
                     .build();
         } else {
-            //TODO: throw exception if user already exist
-            return null;
+            throw new UserAlreadyExistException(String.format("User with email %s already exist", request.getEmail()));
         }
     }
 
@@ -54,7 +55,7 @@ public class AuthenticationService {
                 )
         );
         var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(() ->  new UserNotFoundException(String.format("User with email %s not found", request.getEmail())));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

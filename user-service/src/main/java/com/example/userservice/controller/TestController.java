@@ -5,11 +5,12 @@ import com.example.userservice.entity.Address;
 import com.example.userservice.entity.User;
 import com.example.userservice.repository.AddressRepository;
 import com.example.userservice.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
 @RestController()
 @RequestMapping("/test")
 public class TestController {

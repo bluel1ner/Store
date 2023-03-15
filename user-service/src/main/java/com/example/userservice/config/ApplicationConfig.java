@@ -1,5 +1,6 @@
 package com.example.userservice.config;
 
+import com.example.userservice.exception.type.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,7 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> (UserDetails) repository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with email: %s not found", username)));
     }
 
     @Bean
