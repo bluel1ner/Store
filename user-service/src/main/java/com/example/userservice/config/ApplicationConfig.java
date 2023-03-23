@@ -2,7 +2,6 @@ package com.example.userservice.config;
 
 import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,9 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @date 2/7/2023 3:20 PM
  */
 @Configuration
-@RequiredArgsConstructor
 public class ApplicationConfig {
     private final UserRepository repository;
+
+    public ApplicationConfig(UserRepository repository) {
+        this.repository = repository;
+    }
 
 
     @Bean

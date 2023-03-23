@@ -336,15 +336,6 @@
 							"options": {
 								"raw": {
 									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8081/address/update",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
 							"port": "8081",
 							"path": [
 								"address",
@@ -362,19 +353,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZWV2ZWxzQG1haWwucnUiLCJpYXQiOjE2Nzg3ODM2MzAsImV4cCI6MTY3ODc4NTA3MH0.4BVD79Qfp3ifEWCRwHYhP--5bVXuGAVBXDObGpvchFk",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8081/address/delete/6",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZWV2ZWxzQG1haWwucnUiLCJpYXQiOjE2Nzg3ODM2MzAsImV4cCI6MTY3ODc4NTA3MH0.4BVD79Qfp3ifEWC
 							"port": "8081",
 							"path": [
 								"address",
