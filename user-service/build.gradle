@@ -45,6 +45,13 @@ dependencies {
 //    implementation group: 'org.postgresql', name: 'postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+//    implementation 'com.yandex.cloud:sdk:1.2.1'
+
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+
 }
 
 tasks.named('test') {
