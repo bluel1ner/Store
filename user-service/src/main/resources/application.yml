@@ -7,7 +7,7 @@ spring:
     username: root
     password: 212109
   jpa:
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: validate
     generate-ddl: true
     show-sql: true
     properties:
