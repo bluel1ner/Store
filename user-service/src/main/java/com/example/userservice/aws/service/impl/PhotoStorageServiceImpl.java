@@ -1,13 +1,10 @@
-package com.example.userservice.aws.impl;
+package com.example.userservice.aws.service.impl;
 
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import com.amazonaws.util.IOUtils;
-import com.example.userservice.aws.PhotoStorageService;
-import org.springframework.core.io.FileSystemResource;
+import com.example.userservice.aws.service.PhotoStorageService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -1,4 +1,4 @@
-package com.example.userservice.aws;
+package com.example.userservice.aws.service;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;

@@ -1,5 +1,6 @@
-package com.example.userservice.aws;
+package com.example.userservice.aws.controller;
 
+import com.example.userservice.aws.service.PhotoStorageService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
