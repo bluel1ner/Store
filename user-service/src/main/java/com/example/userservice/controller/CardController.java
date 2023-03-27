@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController()
-@RequestMapping("/card")
+@RequestMapping("/cards")
 public class CardController {
     private final CardService cardService;
 
@@ -20,19 +20,19 @@ public class CardController {
         this.cardService = cardService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<CardResponse> createCard(@RequestBody Card card) {
         return ResponseEntity.ok(cardService.createCard(card));
     }
 
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<CardResponse> updateCard(@RequestBody Card card) {
         return ResponseEntity.ok(cardService.updateCard(card));
     }
 
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<List<CardResponse>> getAllByUserId() {
         return ResponseEntity.ok(cardService.getAllByUserId());
 
@@ -40,7 +40,7 @@ public class CardController {
 
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteCard(@PathVariable Integer id) {
         cardService.deleteById(id);
     }

@@ -1,25 +1,21 @@
-version: '3.9'
+version: '3'
 
 services:
+  postgres:
+    image: 'postgres:10'
+    container_name: 'java_postgres'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=212109'
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+      - 'POSTGRES_DB=marketplace'
   app:
     build: .
     container_name: 'java-app'
-    ports:
-      - 8081:8081
-    environment:
-      SERVER_PORT: 8081
-      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-db:3306/marketplace?useUnicode=true&characterEncoding=UTF8"
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: "212109"
     depends_on:
-     - mysql-db
-    restart: always
-
-
-  mysql-db:
-    image: mysql:8.0
-    container_name: 'java_mysql'
+      - db
     environment:
-      MYSQL_DATABASE: marketplace
-      MYSQL_ROOT_PASSWORD: "212109"
-    restart: always
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres'
+      - 'SPRING_DATASOURCE_USERNAME=jdbc:postgresql://db:5432/postgres'
+      - 'SPRING_DATASOURCE_PASSWORD=jdbc:postgresql://db:5432/212109'
+      - 'SPRING_JPA_HIBERNATE_DLL_AUTO=update'

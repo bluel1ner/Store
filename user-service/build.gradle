@@ -11,6 +11,19 @@ sourceCompatibility = '17'
 def springfoxVersion = '3.0.0'
 def springfoxUiVersion = '2.9.2'
 
+tasks.bootJar {
+    getArchiveBaseName().set 'app'
+}
+
+
+jar {
+    manifest {
+        attributes(
+                'Main-class': 'com.example.userservice.UserServiceApplication'
+        )
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -39,14 +52,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//    implementation 'com.mysql:mysql-connector-j'
-    implementation 'mysql:mysql-connector-java:8.0.30'
     annotationProcessor 'org.projectlombok:lombok'
-//    implementation group: 'org.postgresql', name: 'postgresql'
+    implementation group: 'org.postgresql', name: 'postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-//    implementation 'com.yandex.cloud:sdk:1.2.1'
 
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')

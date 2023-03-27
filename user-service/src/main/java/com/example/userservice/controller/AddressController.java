@@ -16,7 +16,7 @@ import java.util.List;
  * @date 3/8/2023 12:49 PM
  */
 @RestController()
-@RequestMapping("/address")
+@RequestMapping("/addresses")
 public class AddressController {
 
     private final AddressRepository addressRepository;
@@ -27,24 +27,24 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<AddressResponse> createAddress(@RequestBody Address address) {
         return ResponseEntity.ok(addressService.addAddress(address));
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<AddressResponse> editAddress(@RequestBody Address address) {
         addressService.editAddress(address);
         return ResponseEntity.status(200).body(addressService.editAddress(address));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<List<AddressResponse>> getAllAddresses() {
         return ResponseEntity.ok(addressService.getAllAddresses());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteAddress(@PathVariable Integer id) {
         addressService.deleteById(id);
     }

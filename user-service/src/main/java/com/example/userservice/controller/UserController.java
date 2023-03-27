@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
@@ -28,18 +28,19 @@ public class UserController {
         this.userService = userService;
     }
 
+    //TODO: edit this method
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<UserResponse>> getAll() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/getUser")
+    @GetMapping
     public ResponseEntity<UserResponse> getUser() {
         log.info("Get User controller");
         return ResponseEntity.ok(userService.getUser());
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.updateUser(userRequest));
     }
