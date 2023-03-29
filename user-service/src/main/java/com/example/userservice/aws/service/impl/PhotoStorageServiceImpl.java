@@ -2,6 +2,7 @@ package com.example.userservice.aws.service.impl;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
 
 import com.amazonaws.util.IOUtils;
 import com.example.userservice.aws.service.PhotoStorageService;
@@ -49,24 +50,24 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
     }
 
     @Override
-    public byte[] getFile(String fileName) {
+    public File getFile(String fileName) {
         try {
             if (!s3client.doesObjectExist(bucket, fileName)) {
 //                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The file does not exist");
             } else {
-//                File tmp = File.createTempFile("storeAppTmpRead", fileName);
-//                FileOutputStream fos = new FileOutputStream(tmp);
+                File tmp = File.createTempFile("storeAppTmpRead", fileName);
+                FileOutputStream fos = new FileOutputStream(tmp);
                 s3client.getObject(bucket, fileName);
-                S3Object o = s3client.getObject(bucket, fileName);
+                S3Object o = s3client.getObject(bucket,"user/" + fileName);
                 S3ObjectInputStream s3is = o.getObjectContent();
                 byte[] bytes = IOUtils.toByteArray(s3is);
-//                int read_len;
-//                while ((read_len = s3is.read(bytes)) > 0) {
-//                    fos.write(bytes, 0, read_len);
-//                }
-//                s3is.close();
-//                fos.close();
-                return bytes;
+                int read_len;
+                while ((read_len = s3is.read(bytes)) > 0) {
+                    fos.write(bytes, 0, read_len);
+                }
+                s3is.close();
+                fos.close();
+                return tmp;
             }
         } catch (AmazonServiceException e) {
             //TODO: catch exception

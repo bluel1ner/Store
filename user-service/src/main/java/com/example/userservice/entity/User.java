@@ -37,6 +37,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private String phoneNumber;
+    private String photoPath;
     @Enumerated(value = EnumType.STRING)
     private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -51,6 +52,13 @@ public class User implements UserDetails {
     private List<Comment> commentList;
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
     private Cart cart;
+
+//    @ElementCollection(fetch = FetchType.LAZY)
+//    @CollectionTable(name = "user_photo", joinColumns = @JoinColumn(name = "user_id"))
+//    @AttributeOverrides({
+//            @AttributeOverride(name = "path", column = @Column(name = "path"))})
+//    private List<Photo> photo;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
