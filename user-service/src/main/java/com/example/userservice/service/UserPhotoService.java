@@ -14,5 +14,8 @@ public interface UserPhotoService {
     File getUserPhoto();
     String addUserPhoto(MultipartFile multipartFile);
     void updateUserPhoto(String path, MultipartFile multipartFile);
-    void deleteUserPhoto(String path);
+    String deleteUserPhoto();
+
+    String addDefaultPhoto(MultipartFile file);
+
 }

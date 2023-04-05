@@ -7,7 +7,8 @@ package com.example.userservice.aws.enums;
  */
 public enum Path {
     USER("user/"),
-    PRODUCT("product/");
+    PRODUCT("product/"),
+    DEFAULT_PATH("default_path.jpg");
 
     private final String url;
 

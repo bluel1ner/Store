@@ -53,11 +53,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
-//    implementation group: 'org.postgresql', name: 'postgresql'
+    implementation group: 'org.postgresql', name: 'postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    implementation 'mysql:mysql-connector-java:8.0.30'
-
+//    implementation 'mysql:mysql-connector-java:8.0.30'
 
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')

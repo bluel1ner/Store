@@ -30,9 +30,7 @@ public class UserController {
 
     //TODO: edit this method
     @GetMapping("/getAllUsers")
-    public ResponseEntity<List<UserResponse>> getAll() {
-        return ResponseEntity.ok(userService.getAllUsers());
-    }
+    public ResponseEntity<List<UserResponse>> getAll() {return ResponseEntity.ok(userService.getAllUsers());}
 
     @GetMapping
     public ResponseEntity<UserResponse> getUser() {
@@ -44,6 +42,5 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.updateUser(userRequest));
     }
-
 
 }

@@ -20,7 +20,6 @@ import java.io.File;
 public class UserPhotoController {
     private final UserPhotoService userPhotoService;
 
-
     public UserPhotoController(UserPhotoService userPhotoService) {
         this.userPhotoService = userPhotoService;
     }
@@ -31,16 +30,20 @@ public class UserPhotoController {
         return userPhotoService.addUserPhoto(file);
     }
 
-//    @GetMapping("{fileName}")
+    @PostMapping("/default")
+    public String uploadDefaultFile(@RequestParam("file") MultipartFile file) {
+        return userPhotoService.addDefaultPhoto(file);
+    }
+
+
     @GetMapping()
     public ResponseEntity<FileSystemResource> downloadImage() {
-        File userPhoto;
-        return  ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG)
-                        .body(new FileSystemResource(userPhotoService.getUserPhoto()));
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG)
+                .body(new FileSystemResource(userPhotoService.getUserPhoto()));
     }
-//
-//    @DeleteMapping("{fileName}")
-//    public ResponseEntity<?> deletePhoto(@PathVariable String fileName) {
-//        return userPhotoService.deleteFile(fileName);
-//    }
+
+    @DeleteMapping()
+    public ResponseEntity<String> deletePhoto() {
+        return ResponseEntity.ok().body(userPhotoService.deleteUserPhoto());
+    }
 }

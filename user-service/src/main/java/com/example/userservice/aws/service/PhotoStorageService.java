@@ -14,7 +14,7 @@ import java.io.File;
 public interface PhotoStorageService {
     String uploadFile(Path path, String photoPath, MultipartFile file);
 
-    File getFile(String fileName);
+    File getFile(Path path, String fileName);
 
-    ResponseEntity<String> deleteFile(String fileName);
+    String deleteFile(Path path, String fileName);
 }

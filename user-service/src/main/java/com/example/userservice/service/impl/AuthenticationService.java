@@ -1,5 +1,6 @@
 package com.example.userservice.service.impl;
 
+import com.example.userservice.aws.enums.Path;
 import com.example.userservice.config.JwtService;
 import com.example.userservice.dto.request.AuthenticationRequest;
 import com.example.userservice.dto.request.RegisterRequest;
@@ -36,6 +37,7 @@ public class AuthenticationService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(User.Role.USER)
+                    .photoPath(Path.DEFAULT_PATH.getUrl())
                     .build();
             repository.save(user);
             var jwtToken = jwtService.generateToken(user);

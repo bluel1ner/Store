@@ -1,6 +1,7 @@
 package com.example.userservice.exception.handler;
 
 import com.example.userservice.exception.model.Exception;
+import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.exception.type.address.AddressNotFoundException;
 import com.example.userservice.exception.type.user.UserAlreadyExistException;
 import com.example.userservice.exception.type.user.UserNotFoundException;
@@ -51,6 +52,17 @@ public class GlobalExceptionHandler {
                 .message(e.getMessage())
                 .timestamp(ZonedDateTime.now(ZoneId.of("Z")))
                 .httpStatus(notFoundStatus)
+                .build();
+        return new ResponseEntity<>(ex, notFoundStatus);
+    }
+
+    @ExceptionHandler(value = BusinessException.class)
+    protected ResponseEntity<Object> handleBusinessException(BusinessException e) {
+        HttpStatus notFoundStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        Exception ex = Exception.builder()
+                .message(e.getMessage())
+                .timestamp(ZonedDateTime.now(ZoneId.of("Z")))
+                .httpStatus(e.getHttpStatus())
                 .build();
         return new ResponseEntity<>(ex, notFoundStatus);
     }

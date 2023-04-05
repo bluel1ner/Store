@@ -3,11 +3,10 @@ package com.example.userservice.aws.service.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
-
 import com.amazonaws.util.IOUtils;
 import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
+import com.example.userservice.exception.type.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -39,55 +38,49 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
         try {
             File tmp = File.createTempFile("test", file.getOriginalFilename());
             file.transferTo(tmp);
-            System.out.println(path.getUrl());
             s3client.putObject(bucket, path.getUrl() + photoPath, tmp);
-        } catch (AmazonServiceException e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("Problem in Amazon Access" + " - " + e.getMessage());
-        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-        return photoPath;
+            return photoPath;
 
+        } catch (AmazonServiceException e) {
+            throw new BusinessException("Problem in Amazon Access" + " - " + e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            throw new BusinessException("The file does not exist", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
-    public File getFile(String fileName) {
+    public File getFile(Path path, String fileName) {
         try {
-            if (!s3client.doesObjectExist(bucket,"user/" + fileName)) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The file does not exist");
+            if (!s3client.doesObjectExist(bucket, path.getUrl() + fileName)) {
+                throw new BusinessException("The file does not exist", HttpStatus.INTERNAL_SERVER_ERROR);
             } else {
-                File tmp = File.createTempFile("storeAppTmpRead/", fileName);
+                File tmp = File.createTempFile("storeAppTmpRead", fileName);
                 FileOutputStream fos = new FileOutputStream(tmp);
-                S3Object o = s3client.getObject(bucket,"user/" + fileName);
+                S3Object o = s3client.getObject(bucket, path.getUrl() + fileName);
                 S3ObjectInputStream s3is = o.getObjectContent();
                 byte[] bytes = IOUtils.toByteArray(s3is);
-
                 fos.write(bytes);
-
                 s3is.close();
                 fos.flush();
                 fos.close();
                 return tmp;
             }
         } catch (AmazonServiceException e) {
-            //TODO: catch exception
+            throw new BusinessException("Problem in Amazon Access" + " - " + e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
-            //TODO: catch exception
+            throw new BusinessException("The file does not exist", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return null;
-
     }
 
     @Override
-    public ResponseEntity<String> deleteFile(String fileName) {
+    public String deleteFile(Path path, String fileName) {
         try {
             s3client.deleteObject(bucket, fileName);
-            return ResponseEntity.status(HttpStatus.OK).body(fileName);
+            return fileName;
         } catch (AmazonServiceException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problem in Amazon Access" + " - " + e.getMessage());
+            throw new BusinessException("Problem in Amazon Access" + " - " + e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            throw new BusinessException("The file does not exist", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

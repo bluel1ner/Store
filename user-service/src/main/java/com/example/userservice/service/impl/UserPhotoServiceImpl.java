@@ -3,23 +3,18 @@ package com.example.userservice.service.impl;
 import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.entity.User;
+import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.UserPhotoService;
-import org.springframework.data.jpa.domain.JpaSort;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.webjars.NotFoundException;
 
 import java.io.File;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author Neevels
@@ -40,18 +35,17 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     public File getUserPhoto() {
         User user = getUser();
         String photoPath = user.getPhotoPath();
-        if(!Objects.nonNull(photoPath)) {
-            //TODO: get default photo for all Users
-            return null;
-        } else {
-            return photoStorageService.getFile(photoPath);
-        }
+//        if (!Objects.nonNull(photoPath)) {
+//            return photoStorageService.getFile(Path.USER, "default_image.jpg");
+//        } else {
+        return photoStorageService.getFile(Path.USER, photoPath);
+//        }
     }
 
     @Override
     public String addUserPhoto(MultipartFile multipartFile) {
         User user = getUser();
-        String path =  user.getId() + ".jpg";
+        String path = user.getId() + ".jpg";
         user.setPhotoPath(path);
         userRepository.save(user);
         System.out.println(Path.USER);
@@ -65,8 +59,23 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     }
 
     @Override
-    public void deleteUserPhoto(String path) {
+    public String deleteUserPhoto() {
+        User user = getUser();
+        String photoPath = user.getPhotoPath();
+        if (!photoPath.equals(Path.DEFAULT_PATH.getUrl())) {
+            String fileName = photoStorageService.deleteFile(Path.USER, photoPath);
+            user.setPhotoPath(Path.DEFAULT_PATH.getUrl());
+            userRepository.save(user);
+            return fileName;
+        } else {
+            throw new BusinessException("You cannot delete default user photo", HttpStatus.FORBIDDEN);
+        }
+    }
 
+    @Override
+    public String addDefaultPhoto(MultipartFile file) {
+        String fileName = photoStorageService.uploadFile(Path.USER, file.getOriginalFilename(), file);
+        return fileName;
     }
 
 
