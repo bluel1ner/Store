@@ -35,11 +35,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     public File getUserPhoto() {
         User user = getUser();
         String photoPath = user.getPhotoPath();
-//        if (!Objects.nonNull(photoPath)) {
-//            return photoStorageService.getFile(Path.USER, "default_image.jpg");
-//        } else {
         return photoStorageService.getFile(Path.USER, photoPath);
-//        }
     }
 
     @Override
@@ -74,8 +70,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
 
     @Override
     public String addDefaultPhoto(MultipartFile file) {
-        String fileName = photoStorageService.uploadFile(Path.USER, file.getOriginalFilename(), file);
-        return fileName;
+        return photoStorageService.uploadFile(Path.USER, file.getOriginalFilename(), file);
     }
 
 
