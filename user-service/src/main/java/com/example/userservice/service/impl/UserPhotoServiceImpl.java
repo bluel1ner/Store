@@ -1,10 +1,12 @@
 package com.example.userservice.service.impl;
 
+import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.entity.User;
 import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.UserPhotoService;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,10 +51,11 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     @Override
     public String addUserPhoto(MultipartFile multipartFile) {
         User user = getUser();
-        String path =  user.getId() + ".jpeg";
+        String path =  user.getId() + ".jpg";
         user.setPhotoPath(path);
         userRepository.save(user);
-        String fileName = photoStorageService.uploadFile("user/" +path, multipartFile);
+        System.out.println(Path.USER);
+        String fileName = photoStorageService.uploadFile(Path.USER, path, multipartFile);
         return fileName;
     }
 
