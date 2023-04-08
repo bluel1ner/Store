@@ -1,7 +1,9 @@
 package com.example.userservice.entity;
 
+import com.example.userservice.entity.enums.Status;
 import lombok.*;
 import jakarta.persistence.*;
+
 import java.util.List;
 
 @Entity
@@ -21,8 +23,11 @@ public class Address {
     private String street;
     private String house;
     private String apartment;
-    //TODO: check cascade and fetchtype for all Order
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    //TODO: check cascade and fetchtype for all Order
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

@@ -50,4 +50,10 @@ public class AddressController {
     }
 
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping("/{id}/setActive")
+    public void changeAddressStatusForMain(@PathVariable Integer id) {
+        addressService.changeActiveAddress(id);
+    }
+
 }

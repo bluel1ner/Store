@@ -13,5 +13,7 @@ public interface AddressService {
     AddressResponse editAddress(Address address);
 
     void deleteById(Integer id);
+
+    void changeActiveAddress(Integer id);
 }
 
