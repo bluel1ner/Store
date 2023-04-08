@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
  */
 @Builder
 public record AuthenticationResponse(
-        String token
+        String token,
+        UserResponse userResponse
 ) {
 }

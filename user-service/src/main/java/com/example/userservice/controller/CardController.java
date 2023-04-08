@@ -2,7 +2,6 @@ package com.example.userservice.controller;
 
 import com.example.userservice.dto.response.CardResponse;
 import com.example.userservice.entity.Card;
-import com.example.userservice.repository.CardRepository;
 import com.example.userservice.service.CardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

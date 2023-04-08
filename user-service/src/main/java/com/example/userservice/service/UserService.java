@@ -1,6 +1,7 @@
 package com.example.userservice.service;
 
 
+import com.example.userservice.dto.request.ChangePasswordRequest;
 import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
 
@@ -17,4 +18,6 @@ public interface UserService {
     UserResponse getUser();
 
     UserResponse updateUser(UserRequest userRequest);
+
+    String changePassword(ChangePasswordRequest password);
 }

@@ -8,5 +8,5 @@ spring:
     password: 212109
   jpa:
     database: POSTGRESQL
-    hibernate.ddl-auto: validate
+    hibernate.ddl-auto: create
     show-sql: true

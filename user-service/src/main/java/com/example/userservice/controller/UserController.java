@@ -1,5 +1,6 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.request.ChangePasswordRequest;
 import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.User;
@@ -30,7 +31,9 @@ public class UserController {
 
     //TODO: edit this method
     @GetMapping("/getAllUsers")
-    public ResponseEntity<List<UserResponse>> getAll() {return ResponseEntity.ok(userService.getAllUsers());}
+    public ResponseEntity<List<UserResponse>> getAll() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
 
     @GetMapping
     public ResponseEntity<UserResponse> getUser() {
@@ -41,6 +44,11 @@ public class UserController {
     @PutMapping
     public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.updateUser(userRequest));
+    }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        return ResponseEntity.ok().body(userService.changePassword(changePasswordRequest));
     }
 
 }

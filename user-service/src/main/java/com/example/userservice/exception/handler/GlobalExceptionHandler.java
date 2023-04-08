@@ -58,13 +58,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = BusinessException.class)
     protected ResponseEntity<Object> handleBusinessException(BusinessException e) {
-        HttpStatus notFoundStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status = e.getHttpStatus();
         Exception ex = Exception.builder()
                 .message(e.getMessage())
                 .timestamp(ZonedDateTime.now(ZoneId.of("Z")))
                 .httpStatus(e.getHttpStatus())
                 .build();
-        return new ResponseEntity<>(ex, notFoundStatus);
+        return new ResponseEntity<>(ex, status);
     }
 
 

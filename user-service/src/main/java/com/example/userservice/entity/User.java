@@ -56,7 +56,7 @@ public class User implements UserDetails {
 //    @ElementCollection(fetch = FetchType.LAZY)
 //    @CollectionTable(name = "user_photo", joinColumns = @JoinColumn(name = "user_id"))
 //    @AttributeOverrides({
-//            @AttributeOverride(name = "path", column = @Column(name = "path"))})
+//            @AttributeOverride(name = "avatar", column = @Column(name = "avatar"))})
 //    private List<Photo> photo;
 
     @Override

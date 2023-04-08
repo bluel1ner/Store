@@ -14,6 +14,7 @@ public record UserResponse(
         String firstName,
         String lastName,
         String phoneNumber,
-        User.Role role
+        User.Role role,
+        String avatar
 ) {
 }
