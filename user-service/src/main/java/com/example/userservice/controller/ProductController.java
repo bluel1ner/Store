@@ -3,7 +3,6 @@ package com.example.userservice.controller;
 import com.example.userservice.dto.response.ProductResponse;
 import com.example.userservice.entity.Product;
 import com.example.userservice.service.ProductService;
-import jakarta.persistence.Access;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,18 +1,24 @@
 package com.example.userservice.service.impl;
 
 import com.example.userservice.dto.response.CardResponse;
+import com.example.userservice.entity.Address;
 import com.example.userservice.entity.Card;
 import com.example.userservice.entity.User;
+import com.example.userservice.entity.enums.Status;
+import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.CardRepository;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.CardService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -28,13 +34,24 @@ public class CardServiceImpl implements CardService {
     @Override
     public CardResponse createCard(Card card) {
         User userById = getUserById();
+        Optional<Card> cardFromDb = cardRepository.findAllByUserId(userById.getId())
+                .stream()
+                .findFirst();
+        //TODO: solve problem using fuctional interface
+//        cardFromDb.ifPresentOrElse(() -> card.setStatus(Status.NOT_ACTIVE), () -> card.setStatus(Status.NOT_ACTIVE));
+        if (cardFromDb.isEmpty()) {
+            card.setStatus(Status.ACTIVE);
+        } else {
+            card.setStatus(Status.NOT_ACTIVE);
+        }
         card.setUser(userById);
-        Card savedUser = cardRepository.save(card);
+        Card savedCard = cardRepository.save(card);
         return CardResponse.builder()
-                .id(savedUser.getId())
-                .validityDate(savedUser.getValidityDate())
-                .owner(savedUser.getOwner())
-                .number(savedUser.getNumber())
+                .id(savedCard.getId())
+                .validityDate(savedCard.getValidityDate())
+                .owner(savedCard.getOwner())
+                .number(savedCard.getNumber())
+                .status(savedCard.getStatus())
                 .build();
     }
 
@@ -42,31 +59,34 @@ public class CardServiceImpl implements CardService {
     public CardResponse updateCard(Card card) {
         Card getCardFromDb = cardRepository
                 .findById(card.getId())
-                //FIXME: change type of exception
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new BusinessException("User not found", HttpStatus.NOT_FOUND));
+
         getCardFromDb.setId(card.getId());
         getCardFromDb.setNumber(card.getNumber());
         getCardFromDb.setOwner(card.getOwner());
         getCardFromDb.setValidityDate(card.getValidityDate());
         Card savedCard = cardRepository.save(getCardFromDb);
+
         return CardResponse.builder()
                 .number(savedCard.getNumber())
                 .owner(savedCard.getOwner())
                 .validityDate(savedCard.getValidityDate())
                 .id(savedCard.getId())
+                .status(savedCard.getStatus())
                 .build();
     }
 
     @Override
     public List<CardResponse> getAllByUserId() {
         User userById = getUserById();
-        return cardRepository.findAllByUserId(userById)
+        return cardRepository.findAllByUserId(userById.getId())
                 .stream()
                 .map(card -> CardResponse.builder()
                         .id(card.getId())
                         .owner(card.getOwner())
                         .number(card.getNumber())
                         .validityDate(card.getValidityDate())
+                        .status(card.getStatus())
                         .build())
                 .toList();
     }
@@ -74,6 +94,28 @@ public class CardServiceImpl implements CardService {
     @Override
     public void deleteById(Integer id) {
         cardRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public void changeActiveCard(Integer id) {
+        User userById = getUserById();
+        Card firstCard = cardRepository.findAllByUserId(userById.getId())
+                .stream()
+                .filter(card -> card.getStatus().equals(Status.ACTIVE))
+                .findFirst()
+                .orElseThrow(
+                        () -> new BusinessException("Active card doesn't found", HttpStatus.NOT_FOUND));
+
+        firstCard.setStatus(Status.NOT_ACTIVE);
+
+        Card card = cardRepository.findCardByUserIdAndAndId(userById.getId(), id)
+                .orElseThrow(
+                        () -> new BusinessException(String.format("Card with id %s doesn't found", id), HttpStatus.NOT_FOUND));
+        card.setStatus(Status.ACTIVE);
+
+        cardRepository.save(firstCard);
+        cardRepository.save(card);
     }
 
 

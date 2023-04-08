@@ -37,10 +37,16 @@ public class CardController {
 
     }
 
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteCard(@PathVariable Integer id) {
         cardService.deleteById(id);
     }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping("/{id}/setActive")
+    public void changeAddressStatusForMain(@PathVariable Integer id) {
+        cardService.changeActiveCard(id);
+    }
+
 }

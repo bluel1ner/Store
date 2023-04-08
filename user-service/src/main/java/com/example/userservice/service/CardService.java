@@ -14,4 +14,6 @@ public interface CardService {
     List<CardResponse> getAllByUserId();
 
     void deleteById(Integer id);
+
+    void changeActiveCard(Integer id);
 }
