@@ -1,5 +1,6 @@
 package com.example.userservice.service.impl;
 
+import com.example.userservice.dto.mapper.AddressMapper;
 import com.example.userservice.dto.response.AddressResponse;
 import com.example.userservice.entity.Address;
 import com.example.userservice.entity.User;
@@ -22,10 +23,12 @@ import java.util.Optional;
 @Service
 public class AddressServiceImpl implements AddressService {
 
+    private final AddressMapper addressMapper;
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
 
-    public AddressServiceImpl(AddressRepository addressRepository, UserRepository userRepository) {
+    public AddressServiceImpl(AddressMapper addressMapper, AddressRepository addressRepository, UserRepository userRepository) {
+        this.addressMapper = addressMapper;
         this.addressRepository = addressRepository;
         this.userRepository = userRepository;
     }
@@ -43,17 +46,7 @@ public class AddressServiceImpl implements AddressService {
         }
         address.setUser(userById);
         Address savedEntity = addressRepository.save(address);
-        return AddressResponse.builder()
-                .id(savedEntity.getId())
-                .street(savedEntity.getStreet())
-                .country(savedEntity.getCountry())
-                .house(savedEntity.getHouse())
-                .city(savedEntity.getCity())
-                .apartment(savedEntity.getApartment())
-                .state(savedEntity.getState())
-                .status(address.getStatus())
-
-                .build();
+        return addressMapper.toResponseDto(savedEntity);
     }
 
     @Override
@@ -62,18 +55,8 @@ public class AddressServiceImpl implements AddressService {
         return addressRepository
                 .findAllByUserId(userById.getId())
                 .stream()
-                .map(address ->
-                        AddressResponse.builder()
-                                .id(address.getId())
-                                .street(address.getStreet())
-                                .country(address.getCountry())
-                                .house(address.getHouse())
-                                .city(address.getCity())
-                                .apartment(address.getApartment())
-                                .state(address.getState())
-                                .status(address.getStatus())
-                                .build()
-                ).toList();
+                .map(addressMapper::toResponseDto)
+                .toList();
     }
 
     @Override
@@ -88,16 +71,7 @@ public class AddressServiceImpl implements AddressService {
         getAddressFromDb.setState(address.getState());
         getAddressFromDb.setApartment(address.getApartment());
         Address save = addressRepository.save(getAddressFromDb);
-
-        return AddressResponse.builder()
-                .country(save.getCountry())
-                .house(save.getHouse())
-                .city(save.getCity())
-                .street(save.getStreet())
-                .state(save.getState())
-                .apartment(save.getApartment())
-                .status(address.getStatus())
-                .build();
+        return addressMapper.toResponseDto(save);
     }
 
     @Override
