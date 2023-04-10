@@ -1,0 +1,13 @@
+#spring.data.mongodb.authentication-database=admin
+#spring.data.mongodb.username=rootuser
+#spring.data.mongodb.password=rootpass
+spring:
+  data:
+    mongodb:
+      database: test_db
+      port: 27017
+      host: localhost
+server:
+  port: 8082
+
+

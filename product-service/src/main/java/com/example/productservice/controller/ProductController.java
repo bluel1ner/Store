@@ -3,15 +3,17 @@ package com.example.productservice.controller;
 import com.example.productservice.entity.Product;
 import com.example.productservice.service.ProductService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Neevels
  * @version 1.0
  * @date 4/10/2023 4:25 PM
  */
-@RestController("/product")
+@RestController()
+@RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
 
@@ -19,7 +21,29 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        return ResponseEntity.ok().body(productService.addProduct());
+        return ResponseEntity.ok().body(productService.addProduct(product));
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(productService.getProduct(id));
+    }
+
+    @GetMapping("/type/{productTypeEnum}")
+    public ResponseEntity<List<Product>> getProductsByType(@PathVariable String productTypeEnum) {
+        return ResponseEntity.ok().body(productService.getProductByType(Product.Type.valueOf(productTypeEnum)));
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok().body(productService.getAllProduct());
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok("Product successfully deleted");
     }
 }
