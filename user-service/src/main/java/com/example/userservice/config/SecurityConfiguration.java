@@ -12,9 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 /**
  * @author Neevels
@@ -28,7 +33,7 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-
+    private final String FRONT_URL = "http://localhost:3000";
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -56,11 +61,12 @@ public class SecurityConfiguration {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/user/**").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/**").allowedOrigins(FRONT_URL).allowedMethods("*");
+                registry.addMapping("/users/**").allowedOrigins(FRONT_URL).allowedMethods("*");
+                registry.addMapping("/addresses/**").allowedOrigins(FRONT_URL).allowedMethods("*");
+                registry.addMapping("/cards/**").allowedOrigins(FRONT_URL).allowedMethods("*");
             }
         };
     }
-
 
 }
