@@ -38,7 +38,7 @@ public class AuthenticationService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(User.Role.USER)
-                    .photoPath(Path.DEFAULT_PATH.getUrl())
+                    .avatar(Path.DEFAULT_PATH.getUrl())
                     .build();
             User save = repository.save(user);
             var jwtToken = jwtService.generateToken(user);
@@ -50,7 +50,7 @@ public class AuthenticationService {
                             .lastName(save.getLastName())
                             .email(save.getUsername())
                             .role(save.getRole())
-                            .avatar(save.getPhotoPath())
+                            .avatar(save.getAvatar())
                             .build())
                     .build();
         } else {
@@ -77,7 +77,7 @@ public class AuthenticationService {
                         .lastName(user.getLastName())
                         .email(user.getUsername())
                         .role(user.getRole())
-                        .avatar(user.getPhotoPath())
+                        .avatar(user.getAvatar())
                         .build())
                 .build();
     }

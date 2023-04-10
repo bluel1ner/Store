@@ -33,7 +33,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     @Override
     public String getUserPhoto() {
         User user = getUser();
-        String photoPath = user.getPhotoPath();
+        String photoPath = user.getAvatar();
         return photoStorageService.getFile(Path.USER, photoPath);
     }
 
@@ -41,7 +41,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     public String addUserPhoto(MultipartFile multipartFile) {
         User user = getUser();
         String path = user.getId() + ".jpg";
-        user.setPhotoPath(path);
+        user.setAvatar(path);
         userRepository.save(user);
         return photoStorageService.uploadFile(Path.USER, path, multipartFile);
     }
@@ -54,10 +54,10 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     @Override
     public String deleteUserPhoto() {
         User user = getUser();
-        String photoPath = user.getPhotoPath();
+        String photoPath = user.getAvatar();
         if (!photoPath.equals(Path.DEFAULT_PATH.getUrl())) {
             String fileName = photoStorageService.deleteFile(Path.USER, photoPath);
-            user.setPhotoPath(Path.DEFAULT_PATH.getUrl());
+            user.setAvatar(Path.DEFAULT_PATH.getUrl());
             userRepository.save(user);
             return fileName;
         } else {

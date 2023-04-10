@@ -45,8 +45,8 @@ public class UserServiceImpl implements UserService {
                                 .email(user.getEmail())
                                 .role(user.getRole())
                                 .phoneNumber(user.getPhoneNumber())
+                                .avatar(user.getAvatar())
                                 .build()
-
                 )
                 .toList();
     }
@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
                 .email(userById.getEmail())
                 .phoneNumber(userById.getPhoneNumber())
                 .role(userById.getRole())
+                .avatar(userById.getAvatar())
                 .build();
     }
 
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
                 .firstName(savedUser.getFirstName())
                 .lastName(savedUser.getLastName())
                 .phoneNumber(savedUser.getPhoneNumber())
+                .avatar(savedUser.getAvatar())
                 .build();
     }
 

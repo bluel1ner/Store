@@ -95,7 +95,7 @@ public class CardServiceImpl implements CardService {
 
     @Transactional
     @Override
-    public void changeActiveCard(Integer id) {
+    public List<CardResponse> changeActiveCard(Integer id) {
         User userById = getUserById();
         Card firstCard = cardRepository.findAllByUserId(userById.getId())
                 .stream()
@@ -110,9 +110,9 @@ public class CardServiceImpl implements CardService {
                 .orElseThrow(
                         () -> new BusinessException(String.format("Card with id %s doesn't found", id), HttpStatus.NOT_FOUND));
         card.setStatus(true);
-
         cardRepository.save(firstCard);
         cardRepository.save(card);
+        return getAllByUserId();
     }
 
 

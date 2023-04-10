@@ -45,8 +45,8 @@ public class CardController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}/setActive")
-    public void changeAddressStatusForMain(@PathVariable Integer id) {
-        cardService.changeActiveCard(id);
+    public ResponseEntity<List<CardResponse>> changeAddressStatusForMain(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(cardService.changeActiveCard(id));
     }
 
 }

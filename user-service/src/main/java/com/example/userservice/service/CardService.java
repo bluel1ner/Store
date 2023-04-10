@@ -15,5 +15,5 @@ public interface CardService {
 
     void deleteById(Integer id);
 
-    void changeActiveCard(Integer id);
+    List<CardResponse> changeActiveCard(Integer id);
 }

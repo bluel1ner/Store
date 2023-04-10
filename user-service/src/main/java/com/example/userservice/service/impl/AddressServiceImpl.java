@@ -80,7 +80,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Transactional
     @Override
-    public void changeActiveAddress(Integer id) {
+    public List<AddressResponse> changeActiveAddress(Integer id) {
         User userById = getUserById();
         Address first = addressRepository.findAllByUserId(userById.getId())
                 .stream()
@@ -97,7 +97,7 @@ public class AddressServiceImpl implements AddressService {
 
         addressRepository.save(first);
         addressRepository.save(address);
-
+        return getAllAddresses();
     }
 
 

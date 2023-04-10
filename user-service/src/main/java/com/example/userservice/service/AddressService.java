@@ -14,6 +14,6 @@ public interface AddressService {
 
     void deleteById(Integer id);
 
-    void changeActiveAddress(Integer id);
+    List<AddressResponse> changeActiveAddress(Integer id);
 }
 
