@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.Objects;
 
 /**
  * @author Neevels
@@ -32,7 +31,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     }
 
     @Override
-    public File getUserPhoto() {
+    public String getUserPhoto() {
         User user = getUser();
         String photoPath = user.getPhotoPath();
         return photoStorageService.getFile(Path.USER, photoPath);
@@ -44,9 +43,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
         String path = user.getId() + ".jpg";
         user.setPhotoPath(path);
         userRepository.save(user);
-        System.out.println(Path.USER);
-        String fileName = photoStorageService.uploadFile(Path.USER, path, multipartFile);
-        return fileName;
+        return photoStorageService.uploadFile(Path.USER, path, multipartFile);
     }
 
     @Override

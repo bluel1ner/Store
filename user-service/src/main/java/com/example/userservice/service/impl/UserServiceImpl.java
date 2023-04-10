@@ -90,7 +90,6 @@ public class UserServiceImpl implements UserService {
         ) {
             throw new BusinessException("Old and new password are the same. Please, try again!", HttpStatus.CONFLICT);
         }
-        System.out.println(passwordEncoder.matches(changePasswordRequest.getOldPassword(), oldPassword));
         if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(),oldPassword)) {
             throw new BusinessException("Old password doesn't correct. Please, try again!", HttpStatus.BAD_REQUEST);
         }

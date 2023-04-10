@@ -1,6 +1,7 @@
 package com.example.userservice.aws.service;
 
 import com.example.userservice.aws.enums.Path;
+import org.apache.catalina.Service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +15,9 @@ import java.io.File;
 public interface PhotoStorageService {
     String uploadFile(Path path, String photoPath, MultipartFile file);
 
-    File getFile(Path path, String fileName);
+    String getFile(Path path, String fileName);
 
     String deleteFile(Path path, String fileName);
+
 }
+

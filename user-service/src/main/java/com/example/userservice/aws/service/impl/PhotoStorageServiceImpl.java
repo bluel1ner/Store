@@ -3,11 +3,16 @@ package com.example.userservice.aws.service.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import com.amazonaws.util.IOUtils;
 import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.exception.type.BusinessException;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +30,9 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
 public class PhotoStorageServiceImpl implements PhotoStorageService {
 
     private final AmazonS3 s3client;
-    private final String bucket = "test-backet-ilya";
+    private static final String bucket = "test-backet-ilya";
+    private static final String AMAZON_MESSAGE = "Problem in Amazon Access - ";
+    private static final  String FILE_DOES_NOT_EXIST = "The file does not exist";
 
     public PhotoStorageServiceImpl(AmazonS3 s3client) {
         this.s3client = s3client;
@@ -35,23 +42,24 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
     @Override
     public String uploadFile(Path path, String photoPath, MultipartFile file) {
         try {
-            File tmp = File.createTempFile("test", file.getOriginalFilename());
+            File tmp = File.createTempFile("test", file.getOriginalFilename()); /* FIXME S3 doesnt create a folder for User photos */
             file.transferTo(tmp);
             s3client.putObject(bucket, path.getUrl() + photoPath, tmp);
             return photoPath;
-
         } catch (AmazonServiceException e) {
-            throw new BusinessException("Problem in Amazon Access" + " - " + e.getMessage(), HttpStatus.FORBIDDEN);
+            throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
-            throw new BusinessException("The file does not exist", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+
+
     @Override
-    public File getFile(Path path, String fileName) {
+    public String  getFile(Path path, String fileName) {
         try {
             if (!s3client.doesObjectExist(bucket, path.getUrl() + fileName)) {
-                throw new BusinessException("The file does not exist", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
             } else {
                 File tmp = File.createTempFile("storeAppTmpRead", fileName);
                 FileOutputStream fos = new FileOutputStream(tmp);
@@ -62,14 +70,16 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
                 s3is.close();
                 fos.flush();
                 fos.close();
-                return tmp;
+                String string = Base64.getEncoder().encodeToString(bytes);
+                return string;
             }
         } catch (AmazonServiceException e) {
-            throw new BusinessException("Problem in Amazon Access" + " - " + e.getMessage(), HttpStatus.FORBIDDEN);
+            throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
-            throw new BusinessException("The file does not exist", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @Override
     public String deleteFile(Path path, String fileName) {
@@ -77,9 +87,11 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
             s3client.deleteObject(bucket, fileName);
             return fileName;
         } catch (AmazonServiceException e) {
-            throw new BusinessException("Problem in Amazon Access" + " - " + e.getMessage(), HttpStatus.FORBIDDEN);
+            throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
-            throw new BusinessException("The file does not exist", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 }

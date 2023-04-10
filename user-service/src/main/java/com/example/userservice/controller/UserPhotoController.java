@@ -37,9 +37,9 @@ public class UserPhotoController {
 
 
     @GetMapping()
-    public ResponseEntity<FileSystemResource> downloadImage() {
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG)
-                .body(new FileSystemResource(userPhotoService.getUserPhoto()));
+    public ResponseEntity<String> downloadImage1() {
+        return ResponseEntity.ok()
+                .body(userPhotoService.getUserPhoto());
     }
 
     @DeleteMapping()
