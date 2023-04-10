@@ -1,6 +1,5 @@
 package com.example.userservice.entity;
 
-import com.example.userservice.entity.enums.Status;
 import lombok.*;
 import jakarta.persistence.*;
 
@@ -24,8 +23,8 @@ public class Address {
     private String house;
     private String apartment;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    private Boolean status;
+
 
     //TODO: check cascade and fetchtype for all Order
 

@@ -1,10 +1,8 @@
 package com.example.userservice.service.impl;
 
 import com.example.userservice.dto.response.CardResponse;
-import com.example.userservice.entity.Address;
 import com.example.userservice.entity.Card;
 import com.example.userservice.entity.User;
-import com.example.userservice.entity.enums.Status;
 import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.CardRepository;
@@ -13,7 +11,6 @@ import com.example.userservice.service.CardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,9 +37,9 @@ public class CardServiceImpl implements CardService {
         //TODO: solve problem using fuctional interface
 //        cardFromDb.ifPresentOrElse(() -> card.setStatus(Status.NOT_ACTIVE), () -> card.setStatus(Status.NOT_ACTIVE));
         if (cardFromDb.isEmpty()) {
-            card.setStatus(Status.ACTIVE);
+            card.setStatus(true);
         } else {
-            card.setStatus(Status.NOT_ACTIVE);
+            card.setStatus(false);
         }
         card.setUser(userById);
         Card savedCard = cardRepository.save(card);
@@ -102,17 +99,17 @@ public class CardServiceImpl implements CardService {
         User userById = getUserById();
         Card firstCard = cardRepository.findAllByUserId(userById.getId())
                 .stream()
-                .filter(card -> card.getStatus().equals(Status.ACTIVE))
+                .filter(card -> card.getStatus().equals(true))
                 .findFirst()
                 .orElseThrow(
                         () -> new BusinessException("Active card doesn't found", HttpStatus.NOT_FOUND));
 
-        firstCard.setStatus(Status.NOT_ACTIVE);
+        firstCard.setStatus(false);
 
         Card card = cardRepository.findCardByUserIdAndAndId(userById.getId(), id)
                 .orElseThrow(
                         () -> new BusinessException(String.format("Card with id %s doesn't found", id), HttpStatus.NOT_FOUND));
-        card.setStatus(Status.ACTIVE);
+        card.setStatus(true);
 
         cardRepository.save(firstCard);
         cardRepository.save(card);

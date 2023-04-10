@@ -1,6 +1,5 @@
 package com.example.userservice.dto.response;
 
-import com.example.userservice.entity.enums.Status;
 import lombok.Builder;
 
 @Builder
@@ -12,6 +11,6 @@ public record AddressResponse(
         String street,
         String house,
         String apartment,
-        Status status
+        Boolean status
 ) {
 }

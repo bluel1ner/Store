@@ -4,7 +4,6 @@ import com.example.userservice.dto.mapper.AddressMapper;
 import com.example.userservice.dto.response.AddressResponse;
 import com.example.userservice.entity.Address;
 import com.example.userservice.entity.User;
-import com.example.userservice.entity.enums.Status;
 import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.exception.type.address.AddressNotFoundException;
 import com.example.userservice.repository.AddressRepository;
@@ -40,9 +39,9 @@ public class AddressServiceImpl implements AddressService {
                 .stream()
                 .findFirst();
         if (addressFromDb.isPresent()) {
-            address.setStatus(Status.NOT_ACTIVE);
+            address.setStatus(false);
         } else {
-            address.setStatus(Status.ACTIVE);
+            address.setStatus(true);
         }
         address.setUser(userById);
         Address savedEntity = addressRepository.save(address);
@@ -85,16 +84,16 @@ public class AddressServiceImpl implements AddressService {
         User userById = getUserById();
         Address first = addressRepository.findAllByUserId(userById.getId())
                 .stream()
-                .filter(address -> address.getStatus().equals(Status.ACTIVE))
+                .filter(address -> address.getStatus().equals(true))
                 .findFirst()
                 .orElseThrow(
                         () -> new BusinessException("Active address doesn't found", HttpStatus.NOT_FOUND));
-        first.setStatus(Status.NOT_ACTIVE);
+        first.setStatus(false);
 
         Address address = addressRepository.findAddressByUserIdAndAndId(userById.getId(), id)
                 .orElseThrow(
                         () -> new BusinessException(String.format("Address with id %s doesn't found", id), HttpStatus.NOT_FOUND));
-        address.setStatus(Status.ACTIVE);
+        address.setStatus(true);
 
         addressRepository.save(first);
         addressRepository.save(address);

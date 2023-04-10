@@ -1,6 +1,5 @@
 package com.example.userservice.entity;
 
-import com.example.userservice.entity.enums.Status;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -19,8 +18,7 @@ public class Card {
     private String number;
     private String validityDate;
     private String owner;
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    private Boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "user_id")
