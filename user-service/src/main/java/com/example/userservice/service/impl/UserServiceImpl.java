@@ -1,5 +1,6 @@
 package com.example.userservice.service.impl;
 
+import com.example.userservice.dto.mapper.UserMapper;
 import com.example.userservice.dto.request.ChangePasswordRequest;
 import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
@@ -27,42 +28,27 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     @Override
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll()
                 .stream()
-                .map(user ->
-                        UserResponse.builder()
-                                .firstName(user.getFirstName())
-                                .lastName(user.getLastName())
-                                .email(user.getEmail())
-                                .role(user.getRole())
-                                .phoneNumber(user.getPhoneNumber())
-                                .avatar(user.getAvatar())
-                                .build()
-                )
+                .map(userMapper::toResponseDto)
                 .toList();
     }
 
 
     @Override
     public UserResponse getUser() {
-        User userById = getUserById();
-        return UserResponse.builder()
-                .firstName(userById.getFirstName())
-                .lastName(userById.getLastName())
-                .email(userById.getEmail())
-                .phoneNumber(userById.getPhoneNumber())
-                .role(userById.getRole())
-                .avatar(userById.getAvatar())
-                .build();
+        return userMapper.toResponseDto(getUserById());
     }
 
     @Override
@@ -71,15 +57,7 @@ public class UserServiceImpl implements UserService {
         userById.setFirstName(userRequest.getFirstName());
         userById.setLastName(userRequest.getLastName());
         userById.setPhoneNumber(userRequest.getPhoneNumber());
-        User savedUser = userRepository.save(userById);
-        return UserResponse.builder()
-                .email(savedUser.getEmail())
-                .role(savedUser.getRole())
-                .firstName(savedUser.getFirstName())
-                .lastName(savedUser.getLastName())
-                .phoneNumber(savedUser.getPhoneNumber())
-                .avatar(savedUser.getAvatar())
-                .build();
+        return userMapper.toResponseDto(userRepository.save(userById));
     }
 
     @Override
@@ -87,12 +65,12 @@ public class UserServiceImpl implements UserService {
         User user = getUserById();
         String oldPassword = user.getPassword();
 
-        if (passwordEncoder.matches(changePasswordRequest.getNewPassword(),oldPassword) ||
+        if (passwordEncoder.matches(changePasswordRequest.getNewPassword(), oldPassword) ||
                 changePasswordRequest.getNewPassword().equals(changePasswordRequest.getOldPassword())
         ) {
             throw new BusinessException("Old and new password are the same. Please, try again!", HttpStatus.CONFLICT);
         }
-        if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(),oldPassword)) {
+        if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), oldPassword)) {
             throw new BusinessException("Old password doesn't correct. Please, try again!", HttpStatus.BAD_REQUEST);
         }
         user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));

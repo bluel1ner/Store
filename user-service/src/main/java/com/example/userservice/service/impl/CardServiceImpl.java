@@ -1,8 +1,10 @@
 package com.example.userservice.service.impl;
 
+import com.example.userservice.dto.mapper.CardMapper;
 import com.example.userservice.dto.response.CardResponse;
 import com.example.userservice.entity.Card;
 import com.example.userservice.entity.User;
+import com.example.userservice.entity.enums.Status;
 import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.CardRepository;
@@ -22,10 +24,12 @@ public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
+    private final CardMapper cardMapper;
 
-    public CardServiceImpl(CardRepository cardRepository, UserRepository userRepository) {
+    public CardServiceImpl(CardRepository cardRepository, UserRepository userRepository, CardMapper cardMapper) {
         this.cardRepository = cardRepository;
         this.userRepository = userRepository;
+        this.cardMapper = cardMapper;
     }
 
     @Override
@@ -34,43 +38,23 @@ public class CardServiceImpl implements CardService {
         Optional<Card> cardFromDb = cardRepository.findAllByUserId(userById.getId())
                 .stream()
                 .findFirst();
-        //TODO: solve problem using fuctional interface
-//        cardFromDb.ifPresentOrElse(() -> card.setStatus(Status.NOT_ACTIVE), () -> card.setStatus(Status.NOT_ACTIVE));
-        if (cardFromDb.isEmpty()) {
-            card.setStatus(true);
-        } else {
-            card.setStatus(false);
-        }
+        card.setStatus(cardFromDb.isEmpty());
         card.setUser(userById);
-        Card savedCard = cardRepository.save(card);
-        return CardResponse.builder()
-                .id(savedCard.getId())
-                .validityDate(savedCard.getValidityDate())
-                .owner(savedCard.getOwner())
-                .number(savedCard.getNumber())
-                .status(savedCard.getStatus())
-                .build();
+        return cardMapper.toResponseDto(cardRepository.save(card));
     }
 
     @Override
     public CardResponse updateCard(Card card) {
         Card getCardFromDb = cardRepository
                 .findById(card.getId())
-                .orElseThrow(() -> new BusinessException("User not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException("Card not found", HttpStatus.NOT_FOUND));
 
         getCardFromDb.setId(card.getId());
         getCardFromDb.setNumber(card.getNumber());
         getCardFromDb.setOwner(card.getOwner());
         getCardFromDb.setValidityDate(card.getValidityDate());
-        Card savedCard = cardRepository.save(getCardFromDb);
 
-        return CardResponse.builder()
-                .number(savedCard.getNumber())
-                .owner(savedCard.getOwner())
-                .validityDate(savedCard.getValidityDate())
-                .id(savedCard.getId())
-                .status(savedCard.getStatus())
-                .build();
+        return cardMapper.toResponseDto(cardRepository.save(getCardFromDb));
     }
 
     @Override
@@ -78,13 +62,7 @@ public class CardServiceImpl implements CardService {
         User userById = getUserById();
         return cardRepository.findAllByUserId(userById.getId())
                 .stream()
-                .map(card -> CardResponse.builder()
-                        .id(card.getId())
-                        .owner(card.getOwner())
-                        .number(card.getNumber())
-                        .validityDate(card.getValidityDate())
-                        .status(card.getStatus())
-                        .build())
+                .map(cardMapper::toResponseDto)
                 .toList();
     }
 
