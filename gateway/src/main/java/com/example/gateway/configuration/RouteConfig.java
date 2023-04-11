@@ -18,10 +18,10 @@ public class RouteConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("path_route", r -> r.path("/user/**").and().method("POST", "GET", "PUT", "DELETE")
-                        .uri("http://localhost:8081"))
+                .route("path_route", r -> r.path("/users/**","/auth/**","/cards/**","/addresses/**").and().method("POST", "GET", "PUT", "DELETE")
+                        .uri("http://app:8081"))
                 .route("path_route", r -> r.path("/product/**").and().method("POST", "GET", "PUT", "DELETE")
-                        .uri("http://localhost:8082"))
+                        .uri("http://product:8082"))
                 .build();
     }
 }

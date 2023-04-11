@@ -14,8 +14,8 @@ import lombok.*;
 @Setter
 @Builder
 public class Configuration {
-    private String name;
-    private ProductConfiguration productConfiguration;
+    private String value;
+    private ProductConfiguration name;
     private Double extraPrice;
 
 
