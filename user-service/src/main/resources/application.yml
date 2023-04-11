@@ -10,3 +10,7 @@ spring:
     database: POSTGRESQL
     hibernate.ddl-auto: create
     show-sql: true
+amazon:
+  bucket: test-backet-ilya
+  awsId: YCAJEC2QrKhEprDoVeRIF2WB0
+  awsKey: YCNE-vwuDtHSwRIr6FwQtd47UQKVzm_8sIqCu5aR

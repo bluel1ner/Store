@@ -11,6 +11,7 @@ import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.exception.type.BusinessException;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,9 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
 public class PhotoStorageServiceImpl implements PhotoStorageService {
 
     private final AmazonS3 s3client;
-    private static final String bucket = "test-backet-ilya";
+
+    @Value("${amazon.bucket}")
+    private String bucket;
     private static final String AMAZON_MESSAGE = "Problem in Amazon Access - ";
     private static final  String FILE_DOES_NOT_EXIST = "The file does not exist";
 
@@ -70,8 +73,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
                 s3is.close();
                 fos.flush();
                 fos.close();
-                String string = Base64.getEncoder().encodeToString(bytes);
-                return string;
+                return Base64.getEncoder().encodeToString(bytes);
             }
         } catch (AmazonServiceException e) {
             throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);

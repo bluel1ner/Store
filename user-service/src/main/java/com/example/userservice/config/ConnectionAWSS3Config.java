@@ -4,6 +4,7 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,8 +15,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ConnectionAWSS3Config {
-    private final String awsId = "YCAJEC2QrKhEprDoVeRIF2WB0";
-    private final String awsKey = "YCNE-vwuDtHSwRIr6FwQtd47UQKVzm_8sIqCu5aR";
+    @Value("${amazon.awsId}")
+    private String awsId;
+    @Value("${amazon.awsKey}")
+    private String awsKey;
 
     @Bean
     public BasicAWSCredentials basicAWSCredentials() {
