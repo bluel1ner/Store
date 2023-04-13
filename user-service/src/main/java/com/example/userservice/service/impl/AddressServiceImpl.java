@@ -38,11 +38,7 @@ public class AddressServiceImpl implements AddressService {
         Optional<Address> addressFromDb = addressRepository.findAllByUserId(userById.getId())
                 .stream()
                 .findFirst();
-        if (addressFromDb.isPresent()) {
-            address.setStatus(false);
-        } else {
-            address.setStatus(true);
-        }
+        address.setStatus(addressFromDb.isPresent());
         address.setUser(userById);
         Address savedEntity = addressRepository.save(address);
         return addressMapper.toResponseDto(savedEntity);
