@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  gateway:
-    container_name: api-gateway
-    build: gateway
-    ports:
-      - 9090:9090
-    restart: always
+#  gateway:
+#    container_name: api-gateway
+#    build: gateway
+#    ports:
+#      - 9090:9090
+#    restart: always
   app:
     build: user-service
     container_name: 'java-app'
@@ -19,13 +19,13 @@ services:
     depends_on:
       - postgres
     restart: always
-  product:
-    build: product-service
-    container_name: 'product-service'
-    ports:
-      - 8082:8082
-    depends_on:
-      - mongodb
+#  product:
+#    build: product-service
+#    container_name: 'product-service'
+#    ports:
+#      - 8082:8082
+#    depends_on:
+#      - mongodb
 
   mongodb:
     image: 'mongo'
@@ -39,3 +39,8 @@ services:
       - 'POSTGRES_PASSWORD=212109'
       - 'POSTGRES_DB=marketplace'
     restart: always
+    volumes:
+      - java_postgres:/var/lib/postgresql/data
+
+volumes:
+  java_postgres:
