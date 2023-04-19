@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 /**
  * @author Neevels
  * @version 1.0
@@ -37,10 +35,13 @@ public class ProductPhotoController {
         return productPhotoService.addProductPhoto(file, null);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<String>> downloadImage1() {
+    @GetMapping("/{type}/{name}/{color}/{photo}")
+    public ResponseEntity<String> downloadImage(@PathVariable String type,
+                                                @PathVariable String name,
+                                                @PathVariable String color,
+                                                @PathVariable String photo) {
         return ResponseEntity.ok()
-                .body(productPhotoService.getAllProductPhoto());
+                .body(productPhotoService.getProductPhoto(type, name, color, photo));
     }
 
     @DeleteMapping()

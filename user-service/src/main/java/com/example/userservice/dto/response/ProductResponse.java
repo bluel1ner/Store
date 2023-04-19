@@ -15,7 +15,7 @@ public record ProductResponse(
         Double price,
         String display,
         String powerAndBattery,
-        List<Configuration> configurationList,
-        List<Color> colorList
+        List<Configuration> configurations,
+        List<Color> colors
 ) {
 }

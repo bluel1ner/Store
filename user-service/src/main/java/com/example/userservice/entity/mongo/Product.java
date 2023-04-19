@@ -20,13 +20,14 @@ import java.util.List;
 public class Product {
     @MongoId
     private String id;
+
     private String name;
     private Type type;
     private Double price;
     private String display;
     private String powerAndBattery;
-    private List<Configuration> configurationList;
-    private List<Color> colorList;
+    private List<Configuration> configurations;
+    private List<Color> colors;
 
     public enum Type {
         iPhone,

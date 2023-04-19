@@ -17,5 +17,5 @@ import java.util.List;
 public class Color {
     private String name;
     private String value;
-    private List<Photo> photoList;
+    private List<String> photos;
 }

@@ -3,17 +3,14 @@ package com.example.userservice.aws.service.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import com.amazonaws.util.IOUtils;
 import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.exception.type.BusinessException;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +53,19 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
         }
     }
 
+    @Override
+    public String uploadFile(String photoPath, MultipartFile file) {
+        try {
+            File tmp = File.createTempFile("test", file.getOriginalFilename());
+            file.transferTo(tmp);
+            s3client.putObject(bucket, photoPath, tmp);
+            return photoPath;
+        } catch (AmazonServiceException e) {
+            throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
     @Override
@@ -67,6 +77,30 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
                 File tmp = File.createTempFile("storeAppTmpRead", fileName);
                 FileOutputStream fos = new FileOutputStream(tmp);
                 S3Object o = s3client.getObject(bucket, path.getUrl() + fileName);
+                S3ObjectInputStream s3is = o.getObjectContent();
+                byte[] bytes = IOUtils.toByteArray(s3is);
+                fos.write(bytes);
+                s3is.close();
+                fos.flush();
+                fos.close();
+                return Base64.getEncoder().encodeToString(bytes);
+            }
+        } catch (AmazonServiceException e) {
+            throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public String getFile(String path, String filename) {
+        try {
+            if (!s3client.doesObjectExist(bucket, path + filename)) {
+                throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
+            } else {
+                File tmp = File.createTempFile("storeAppTmpRead", filename);
+                FileOutputStream fos = new FileOutputStream(tmp);
+                S3Object o = s3client.getObject(bucket, path + filename);
                 S3ObjectInputStream s3is = o.getObjectContent();
                 byte[] bytes = IOUtils.toByteArray(s3is);
                 fos.write(bytes);

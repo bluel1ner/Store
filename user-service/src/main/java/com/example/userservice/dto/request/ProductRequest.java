@@ -26,6 +26,6 @@ public class ProductRequest {
     private Double price;
     private String display;
     private String powerAndBattery;
-    private List<Configuration> configurationList;
-    private List<Color> colorList;
+    private List<Configuration> configurations;
+    private List<Color> colors;
 }
