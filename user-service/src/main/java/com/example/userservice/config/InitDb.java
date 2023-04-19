@@ -46,19 +46,4 @@ public class InitDb {
         );
     }
 
-    private void addProduct() {
-        productRepository.save(
-                Product.builder()
-                        .brand("s")
-                        .color("Blue")
-                        .name("Iphone")
-                        .productType(ProductType.IPhone)
-                        .price(500.9)
-                        .amount(5)
-                        .averageRate(7.8f)
-                        .description("qqq")
-                        .originCountry("USA")
-                        .build()
-        );
-    }
 }

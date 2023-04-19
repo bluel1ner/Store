@@ -2,6 +2,7 @@ package com.example.productservice.controller;
 
 import com.example.productservice.entity.Product;
 import com.example.productservice.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +42,9 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getAllProduct());
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Integer id) {
+    public void deleteProduct(@PathVariable Integer id) {
         productService.deleteProduct(id);
-        return ResponseEntity.ok("Product successfully deleted");
     }
 }

@@ -1,8 +1,6 @@
 package com.example.userservice.dto.mapper;
 
-import com.example.userservice.dto.response.CardResponse;
 import com.example.userservice.dto.response.UserResponse;
-import com.example.userservice.entity.Card;
 import com.example.userservice.entity.User;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

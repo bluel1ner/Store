@@ -13,6 +13,7 @@ import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        if(repository.findByEmail(request.getEmail()).isEmpty()) {
+        if (repository.findByEmail(request.getEmail()).isEmpty()) {
             var user = User.builder()
                     .firstName(request.getFirstName())
                     .lastName(request.getLastName())
@@ -66,7 +67,7 @@ public class AuthenticationService {
                 )
         );
         var user = repository.findByEmail(request.getEmail())
-                .orElseThrow(() ->  new UserNotFoundException(String.format("User with email %s not found", request.getEmail())));
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with email %s not found", request.getEmail())));
         var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()

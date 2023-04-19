@@ -45,7 +45,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
     @Override
     public String uploadFile(Path path, String photoPath, MultipartFile file) {
         try {
-            File tmp = File.createTempFile("test", file.getOriginalFilename()); /* FIXME S3 doesnt create a folder for User photos */
+            File tmp = File.createTempFile("test", file.getOriginalFilename());
             file.transferTo(tmp);
             s3client.putObject(bucket, path.getUrl() + photoPath, tmp);
             return photoPath;

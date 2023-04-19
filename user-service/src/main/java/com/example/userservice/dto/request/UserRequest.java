@@ -18,7 +18,6 @@ public class UserRequest {
     private String firstName;
     @Size(min = 2)
     private String lastName;
-//    @NotBlank
-//    private User.Role role;
+
 
 }

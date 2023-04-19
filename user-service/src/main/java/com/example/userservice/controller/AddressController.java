@@ -19,11 +19,9 @@ import java.util.List;
 @RequestMapping("/addresses")
 public class AddressController {
 
-    private final AddressRepository addressRepository;
     private final AddressService addressService;
 
-    public AddressController(AddressRepository addressRepository, AddressService addressService) {
-        this.addressRepository = addressRepository;
+    public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
 
@@ -49,8 +47,6 @@ public class AddressController {
         addressService.deleteById(id);
     }
 
-
-    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}/setActive")
     public ResponseEntity<List<AddressResponse>> changeAddressStatusForMain(@PathVariable Integer id) {
         return ResponseEntity.ok().body(addressService.changeActiveAddress(id));

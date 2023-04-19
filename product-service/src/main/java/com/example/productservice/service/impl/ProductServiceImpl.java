@@ -3,7 +3,6 @@ package com.example.productservice.service.impl;
 import com.example.productservice.entity.Product;
 import com.example.productservice.repository.ProductRepository;
 import com.example.productservice.service.ProductService;
-import com.example.productservice.utils.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +17,14 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final SequenceGeneratorService sequenceGeneratorService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, SequenceGeneratorService sequenceGeneratorService) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
     @Override
     public Product addProduct(Product product) {
-        product.setId(sequenceGeneratorService.generateSequence(Product.SEQUENCE_PRODUCT));
         return productRepository.save(product);
     }
 

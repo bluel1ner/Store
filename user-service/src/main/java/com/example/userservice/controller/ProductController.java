@@ -1,32 +1,60 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.request.ProductRequest;
 import com.example.userservice.dto.response.ProductResponse;
-import com.example.userservice.entity.Product;
+import com.example.userservice.entity.mongo.Product;
 import com.example.userservice.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+/**
+ * @author Neevels
+ * @version 1.0
+ * @date 4/10/2023 4:25 PM
+ */
+@RestController()
 @RequestMapping("/products")
 public class ProductController {
-
     private final ProductService productService;
 
-    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void addProduct(@RequestBody Product product) {
-        productService.createProduct(product);
+    public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest productRequest) {
+        return ResponseEntity
+                .ok()
+                .body(productService.addProduct(productRequest));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> getProductById(@PathVariable Integer id) {
-        return ResponseEntity.ok(productService.getProductById(id));
+    @GetMapping("{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable Integer id) {
+        return ResponseEntity
+                .ok()
+                .body(productService.getProduct(id));
+    }
+
+    @GetMapping("/type/{productTypeEnum}")
+    public ResponseEntity<List<Product>> getProductsByType(@PathVariable String productTypeEnum) {
+        return ResponseEntity
+                .ok()
+                .body(productService.getProductByType(Product.Type.valueOf(productTypeEnum)));
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity
+                .ok()
+                .body(productService.getAllProduct());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("{id}")
+    public void deleteProduct(@PathVariable Integer id) {
+        productService.deleteProduct(id);
     }
 }
