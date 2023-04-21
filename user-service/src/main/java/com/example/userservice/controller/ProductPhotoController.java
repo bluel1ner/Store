@@ -1,8 +1,12 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.request.DeletePhotoRequest;
 import com.example.userservice.dto.request.ProductPhotoRequest;
 import com.example.userservice.service.ProductPhotoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,22 +34,30 @@ public class ProductPhotoController {
         return productPhotoService.addProductPhoto(file, productPhotoRequest);
     }
 
-    @PostMapping("/default")
-    public String uploadDefaultFile(@RequestParam("file") MultipartFile file) {
-        return productPhotoService.addProductPhoto(file, null);
-    }
 
     @GetMapping("/{type}/{name}/{color}/{photo}")
-    public ResponseEntity<String> downloadImage(@PathVariable String type,
+    public ResponseEntity<FileSystemResource> getImage(@PathVariable String type,
                                                 @PathVariable String name,
                                                 @PathVariable String color,
                                                 @PathVariable String photo) {
-        return ResponseEntity.ok()
-                .body(productPhotoService.getProductPhoto(type, name, color, photo));
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(new FileSystemResource(productPhotoService.getProductPhoto(type, name, color, photo)));
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping()
-    public ResponseEntity<String> deletePhoto() {
-        return ResponseEntity.ok().body(productPhotoService.deleteProductPhoto());
+    public void deletePhoto(@RequestBody DeletePhotoRequest deletePhotoRequest) {
+        productPhotoService.deleteProductPhoto(deletePhotoRequest);
     }
+
+    @GetMapping("/default/{defaultPhotoName}")
+    public ResponseEntity<FileSystemResource> getDefaultPhoto(@PathVariable String defaultPhotoName) {
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(new FileSystemResource(productPhotoService.getDefaultProductPhoto(defaultPhotoName)));
+    }
+
 }

@@ -31,13 +31,6 @@ public class ProductController {
                 .body(productService.addProduct(productRequest));
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable Integer id) {
-        return ResponseEntity
-                .ok()
-                .body(productService.getProduct(id));
-    }
-
     @GetMapping("/type/{productTypeEnum}")
     public ResponseEntity<List<Product>> getProductsByType(@PathVariable String productTypeEnum) {
         return ResponseEntity
@@ -52,9 +45,16 @@ public class ProductController {
                 .body(productService.getAllProduct());
     }
 
+    @GetMapping("/{name}")
+    public ResponseEntity<Product> getProduct(@PathVariable String name) {
+        return ResponseEntity
+                .ok()
+                .body(productService.getProductByName(name));
+    }
+
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("{id}")
-    public void deleteProduct(@PathVariable Integer id) {
+    public void deleteProduct(@PathVariable String id) {
         productService.deleteProduct(id);
     }
 }

@@ -1,7 +1,10 @@
 package com.example.userservice.service;
 
+import com.example.userservice.dto.request.DeletePhotoRequest;
 import com.example.userservice.dto.request.ProductPhotoRequest;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 /**
  * @author Neevels
@@ -9,9 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 4/19/2023 11:38 AM
  */
 public interface ProductPhotoService {
-    String getProductPhoto(String path, String name, String color, String photo);
+    File getProductPhoto(String path, String name, String color, String photo);
     String addProductPhoto(MultipartFile multipartFile, ProductPhotoRequest productPhotoRequest);
-    void updateUserPhoto(String path, MultipartFile multipartFile);
-    String deleteProductPhoto();
-
+    void deleteProductPhoto(DeletePhotoRequest deletePhotoRequest);
+    File getDefaultProductPhoto(String defaultPhotoName);
 }

@@ -6,20 +6,16 @@ import com.example.userservice.entity.mongo.Product;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/10/2023 4:26 PM
- */
 public interface ProductService {
 
     ProductResponse addProduct(ProductRequest product);
 
-    Product getProduct(Integer id);
 
-    void deleteProduct(Integer id);
+    void deleteProduct(String id);
 
     List<Product> getProductByType(Product.Type productTypeEnum);
 
     List<Product> getAllProduct();
+
+    Product getProductByName(String name);
 }

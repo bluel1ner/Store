@@ -12,7 +12,7 @@ import java.util.Optional;
  * @date 4/10/2023 9:19 PM
  */
 @Repository
-public interface ProductRepository extends MongoRepository<Product, Integer> {
-    Optional<Product> findById(String id);
+public interface ProductRepository extends MongoRepository<Product, String> {
 
+    Optional<Product> findByName(String name);
 }
