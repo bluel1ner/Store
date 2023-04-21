@@ -1,6 +1,8 @@
 package com.example.userservice.controller;
 
 import com.example.userservice.service.UserPhotoService;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,10 +34,14 @@ public class UserPhotoController {
     }
 
     @GetMapping()
-    public ResponseEntity<String> downloadImage1() {
-        return ResponseEntity.ok()
-                .body(userPhotoService.getUserPhoto());
+    public ResponseEntity<FileSystemResource> downloadImage1() {
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(new FileSystemResource(userPhotoService.getUserPhoto()));
     }
+
+
 
     @DeleteMapping()
     public ResponseEntity<String> deletePhoto() {

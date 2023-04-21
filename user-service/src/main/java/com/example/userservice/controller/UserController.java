@@ -3,7 +3,6 @@ package com.example.userservice.controller;
 import com.example.userservice.dto.request.ChangePasswordRequest;
 import com.example.userservice.dto.request.UserRequest;
 import com.example.userservice.dto.response.UserResponse;
-import com.example.userservice.entity.User;
 import com.example.userservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,24 +31,31 @@ public class UserController {
     //TODO: edit this method
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<UserResponse>> getAll() {
-        return ResponseEntity.ok(userService.getAllUsers());
+        return ResponseEntity
+                .ok()
+                .body(userService.getAllUsers());
     }
 
     @GetMapping
     public ResponseEntity<UserResponse> getUser() {
         log.info("Get User controller");
-        return ResponseEntity.ok(userService.getUser());
+        return ResponseEntity
+                .ok()
+                .body(userService.getUser());
     }
 
     @PutMapping
     public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest) {
-        return ResponseEntity.ok(userService.updateUser(userRequest));
+        return ResponseEntity
+                .ok()
+                .body(userService.updateUser(userRequest));
     }
 
     @PutMapping("/changePassword")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-        return ResponseEntity.ok().body(userService.changePassword(changePasswordRequest));
+        return ResponseEntity
+                .ok()
+                .body(userService.changePassword(changePasswordRequest));
     }
-
 
 }

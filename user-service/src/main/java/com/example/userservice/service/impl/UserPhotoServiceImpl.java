@@ -31,7 +31,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     }
 
     @Override
-    public String getUserPhoto() {
+    public File getUserPhoto() {
         User user = getUser();
         String photoPath = user.getAvatar();
         return photoStorageService.getFile(Path.USER, photoPath);

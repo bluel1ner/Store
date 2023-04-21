@@ -11,7 +11,7 @@ import java.io.File;
  */
 
 public interface UserPhotoService {
-    String getUserPhoto();
+    File getUserPhoto();
     String addUserPhoto(MultipartFile multipartFile);
     void updateUserPhoto(String path, MultipartFile multipartFile);
     String deleteUserPhoto();
