@@ -9,6 +9,8 @@ import com.amazonaws.util.IOUtils;
 import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.exception.type.BusinessException;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.boot.model.source.spi.FetchableAttributeSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
  * @version 1.0
  * @date 3/24/2023 2:36 PM
  */
+@Slf4j
 @Service
 public class PhotoStorageServiceImpl implements PhotoStorageService {
 
@@ -32,7 +35,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
     @Value("${amazon.bucket}")
     private String bucket;
     private static final String AMAZON_MESSAGE = "Problem in Amazon Access - ";
-    private static final  String FILE_DOES_NOT_EXIST = "The file does not exist";
+    private static final String FILE_DOES_NOT_EXIST = "The file does not exist";
 
     public PhotoStorageServiceImpl(AmazonS3 s3client) {
         this.s3client = s3client;
@@ -69,7 +72,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
 
 
     @Override
-    public String  getFile(Path path, String fileName) {
+    public File getFile(Path path, String fileName) {
         try {
             if (!s3client.doesObjectExist(bucket, path.getUrl() + fileName)) {
                 throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -83,7 +86,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
                 s3is.close();
                 fos.flush();
                 fos.close();
-                return Base64.getEncoder().encodeToString(bytes);
+                return tmp;
             }
         } catch (AmazonServiceException e) {
             throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);
@@ -93,7 +96,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
     }
 
     @Override
-    public String getFile(String path, String filename) {
+    public File getFile(String path, String filename) {
         try {
             if (!s3client.doesObjectExist(bucket, path + filename)) {
                 throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -107,7 +110,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
                 s3is.close();
                 fos.flush();
                 fos.close();
-                return Base64.getEncoder().encodeToString(bytes);
+                return tmp;
             }
         } catch (AmazonServiceException e) {
             throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);
@@ -119,6 +122,21 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
 
     @Override
     public String deleteFile(Path path, String fileName) {
+        log.info("delete file with path {} and filename {}", path, fileName);
+        try {
+            s3client.deleteObject(bucket,path.getUrl() + fileName);
+            return fileName;
+        } catch (AmazonServiceException e) {
+            throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @Override
+    public String deleteFile( String fileName) {
+        log.info("delete file with filename {}", fileName);
         try {
             s3client.deleteObject(bucket, fileName);
             return fileName;
@@ -128,6 +146,5 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
             throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 }
