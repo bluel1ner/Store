@@ -17,13 +17,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document()
+@ToString
 public class Product {
     @MongoId
     private String id;
 
     private String name;
     private Type type;
-    private Double price;
+    private Integer price;
     private String display;
     private String powerAndBattery;
     private List<Configuration> configurations;

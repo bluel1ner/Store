@@ -9,6 +9,7 @@ import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.repository.ProductRepository;
 import com.example.userservice.service.ProductPhotoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,7 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
     private final ProductRepository productRepository;
     private final PhotoStorageService photoStorageService;
 
+    @Autowired
     public ProductPhotoServiceImpl(ProductRepository productRepository, PhotoStorageService photoStorageService) {
         this.productRepository = productRepository;
         this.photoStorageService = photoStorageService;

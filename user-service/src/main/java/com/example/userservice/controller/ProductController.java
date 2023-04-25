@@ -52,6 +52,13 @@ public class ProductController {
                 .body(productService.getProductByName(name));
     }
 
+    @PutMapping()
+    public ResponseEntity<ProductResponse> updateProduct(@RequestBody ProductRequest productRequest) {
+        return ResponseEntity
+                .ok()
+                .body(productService.updateProduct(productRequest));
+    }
+
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("{id}")
     public void deleteProduct(@PathVariable String id) {
