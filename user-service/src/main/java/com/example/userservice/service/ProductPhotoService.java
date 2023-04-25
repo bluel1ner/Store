@@ -12,7 +12,7 @@ import java.io.File;
  * @date 4/19/2023 11:38 AM
  */
 public interface ProductPhotoService {
-    File getProductPhoto(String path, String name, String color, String photo);
+    File getProductPhoto(String productId, String photoName);
     String addProductPhoto(MultipartFile multipartFile, ProductPhotoRequest productPhotoRequest);
     void deleteProductPhoto(DeletePhotoRequest deletePhotoRequest);
     File getDefaultProductPhoto(String defaultPhotoName);

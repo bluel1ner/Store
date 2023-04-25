@@ -35,15 +35,13 @@ public class ProductPhotoController {
     }
 
 
-    @GetMapping("/{type}/{name}/{color}/{photo}")
-    public ResponseEntity<FileSystemResource> getImage(@PathVariable String type,
-                                                @PathVariable String name,
-                                                @PathVariable String color,
-                                                @PathVariable String photo) {
+    @GetMapping("/{productId}/{photoName}")
+    public ResponseEntity<FileSystemResource> getImage(@PathVariable String productId,
+                                                       @PathVariable String photoName) {
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.IMAGE_JPEG)
-                .body(new FileSystemResource(productPhotoService.getProductPhoto(type, name, color, photo)));
+                .body(new FileSystemResource(productPhotoService.getProductPhoto(productId, photoName)));
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)

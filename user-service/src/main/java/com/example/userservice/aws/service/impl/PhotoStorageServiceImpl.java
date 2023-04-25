@@ -3,14 +3,12 @@ package com.example.userservice.aws.service.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Base64;
 
 import com.amazonaws.util.IOUtils;
 import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.exception.type.BusinessException;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.boot.model.source.spi.FetchableAttributeSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

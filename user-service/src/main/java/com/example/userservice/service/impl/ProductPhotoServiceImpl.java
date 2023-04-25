@@ -1,6 +1,5 @@
 package com.example.userservice.service.impl;
 
-import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.dto.request.DeletePhotoRequest;
 import com.example.userservice.dto.request.ProductPhotoRequest;
@@ -40,15 +39,16 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
 
 
     @Override
-    public File getProductPhoto(String path, String name, String color, String photo) {
-        return photoStorageService.getFile("%s/%s/%s/".formatted(path, name, color), photo);
+    public File getProductPhoto(String productId, String photoName) {
+        System.out.println(productId.formatted("%s/") + photoName);
+        return photoStorageService.getFile("%s/".formatted(productId), photoName);
     }
 
     @Override
     public String addProductPhoto(MultipartFile multipartFile, ProductPhotoRequest productPhotoRequest) {
         Product product = getProduct(productPhotoRequest.getProductId());
         UUID uuid = UUID.randomUUID();
-        String path = "%s/%s/%s/%s.jpg".formatted(product.getType(), product.getName(), productPhotoRequest.getProductColor(), uuid);
+        String path = "%s/%s.jpg".formatted(productPhotoRequest.getProductId(), uuid);
         log.info(product.toString());
         product.getColors()
                 .stream()
