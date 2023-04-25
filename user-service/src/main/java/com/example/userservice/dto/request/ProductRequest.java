@@ -3,10 +3,7 @@ package com.example.userservice.dto.request;
 import com.example.userservice.entity.mongo.Color;
 import com.example.userservice.entity.mongo.Configuration;
 import com.example.userservice.entity.mongo.Product;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,10 +17,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class ProductRequest {
+    private String id;
     private String name;
     private Product.Type type;
-    private Double price;
+    private Integer price;
     private String display;
     private String powerAndBattery;
     private List<Configuration> configurations;

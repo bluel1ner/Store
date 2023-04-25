@@ -28,6 +28,7 @@ public class ProductMapper {
 
     public Product toProduct(ProductRequest productRequest) {
         return Product.builder()
+                .id(productRequest.getId())
                 .colors(productRequest.getColors())
                 .configurations(productRequest.getConfigurations())
                 .display(productRequest.getDisplay())

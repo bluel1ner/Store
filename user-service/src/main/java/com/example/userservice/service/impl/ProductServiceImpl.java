@@ -4,6 +4,7 @@ import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.dto.mapper.ProductMapper;
 import com.example.userservice.dto.request.ProductRequest;
 import com.example.userservice.dto.response.ProductResponse;
+import com.example.userservice.entity.mongo.Color;
 import com.example.userservice.entity.mongo.Product;
 import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.repository.ProductRepository;
@@ -35,7 +36,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse addProduct(ProductRequest productRequest) {
-        return productMapper.toResponseDto(productRepository.save(productMapper.toProduct(productRequest)));
+        return productMapper.toResponseDto(productRepository
+                .save(productMapper
+                        .toProduct(productRequest)));
     }
 
     @Override
@@ -57,8 +60,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository
                 .findAll()
                 .stream()
-                .filter(product -> product.getType()
-                        .equals(productTypeEnum))
+                .filter(product -> Objects.equals(product.getType(), productTypeEnum))
                 .toList();
     }
 
@@ -76,10 +78,35 @@ public class ProductServiceImpl implements ProductService {
                 );
     }
 
+    @Override
+    public ProductResponse updateProduct(ProductRequest productRequest) {
+        productRepository.findById(productRequest.getId())
+                .ifPresentOrElse(product -> {
+                            List<Color> newColorList = product.getColors()
+                                    .stream()
+                                    .filter(color -> productRequest.getColors()
+                                            .stream()
+                                            .noneMatch(singleColor -> color.getName()
+                                                    .equals(singleColor.getName())))
+                                    .toList();
+                            newColorList.forEach(color -> {
+                                List<String> photos = color.getPhotos();
+                                if (!Objects.isNull(photos)) {
+                                    photos.forEach(photoStorageService::deleteFile);
+                                }
+                            });
+                            productRepository.save(productMapper.toProduct(productRequest));
+                        },
+                        () -> {
+                            throw new BusinessException(String.format("Product with id %s not found!", productRequest.getId()), HttpStatus.NOT_FOUND);
+                        });
+        return productMapper.toResponseDto(getProduct(productRequest.getId()));
+    }
 
     private Product getProduct(String productId) {
         return productRepository
                 .findById(productId)
                 .orElseThrow(() -> new BusinessException("Product not found", HttpStatus.NOT_FOUND));
     }
+
 }

@@ -18,4 +18,6 @@ public interface ProductService {
     List<Product> getAllProduct();
 
     Product getProductByName(String name);
+
+    ProductResponse updateProduct(ProductRequest productRequest);
 }

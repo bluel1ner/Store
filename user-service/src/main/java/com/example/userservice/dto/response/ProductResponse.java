@@ -12,7 +12,7 @@ public record ProductResponse(
         String id,
         String name,
         Product.Type type,
-        Double price,
+        Integer price,
         String display,
         String powerAndBattery,
         List<Configuration> configurations,
