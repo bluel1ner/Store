@@ -4,12 +4,10 @@ import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.entity.User;
 import com.example.userservice.exception.type.BusinessException;
-import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.UserPhotoService;
+import com.example.userservice.utils.UserUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,22 +22,22 @@ import java.io.File;
 public class UserPhotoServiceImpl implements UserPhotoService {
     private final PhotoStorageService photoStorageService;
     private final UserRepository userRepository;
+    private final UserUtils userUtils;
 
-    public UserPhotoServiceImpl(PhotoStorageService photoStorageService, UserRepository userRepository) {
+    public UserPhotoServiceImpl(PhotoStorageService photoStorageService, UserRepository userRepository, UserUtils userUtils) {
         this.photoStorageService = photoStorageService;
         this.userRepository = userRepository;
+        this.userUtils = userUtils;
     }
 
     @Override
-    public File getUserPhoto() {
-        User user = getUser();
-        String photoPath = user.getAvatar();
-        return photoStorageService.getFile(Path.USER, photoPath);
+    public File getUserPhoto(String imagePath) {
+        return photoStorageService.getFile(Path.USER, imagePath);
     }
 
     @Override
     public String addUserPhoto(MultipartFile multipartFile) {
-        User user = getUser();
+        User user = userUtils.getUser();
         String path = user.getId() + ".jpg";
         user.setAvatar(path);
         userRepository.save(user);
@@ -53,7 +51,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
 
     @Override
     public String deleteUserPhoto() {
-        User user = getUser();
+        User user = userUtils.getUser();
         String photoPath = user.getAvatar();
         if (!photoPath.equals(Path.DEFAULT_PATH.getUrl())) {
             String fileName = photoStorageService.deleteFile(Path.USER, photoPath);
@@ -68,15 +66,6 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     @Override
     public String addDefaultPhoto(MultipartFile file) {
         return photoStorageService.uploadFile(Path.USER, file.getOriginalFilename(), file);
-    }
-
-
-    private User getUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        return userRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(String.format("User with email: %s not found", email)));
     }
 
 }

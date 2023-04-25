@@ -28,4 +28,17 @@ public class AddressMapper {
                 .build();
     }
 
+    public Address updateAddress(Address address) {
+        return Address.builder()
+                .id(address.getId())
+                .house(address.getHouse())
+                .state(address.getState())
+                .status(address.getStatus())
+                .street(address.getStreet())
+                .apartment(address.getApartment())
+                .city(address.getCity())
+                .country(address.getCountry())
+                .build();
+    }
+
 }

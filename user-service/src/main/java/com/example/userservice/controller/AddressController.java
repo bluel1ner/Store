@@ -2,7 +2,6 @@ package com.example.userservice.controller;
 
 import com.example.userservice.dto.response.AddressResponse;
 import com.example.userservice.entity.Address;
-import com.example.userservice.repository.AddressRepository;
 import com.example.userservice.service.AddressService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

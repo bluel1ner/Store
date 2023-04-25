@@ -53,12 +53,6 @@ public class User implements UserDetails {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
     private Cart cart;
 
-//    @ElementCollection(fetch = FetchType.LAZY)
-//    @CollectionTable(name = "user_photo", joinColumns = @JoinColumn(name = "user_id"))
-//    @AttributeOverrides({
-//            @AttributeOverride(name = "avatar", column = @Column(name = "avatar"))})
-//    private List<Photo> photo;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

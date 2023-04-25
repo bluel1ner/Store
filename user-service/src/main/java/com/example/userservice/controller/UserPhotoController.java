@@ -24,7 +24,8 @@ public class UserPhotoController {
     }
 
     @PostMapping
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
+    public String uploadFile(
+            @RequestParam("file") MultipartFile file) {
         return userPhotoService.addUserPhoto(file);
     }
 
@@ -33,18 +34,17 @@ public class UserPhotoController {
         return userPhotoService.addDefaultPhoto(file);
     }
 
-    @GetMapping()
-    public ResponseEntity<FileSystemResource> downloadImage1() {
+    @GetMapping("/{imagePath}")
+    public ResponseEntity<FileSystemResource> downloadImage(@PathVariable String imagePath) {
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.IMAGE_JPEG)
-                .body(new FileSystemResource(userPhotoService.getUserPhoto()));
+                .body(new FileSystemResource(userPhotoService.getUserPhoto(imagePath)));
     }
-
-
 
     @DeleteMapping()
     public ResponseEntity<String> deletePhoto() {
-        return ResponseEntity.ok().body(userPhotoService.deleteUserPhoto());
+        return ResponseEntity
+                .ok().body(userPhotoService.deleteUserPhoto());
     }
 }

@@ -4,37 +4,37 @@ import com.example.userservice.dto.mapper.CardMapper;
 import com.example.userservice.dto.response.CardResponse;
 import com.example.userservice.entity.Card;
 import com.example.userservice.entity.User;
-import com.example.userservice.entity.enums.Status;
 import com.example.userservice.exception.type.BusinessException;
-import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.CardRepository;
-import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.CardService;
+import com.example.userservice.utils.UserUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
-    private final UserRepository userRepository;
     private final CardMapper cardMapper;
+    private final UserUtils userUtils;
 
-    public CardServiceImpl(CardRepository cardRepository, UserRepository userRepository, CardMapper cardMapper) {
+    @Autowired
+    public CardServiceImpl(CardRepository cardRepository, CardMapper cardMapper, UserUtils userUtils) {
         this.cardRepository = cardRepository;
-        this.userRepository = userRepository;
         this.cardMapper = cardMapper;
+        this.userUtils = userUtils;
     }
 
     @Override
     public CardResponse createCard(Card card) {
-        User userById = getUserById();
+        User userById = userUtils.getUser();
         Optional<Card> cardFromDb = cardRepository.findAllByUserId(userById.getId())
                 .stream()
                 .findFirst();
@@ -59,25 +59,40 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public List<CardResponse> getAllByUserId() {
-        User userById = getUserById();
+        User userById = userUtils.getUser();
         return cardRepository.findAllByUserId(userById.getId())
                 .stream()
+                .sorted(Comparator.comparing(Card::getStatus).reversed())
                 .map(cardMapper::toResponseDto)
                 .toList();
     }
 
     @Override
     public void deleteById(Integer id) {
-        cardRepository.deleteById(id);
+        Card card = cardRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(String.format("Card with id: %d not found", id), HttpStatus.NOT_FOUND));
+        if (Objects.equals(card.getStatus(), true)) {
+            cardRepository.deleteById(id);
+            cardRepository.findAll()
+                    .stream()
+                    .findAny()
+                    .ifPresent(addressConsumer -> {
+                        addressConsumer.setStatus(true);
+                        cardRepository.save(addressConsumer);
+                    });
+        } else {
+            cardRepository.deleteById(id);
+        }
     }
 
     @Transactional
     @Override
     public List<CardResponse> changeActiveCard(Integer id) {
-        User userById = getUserById();
+        User userById = userUtils.getUser();
         Card firstCard = cardRepository.findAllByUserId(userById.getId())
                 .stream()
-                .filter(card -> card.getStatus().equals(true))
+                .filter(card -> card.getStatus()
+                        .equals(true))
                 .findFirst()
                 .orElseThrow(
                         () -> new BusinessException("Active card doesn't found", HttpStatus.NOT_FOUND));
@@ -93,12 +108,4 @@ public class CardServiceImpl implements CardService {
         return getAllByUserId();
     }
 
-
-    private User getUserById() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        return userRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(String.format("User with email: %s not found", email)));
-    }
 }
