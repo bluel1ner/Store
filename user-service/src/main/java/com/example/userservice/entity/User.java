@@ -50,8 +50,8 @@ public class User implements UserDetails {
     private List<Favorite> favorites;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> commentList;
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
-    private Cart cart;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Cart> cart;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
