@@ -75,25 +75,24 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
 
     @Override
     public void deleteProductPhoto(DeletePhotoRequest deletePhotoRequest) {
-        String photo = deletePhotoRequest.getPhotoPath();
+        String photo = deletePhotoRequest.getProductId() + "/" + deletePhotoRequest.getPhotoPath();
         Product product = getProduct(deletePhotoRequest.getProductId());
         product
                 .getColors()
-                .forEach(color -> color.getPhotos()
-                        .stream()
-                        .filter(photoPath -> photoPath.equals(deletePhotoRequest.getPhotoPath()))
-                        .findAny()
-                        .ifPresentOrElse(path -> {
-                                    List<String> photos = color.getPhotos();
-                                    photos.remove(path);
-                                    color.setPhotos(photos);
-                                    productRepository.save(product);
-                                }
-                                ,
-                                () -> {
-                                    throw new BusinessException(String.format("Path: %s not found", photo), HttpStatus.NOT_FOUND);
-                                }));
+                .forEach(color -> {
+                    color.getPhotos()
+                            .stream()
+                            .filter(photoPath -> photoPath.equals(deletePhotoRequest.getProductId() + "/" + deletePhotoRequest.getPhotoPath()))
+                            .findAny()
+                            .ifPresent(path -> {
+                                List<String> photos = color.getPhotos();
+                                photos.remove(path);
+                                color.setPhotos(photos);
+                                productRepository.save(product);
+                            });
+                });
         photoStorageService.deleteFile(photo);
+
 
     }
 
@@ -101,6 +100,33 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
     public File getDefaultProductPhoto(String defaultPhotoName) {
         return photoStorageService.getFile("default/", "%s.png".formatted(defaultPhotoName));
     }
+
+    @Override
+    public File getPreviewProductPhoto(String productId, String photoName) {
+        return photoStorageService.getFile(productId + "/", photoName);
+
+    }
+
+
+    @Override
+    public String addPreviewPhoto(MultipartFile file, ProductPhotoRequest productPhotoRequest) {
+        Product product = getProduct(productPhotoRequest.getProductId());
+        UUID uuid = UUID.randomUUID();
+        String path = uuid + ".jpg";
+        product.setPreview(path);
+        productRepository.save(product);
+        photoStorageService.uploadFile("%s/%s".formatted(productPhotoRequest.getProductId(), path), file);
+        return path;
+    }
+
+    @Override
+    public void deletePreviewPhoto(DeletePhotoRequest deletePhotoRequest) {
+        Product product = getProduct(deletePhotoRequest.getProductId());
+        product.setPreview(null);
+        productRepository.save(product);
+        photoStorageService.deleteFile("%s/%s".formatted(deletePhotoRequest.getProductId(), deletePhotoRequest.getPhotoPath()));
+    }
+
 
 
     private Product getProduct(String productId) {

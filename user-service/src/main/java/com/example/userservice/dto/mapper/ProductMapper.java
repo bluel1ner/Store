@@ -23,6 +23,7 @@ public class ProductMapper {
                 .type(product.getType())
                 .name(product.getName())
                 .configurations(product.getConfigurations())
+                .video(product.getVideo())
                 .build();
     }
 
@@ -36,6 +37,7 @@ public class ProductMapper {
                 .powerAndBattery(productRequest.getPowerAndBattery())
                 .price(productRequest.getPrice())
                 .type(productRequest.getType())
+                .video(productRequest.getVideo())
                 .build();
     }
 }

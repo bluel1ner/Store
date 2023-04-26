@@ -12,6 +12,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: "212109"
     depends_on:
+      - mongodb
       - mysql-db
     restart: always
 
@@ -26,5 +27,13 @@ services:
     volumes:
       - java_mysql:/var/lib/postgresql/data
 
+  mongodb:
+    image: 'mongo'
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/var/lib/mongo/data
 volumes:
   java_mysql:
+  mongo:

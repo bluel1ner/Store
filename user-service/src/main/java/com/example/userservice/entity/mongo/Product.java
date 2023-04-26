@@ -29,7 +29,8 @@ public class Product {
     private String powerAndBattery;
     private List<Configuration> configurations;
     private List<Color> colors;
-
+    private String video;
+    private String preview;
     public enum Type {
         iPhone,
         Mac,

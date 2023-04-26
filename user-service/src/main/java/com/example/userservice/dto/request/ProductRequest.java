@@ -27,4 +27,5 @@ public class ProductRequest {
     private String powerAndBattery;
     private List<Configuration> configurations;
     private List<Color> colors;
+    private String video;
 }

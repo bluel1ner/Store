@@ -16,6 +16,7 @@ public record ProductResponse(
         String display,
         String powerAndBattery,
         List<Configuration> configurations,
-        List<Color> colors
+        List<Color> colors,
+        String video
 ) {
 }

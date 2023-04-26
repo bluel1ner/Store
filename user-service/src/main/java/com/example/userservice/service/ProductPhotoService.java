@@ -16,4 +16,10 @@ public interface ProductPhotoService {
     String addProductPhoto(MultipartFile multipartFile, ProductPhotoRequest productPhotoRequest);
     void deleteProductPhoto(DeletePhotoRequest deletePhotoRequest);
     File getDefaultProductPhoto(String defaultPhotoName);
+
+    String addPreviewPhoto(MultipartFile file, ProductPhotoRequest productPhotoRequest);
+
+    void deletePreviewPhoto(DeletePhotoRequest deletePhotoRequest);
+
+    File getPreviewProductPhoto(String productId, String photoName);
 }
