@@ -7,8 +7,10 @@ import com.example.userservice.dto.response.ProductResponse;
 import com.example.userservice.entity.mongo.Color;
 import com.example.userservice.entity.mongo.Product;
 import com.example.userservice.exception.type.BusinessException;
+import com.example.userservice.repository.FavoriteRepository;
 import com.example.userservice.repository.ProductRepository;
 import com.example.userservice.service.ProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,12 +28,17 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
     private final PhotoStorageService photoStorageService;
+    private final FavoriteRepository favoriteRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductMapper productMapper, ProductRepository productRepository, PhotoStorageService photoStorageService) {
+    public ProductServiceImpl(ProductMapper productMapper,
+                              ProductRepository productRepository,
+                              PhotoStorageService photoStorageService,
+                              FavoriteRepository favoriteRepository) {
         this.productMapper = productMapper;
         this.productRepository = productRepository;
         this.photoStorageService = photoStorageService;
+        this.favoriteRepository = favoriteRepository;
     }
 
     @Override
@@ -41,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
                         .toProduct(productRequest)));
     }
 
+    @Transactional
     @Override
     public void deleteProduct(String id) {
         Product product = getProduct(id);
@@ -53,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
                     }
                 });
         productRepository.delete(getProduct(id));
+        favoriteRepository.deleteAllByProductId(id);
     }
 
     @Override
