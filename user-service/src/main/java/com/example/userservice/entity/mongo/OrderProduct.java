@@ -1,5 +1,6 @@
 package com.example.userservice.entity.mongo;
 
+import com.example.userservice.dto.request.CartRequest;
 import lombok.*;
 
 /**
@@ -13,6 +14,6 @@ import lombok.*;
 @Setter
 @Builder
 public class OrderProduct {
-    private Cart product;
+    private CartRequest product;
     private Integer amount;
 }
