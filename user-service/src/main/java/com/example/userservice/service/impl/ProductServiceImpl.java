@@ -43,9 +43,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse addProduct(ProductRequest productRequest) {
-        return productMapper.toResponseDto(productRepository
-                .save(productMapper
-                        .toProduct(productRequest)));
+        if (productRepository.findByName(productRequest.getName())
+                .isEmpty()) {
+            return productMapper.toResponseDto(productRepository
+                    .save(productMapper
+                            .toProduct(productRequest)));
+        } else {
+            throw new BusinessException(String.format("Product with name %s already exist", productRequest.getName()), HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @Transactional

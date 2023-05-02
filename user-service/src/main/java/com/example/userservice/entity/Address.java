@@ -32,8 +32,8 @@ public class Address {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "address")
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "address")
 //    @JoinColumn(name = "address_id")
-    private List<Order> orderList;
+//    private List<Order> orderList;
 
 }

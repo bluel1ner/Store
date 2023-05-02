@@ -83,18 +83,12 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         Claims body = null;
-        try {
-            body = Jwts
-                    .parser()
-                    .setSigningKey(getSignInKey())
-                    .parseClaimsJws(token)
-                    .getBody();
-            return body;
-        } catch (RuntimeException e) {
-            throw new BusinessException("LALALA" + e.getMessage(), HttpStatus.GATEWAY_TIMEOUT);
-        }
-
-
+        body = Jwts
+                .parser()
+                .setSigningKey(getSignInKey())
+                .parseClaimsJws(token)
+                .getBody();
+        return body;
     }
 
     private Key getSignInKey() {
