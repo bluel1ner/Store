@@ -48,13 +48,14 @@ public class FavoriteServiceImpl implements FavoriteService {
                 .user(user)
                 .productId(productId)
                 .build();
-        Favorite savedFavorite = favoriteRepository.save(favorite);
+        Favorite favoriteFromDb = favoriteRepository.save(favorite);
 
         return FavoriteResponse.builder()
-                .favoriteId(savedFavorite.getId())
-                .preview(product.getPreview())
+                .id(favoriteFromDb.getId())
+                .productType(product.getType())
+                .productId(productId)
+                .productPreview(product.getPreview())
                 .productName(product.getName())
-                .price(product.getPrice())
                 .build();
     }
 
@@ -67,11 +68,11 @@ public class FavoriteServiceImpl implements FavoriteService {
                     String productId = favorite.getProductId();
                     var product = productRepository.findById(productId)
                             .orElseThrow(() -> new BusinessException("Product not found", HttpStatus.NOT_FOUND));
-                    return FavoriteResponse
-                            .builder()
-                            .favoriteId(favorite.getId())
-                            .preview(product.getPreview())
-                            .price(product.getPrice())
+                    return FavoriteResponse.builder()
+                            .id(favorite.getId())
+                            .productType(product.getType())
+                            .productId(productId)
+                            .productPreview(product.getPreview())
                             .productName(product.getName())
                             .build();
                 })

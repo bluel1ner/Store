@@ -1,11 +1,8 @@
 package com.example.userservice.dto.mapper;
 
 import com.example.userservice.dto.request.CartRequest;
-import com.example.userservice.dto.request.ProductRequest;
 import com.example.userservice.dto.response.CartResponse;
-import com.example.userservice.dto.response.ProductResponse;
 import com.example.userservice.entity.mongo.Cart;
-import com.example.userservice.entity.mongo.Product;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 

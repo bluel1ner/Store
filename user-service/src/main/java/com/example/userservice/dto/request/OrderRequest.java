@@ -5,7 +5,6 @@ import com.example.userservice.entity.enums.PaymentType;
 import com.example.userservice.entity.mongo.OrderProduct;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -20,10 +19,8 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class OrderRequest {
-    private String id;
     private String address;
     private PaymentType paymentOption;
-    private OrderStatus status;
     private Double finalPrice;
     private List<OrderProduct> products;
 }

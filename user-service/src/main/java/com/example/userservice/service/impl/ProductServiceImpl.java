@@ -4,6 +4,8 @@ import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.dto.mapper.ProductMapper;
 import com.example.userservice.dto.request.ProductRequest;
 import com.example.userservice.dto.response.ProductResponse;
+import com.example.userservice.dto.response.ProductSearchResponse;
+import com.example.userservice.entity.enums.ProductType;
 import com.example.userservice.entity.mongo.Color;
 import com.example.userservice.entity.mongo.Product;
 import com.example.userservice.exception.type.BusinessException;
@@ -71,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductByType(Product.Type productTypeEnum) {
+    public List<Product> getProductByType(ProductType productTypeEnum) {
         return productRepository
                 .findAll()
                 .stream()
@@ -116,6 +118,20 @@ public class ProductServiceImpl implements ProductService {
                             throw new BusinessException(String.format("Product with id %s not found!", productRequest.getId()), HttpStatus.NOT_FOUND);
                         });
         return productMapper.toResponseDto(getProduct(productRequest.getId()));
+    }
+
+    @Override
+    public List<ProductSearchResponse> getProductsViaSearch(String searchString) {
+        return productRepository.findAll()
+                .stream()
+                .filter(product -> product.getName()
+                        .contains(searchString))
+                .map(product -> ProductSearchResponse.builder()
+                        .id(product.getId())
+                        .name(product.getName())
+                        .type(product.getType())
+                        .build())
+                .toList();
     }
 
     private Product getProduct(String productId) {

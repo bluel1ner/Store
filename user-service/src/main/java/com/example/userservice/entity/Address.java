@@ -3,8 +3,6 @@ package com.example.userservice.entity;
 import lombok.*;
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "address")
 @Getter

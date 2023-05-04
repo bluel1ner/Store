@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -35,8 +34,4 @@ public class Order {
     private Double finalPrice;
     private List<OrderProduct> products;
 
-    @PrePersist
-    private void init() {
-        date = LocalDate.now();
-    }
 }

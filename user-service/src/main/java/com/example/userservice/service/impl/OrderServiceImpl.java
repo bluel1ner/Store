@@ -2,14 +2,12 @@ package com.example.userservice.service.impl;
 
 import com.example.userservice.dto.mapper.CartMapper;
 import com.example.userservice.dto.mapper.OrderMapper;
-import com.example.userservice.dto.mapper.ProductMapper;
 import com.example.userservice.dto.request.OrderRequest;
 import com.example.userservice.dto.response.OrderResponse;
 import com.example.userservice.entity.User;
 import com.example.userservice.entity.enums.OrderStatus;
 import com.example.userservice.entity.mongo.Cart;
 import com.example.userservice.entity.mongo.Order;
-import com.example.userservice.entity.mongo.OrderProduct;
 import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.repository.CartRepository;
 import com.example.userservice.repository.OrderRepository;
@@ -19,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,12 +48,15 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse addOrder(OrderRequest orderRequest) {
         User user = userUtils.getUser();
         List<Cart> carts = cartRepository.findAllByUserId(user.getId());
-        if (Objects.isNull(carts)) {
+        if (carts.isEmpty()) {
             throw new BusinessException("Your cart is empty! If you want to make an order, try to fill your cart!",
                     HttpStatus.FORBIDDEN);
         }
-        Order order = orderRepository.save(orderMapper.toOrder(orderRequest, user.getId()));
-        return orderMapper.toResponseDto(order);
+        carts
+                .forEach(cart -> cartRepository.deleteById(cart.getId()));
+        Order order = orderMapper.toOrder(orderRequest, user.getId());
+        order.setStatus(OrderStatus.PROCESSING);
+        return orderMapper.toResponseDto(orderRepository.save(order));
     }
 
     @Override
@@ -79,7 +82,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponse> getAllUserOrder() {
         User user = userUtils.getUser();
-        return orderRepository.findByUserId(user.getId())
+        List<Order> list = orderRepository.findByUserId(user.getId());
+        Collections.reverse(list);
+        return list
                 .stream()
                 .map(orderMapper::toResponseDto)
                 .toList();
@@ -87,7 +92,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderResponse> getAllByOrderStatus(OrderStatus orderStatus) {
-        return orderRepository.findAllByStatus(orderStatus)
+        List<Order> list = orderRepository.findAllByStatus(orderStatus);
+        Collections.reverse(list);
+        return list
                 .stream()
                 .map(orderMapper::toResponseDto)
                 .toList();

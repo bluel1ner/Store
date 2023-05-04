@@ -1,11 +1,11 @@
 package com.example.userservice.dto.request;
 
+import com.example.userservice.entity.enums.ProductType;
 import com.example.userservice.entity.mongo.Color;
 import com.example.userservice.entity.mongo.Configuration;
 import com.example.userservice.entity.mongo.Product;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ import java.util.List;
 public class ProductRequest {
     private String id;
     private String name;
-    private Product.Type type;
+    private ProductType type;
     private Integer price;
     private String display;
     private String powerAndBattery;

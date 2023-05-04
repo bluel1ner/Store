@@ -6,5 +6,5 @@ package com.example.userservice.entity.enums;
  * @date 3/3/2023 1:37 AM
  */
 public enum ProductType {
-    Mac, iPad, IPhone, Watch, AirPods
+    Mac, iPad, iPhone, Watch, AirPods
 }

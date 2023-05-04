@@ -1,6 +1,7 @@
 package com.example.userservice.entity;
 
 
+import com.example.userservice.entity.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -44,14 +45,10 @@ public class User implements UserDetails {
     private Set<Card> cards;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Address> address;
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Order> orders;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Favorite> favorites;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> commentList;
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Cart> cart;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -83,9 +80,7 @@ public class User implements UserDetails {
         return true;
     }
 
-    public enum Role {
-        USER, ADMIN
-    }
+
 
 
 }

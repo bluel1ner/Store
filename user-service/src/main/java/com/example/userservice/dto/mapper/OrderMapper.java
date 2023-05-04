@@ -6,6 +6,8 @@ import com.example.userservice.entity.mongo.Order;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 /**
  * @author Neevels
  * @version 1.0
@@ -29,13 +31,12 @@ public class OrderMapper {
 
     public Order toOrder(OrderRequest orderRequest, Long userId) {
         return Order.builder()
-                .id(orderRequest.getId())
                 .address(orderRequest.getAddress())
                 .userId(userId)
                 .finalPrice(orderRequest.getFinalPrice())
                 .products(orderRequest.getProducts())
                 .paymentOption(orderRequest.getPaymentOption())
-                .status(orderRequest.getStatus() )
+                .date(LocalDate.now())
                 .build();
     }
 }

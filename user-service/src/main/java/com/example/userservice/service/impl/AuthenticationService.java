@@ -7,6 +7,7 @@ import com.example.userservice.dto.request.RegisterRequest;
 import com.example.userservice.dto.response.AuthenticationResponse;
 import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.User;
+import com.example.userservice.entity.enums.Role;
 import com.example.userservice.exception.type.user.UserAlreadyExistException;
 import com.example.userservice.exception.type.user.UserNotFoundException;
 import com.example.userservice.repository.UserRepository;
@@ -37,7 +38,7 @@ public class AuthenticationService {
                     .lastName(request.getLastName())
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
-                    .role(User.Role.USER)
+                    .role(Role.USER)
                     .avatar(Path.DEFAULT_PATH.getUrl())
                     .build();
             User save = repository.save(user);

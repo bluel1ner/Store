@@ -2,7 +2,6 @@ package com.example.userservice.service;
 
 import com.example.userservice.dto.request.FavoriteRequest;
 import com.example.userservice.dto.response.FavoriteResponse;
-import com.example.userservice.entity.Favorite;
 
 import java.util.List;
 

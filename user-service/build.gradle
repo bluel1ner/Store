@@ -56,13 +56,25 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation group: 'org.postgresql', name: 'postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
+//    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.7.3'
+
     implementation 'mysql:mysql-connector-java:8.0.30'
 
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+    testImplementation 'mysql:mysql-connector-java:8.0.30'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+
 }
 
 tasks.named('test') {

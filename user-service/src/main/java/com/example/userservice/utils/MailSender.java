@@ -25,8 +25,8 @@ public class MailSender {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             helper.setTo(emailTo);
-            helper.setSubject("Ваш временный пароль для доступа в систему тренеров");
-            helper.setFrom(username, "IL<KA> GYM");
+            helper.setSubject("Ваш временный пароль для доступа в систему Apple");
+            helper.setFrom(username, "Apple store");
             helper.setText(getHtml(password), true);
             mailSender.send(message);
 
@@ -40,16 +40,16 @@ public class MailSender {
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
-                "\t<title>Отправка временного пароля для нового тренера</title>\n" +
+                "\t<title>Отправка временного пароля для нового работника</title>\n" +
                 "\t<meta charset=\"UTF-8\">\n" +
                 "\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                 "</head>\n" +
                 "<body>\n" +
                 "\t<p>Здравствуйте,</p>\n" +
-                "\t<p>Ваш временный пароль для доступа в систему тренеров фитнес-клуба IL&lt;KA&gt; GYM:</p>\n" +
+                "\t<p>Ваш временный пароль для доступа в систему Apple :</p>\n" +
                 "\t<h3>" + password + "</h3>\n" +
                 "\t<p>С уважением,</p>\n" +
-                "\t<p>Команда фитнес-клуба IL&lt;KA&gt; GYM</p>\n" +
+                "\t<p>Команда Apple </p>\n" +
                 "</body>\n" +
                 "</html>";
     }

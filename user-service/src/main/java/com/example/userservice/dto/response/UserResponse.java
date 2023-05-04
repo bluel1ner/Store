@@ -1,6 +1,7 @@
 package com.example.userservice.dto.response;
 
 import com.example.userservice.entity.User;
+import com.example.userservice.entity.enums.Role;
 import lombok.Builder;
 
 /**
@@ -14,7 +15,7 @@ public record UserResponse(
         String firstName,
         String lastName,
         String phoneNumber,
-        User.Role role,
+        Role role,
         String avatar
 ) {
 }

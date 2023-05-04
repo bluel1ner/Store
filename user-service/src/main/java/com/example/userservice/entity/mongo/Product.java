@@ -1,5 +1,6 @@
 package com.example.userservice.entity.mongo;
 
+import com.example.userservice.entity.enums.ProductType;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -23,7 +24,7 @@ public class Product {
     private String id;
 
     private String name;
-    private Type type;
+    private ProductType type;
     private Integer price;
     private String display;
     private String powerAndBattery;
@@ -31,13 +32,5 @@ public class Product {
     private List<Color> colors;
     private String video;
     private String preview;
-    public enum Type {
-        iPhone,
-        Mac,
-        iPad,
-        Watch,
-        AirPods
-    }
-
 
 }
