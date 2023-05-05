@@ -1,7 +1,0 @@
-server:
-  port: 8090
-spring:
-  data:
-    mongodb:
-      database: chat_service
-      port: 27017
