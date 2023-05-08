@@ -72,6 +72,7 @@ public class OrderServiceImpl implements OrderService {
                         .map(cart -> cartMapper.toCart(cart.getProduct(), order.getUserId()))
                         .toList();
                 cartRepository.deleteAll(carts);
+                order.setStatus(orderStatus);
                 order.setDateDone(LocalDate.now());
             } else {
                 order.setStatus(orderStatus);
