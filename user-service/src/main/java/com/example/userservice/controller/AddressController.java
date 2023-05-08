@@ -1,7 +1,7 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.request.AddressRequest;
 import com.example.userservice.dto.response.AddressResponse;
-import com.example.userservice.entity.Address;
 import com.example.userservice.service.AddressService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,13 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 3/8/2023 12:49 PM
- */
 @RestController()
-@RequestMapping("/addresses")
+@RequestMapping("addresses")
 public class AddressController {
 
     private final AddressService addressService;
@@ -25,14 +20,15 @@ public class AddressController {
     }
 
     @PostMapping
-    public ResponseEntity<AddressResponse> createAddress(@RequestBody Address address) {
-        return ResponseEntity.ok(addressService.addAddress(address));
+    public ResponseEntity<AddressResponse> createAddress(@RequestBody AddressRequest addressRequest) {
+        return ResponseEntity.ok(addressService.addAddress(addressRequest));
     }
 
     @PutMapping
-    public ResponseEntity<AddressResponse> editAddress(@RequestBody Address address) {
+    public ResponseEntity<AddressResponse> editAddress(@RequestBody AddressRequest address) {
         addressService.editAddress(address);
-        return ResponseEntity.status(200).body(addressService.editAddress(address));
+        return ResponseEntity.ok()
+                .body(addressService.editAddress(address));
     }
 
     @GetMapping
@@ -48,7 +44,8 @@ public class AddressController {
 
     @PutMapping("/{id}/setActive")
     public ResponseEntity<List<AddressResponse>> changeAddressStatusForMain(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(addressService.changeActiveAddress(id));
+        return ResponseEntity.ok()
+                .body(addressService.changeActiveAddress(id));
     }
 
 }

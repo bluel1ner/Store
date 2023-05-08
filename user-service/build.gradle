@@ -52,13 +52,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
-//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     implementation group: 'org.postgresql', name: 'postgresql'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.7.3'
-
     implementation 'mysql:mysql-connector-java:8.0.30'
 
     implementation 'com.amazonaws:aws-java-sdk-s3'
@@ -66,14 +61,19 @@ dependencies {
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
     testImplementation 'org.mockito:mockito-core:3.12.4'
-    testImplementation 'mysql:mysql-connector-java:8.0.30'
-    testImplementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
+//    testImplementation('org.junit.jupiter:junit-jupiter-api:5.2.0')
+//    testCompile('org.junit.jupiter:junit-jupiter-params:5.2.0')
+//    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
+//    testCompile "org.mockito:mockito-core:2.+"
+//    testCompile('org.mockito:mockito-junit-jupiter:2.18.3')
+//    testCompile('org.springframework.boot:spring-boot-starter-test')
 
 }
 

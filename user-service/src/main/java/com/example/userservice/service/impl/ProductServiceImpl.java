@@ -89,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductByName(String name) {
         return productRepository
-                .findByName(name)
+                .findByName(name.toLowerCase())
                 .orElseThrow(
                         () -> new BusinessException(String.format("Product with name: %s not found.", name), HttpStatus.NOT_FOUND)
                 );
@@ -112,7 +112,9 @@ public class ProductServiceImpl implements ProductService {
                                     photos.forEach(photoStorageService::deleteFile);
                                 }
                             });
-                            productRepository.save(productMapper.toProduct(productRequest));
+                            Product productAfterMapping = productMapper.toProduct(productRequest);
+                            productAfterMapping.setPreview(product.getPreview());
+                            productRepository.save(productAfterMapping);
                         },
                         () -> {
                             throw new BusinessException(String.format("Product with id %s not found!", productRequest.getId()), HttpStatus.NOT_FOUND);

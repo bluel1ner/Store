@@ -47,6 +47,13 @@ public class OrderController {
                 .body(orderService.getAllByOrderStatus(orderStatus));
     }
 
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> getAll() {
+        log.info("Get all by");
+        return ResponseEntity.ok()
+                .body(orderService.getAllOrders());
+    }
+
     @PutMapping("/{id}/{orderStatus}")
     public ResponseEntity<OrderResponse> changeOrderStatus(@PathVariable String id,
                                                            @PathVariable OrderStatus orderStatus) {

@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/4/2023 2:23 PM
- */
 @RestController
 @RequestMapping("applications")
 public class ApplicationController {

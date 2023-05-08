@@ -16,4 +16,6 @@ public interface OrderService {
     OrderResponse changeOrderStatus(String id, OrderStatus orderStatus);
     List<OrderResponse> getAllUserOrder();
     List<OrderResponse> getAllByOrderStatus(OrderStatus orderStatus);
+
+    List<OrderResponse> getAllOrders();
 }

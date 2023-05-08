@@ -1,11 +1,12 @@
 package com.example.userservice.service.impl;
 
-import com.example.userservice.dto.request.CartRequest;
-import com.example.userservice.dto.response.CartResponse;
+import com.example.userservice.dto.response.CardResponse;
+import com.example.userservice.entity.Card;
 import com.example.userservice.entity.User;
-import com.example.userservice.repository.ProductRepository;
+import com.example.userservice.repository.CardRepository;
 import com.example.userservice.utils.UserUtils;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,68 +22,80 @@ import static org.mockito.Mockito.when;
 /**
  * @author Neevels
  * @version 1.0
- * @date 5/4/2023 3:47 PM
+ * @date 5/7/2023 4:42 PM
  */
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class CardServiceImplTest {
 
+    @InjectMocks
+    private CardServiceImpl cardService;
     @Mock
-    private ProductRepository productRepository;
+    private CardRepository cardRepository;
     @Mock
     private UserUtils userUtils;
-    @InjectMocks
-    private CartServiceImpl cartService;
 
+    private static List<Card> cardList;
+    private static List<CardResponse> cardResponseList;
     private static User user;
-
-    private static List<CartResponse> cartResponseList;
-    private static CartResponse cartResponse;
-    private static CartRequest cartRequest;
 
     @BeforeAll
     static void setUp() {
         user = User.builder()
-                .id(1l)
+                .id(1L)
+                .email("neevels@mail.ru")
                 .firstName("Ilya")
                 .lastName("Ignatovich")
-                .email("neevels@mail.ru")
                 .build();
 
-        cartResponseList = List.of(
-                CartResponse.builder()
-                        .id("123")
-                        .price(123.3)
-                        .name("Iphone")
+        cardList = List.of(
+                Card.builder()
+                        .id(1)
+                        .user(user)
+                        .number("qweqwe")
+                        .owner("aqeqw")
+                        .status(false)
                         .build(),
-                CartResponse.builder()
-                        .id("1235")
-                        .price(123.3)
-                        .name("Iphone12")
+                Card.builder()
+                        .id(1)
+                        .user(user)
+                        .number("dasas")
+                        .owner("asdasdasd")
+                        .status(false)
+                        .build()
+        );
+
+        cardResponseList = List.of(
+                CardResponse.builder()
+                        .id(1)
+                        .number("qweqwe")
+                        .owner("aqeqw")
+                        .status(false)
+                        .build(),
+                CardResponse.builder()
+                        .id(1)
+                        .number("dasas")
+                        .owner("asdasdasd")
+                        .status(false)
                         .build()
         );
     }
 
-
     @Test
     void createCard() {
-
-
     }
 
     @Test
     void updateCard() {
-        when(userUtils.getUser()).thenReturn(user);
-        when(cartService.updateCart(cartRequest)).thenReturn(cartResponse);
-
     }
 
     @Test
     void getAllByUserId() {
         when(userUtils.getUser()).thenReturn(user);
-        when(cartService.getAllUserCart()).thenReturn(cartResponseList);
-        List<CartResponse> allUserCart = cartService.getAllUserCart();
-        assertEquals(allUserCart, cartResponseList);
+        when(cardRepository.findAllByUserId(user.getId())).thenReturn(cardList);
+        List<CardResponse> cardResponses = cardService.getAllByUserId();
+        assertEquals(cardResponses, cardResponseList);
+
     }
 
     @Test

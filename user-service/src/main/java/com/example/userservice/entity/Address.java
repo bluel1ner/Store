@@ -23,15 +23,8 @@ public class Address {
 
     private Boolean status;
 
-
-    //TODO: check cascade and fetchtype for all Order
-
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "address")
-//    @JoinColumn(name = "address_id")
-//    private List<Order> orderList;
 
 }

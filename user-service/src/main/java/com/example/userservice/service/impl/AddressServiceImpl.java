@@ -1,11 +1,11 @@
 package com.example.userservice.service.impl;
 
 import com.example.userservice.dto.mapper.AddressMapper;
+import com.example.userservice.dto.request.AddressRequest;
 import com.example.userservice.dto.response.AddressResponse;
 import com.example.userservice.entity.Address;
 import com.example.userservice.entity.User;
 import com.example.userservice.exception.type.BusinessException;
-import com.example.userservice.exception.type.address.AddressNotFoundException;
 import com.example.userservice.repository.AddressRepository;
 import com.example.userservice.service.AddressService;
 import com.example.userservice.utils.UserUtils;
@@ -32,15 +32,14 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressResponse addAddress(Address address) {
-        User userById = userUtils.getUser();
-        Optional<Address> addressFromDb = addressRepository.findAllByUserId(userById.getId())
+    public AddressResponse addAddress(AddressRequest addressRequest) {
+        User user = userUtils.getUser();
+        Optional<Address> addressFromDb = addressRepository
+                .findAllByUserId(user.getId())
                 .stream()
                 .findFirst();
-        address.setStatus(addressFromDb.isEmpty());
-        address.setUser(userById);
-        Address savedEntity = addressRepository.save(address);
-        return addressMapper.toResponseDto(savedEntity);
+        Address address = addressMapper.updateAddress(addressRequest, null, addressFromDb.isEmpty(), user);
+        return addressMapper.toResponseDto(addressRepository.save(address));
     }
 
     @Override
@@ -49,62 +48,68 @@ public class AddressServiceImpl implements AddressService {
         return addressRepository
                 .findAllByUserId(userById.getId())
                 .stream()
-                .sorted(Comparator.comparing(Address::getStatus).reversed())
+                .sorted(Comparator.comparing(Address::getStatus)
+                        .reversed())
                 .map(addressMapper::toResponseDto)
                 .toList();
     }
 
     @Override
-    public AddressResponse editAddress(Address address) {
+    public AddressResponse editAddress(AddressRequest address) {
         Address addressEntity = addressRepository
                 .findById(address.getId())
-                .orElseThrow(() -> new AddressNotFoundException(String.format("Address with id: %d not found", address.getId())));
-        addressEntity.setApartment(address.getApartment());
-        addressEntity.setCity(address.getCity());
-        addressEntity.setCountry(address.getCountry());
-        addressEntity.setHouse(address.getHouse());
-        addressEntity.setState(address.getState());
-        addressEntity.setApartment(address.getApartment());
-        Address save = addressRepository.save(addressEntity);
-        return addressMapper.toResponseDto(save);
+                .orElseThrow(() -> new BusinessException(String.format("Address with id %d not found", address.getId()),
+                        HttpStatus.NOT_FOUND)
+                );
+        Address updatedAddress = addressMapper.updateAddress(address, addressEntity.getId(), addressEntity.getStatus(), addressEntity.getUser());
+        return addressMapper.toResponseDto(addressRepository.save(updatedAddress));
     }
 
     @Override
     public void deleteById(Integer id) {
-        Address address = addressRepository.findById(id)
-                .orElseThrow(() -> new AddressNotFoundException(String.format("Address with id: %d not found", id)));
-        if (Objects.equals(address.getStatus(), true)) {
-            addressRepository.deleteById(id);
-            addressRepository.findAll()
-                    .stream()
-                    .findAny()
-                    .ifPresent(addressConsumer -> {
-                        addressConsumer.setStatus(true);
-                        addressRepository.save(addressConsumer);
-                    });
-        } else {
-            addressRepository.deleteById(id);
-        }
+        addressRepository.findById(id)
+                .ifPresentOrElse(address -> {
+                            if (Objects.equals(address.getStatus(), true)) {
+                                addressRepository.deleteById(id);
+                                addressRepository.findAll()
+                                        .stream()
+                                        .findAny()
+                                        .ifPresent(addressConsumer -> {
+                                            addressConsumer.setStatus(true);
+                                            addressRepository.save(addressConsumer);
+                                        });
+                            } else {
+                                addressRepository.deleteById(id);
+                            }
+                        },
+                        () -> {
+                            throw new BusinessException(String.format("Address with id %d not found", id),
+                                    HttpStatus.NOT_FOUND);
+                        });
     }
 
     @Transactional
     @Override
     public List<AddressResponse> changeActiveAddress(Integer id) {
-        User userById = userUtils.getUser();
-        Address first = addressRepository.findAllByUserId(userById.getId())
+        User user = userUtils.getUser();
+        addressRepository.findAllByUserIdAndStatusEquals(user.getId(), true)
                 .stream()
-                .filter(address -> Objects.equals(address.getStatus(), true))
                 .findFirst()
-                .orElseThrow(
-                        () -> new BusinessException("Active address doesn't found", HttpStatus.NOT_FOUND));
-        first.setStatus(false);
+                .ifPresentOrElse((address) -> {
+                            address.setStatus(false);
+                            addressRepository.findAddressByUserIdAndAndId(user.getId(), id)
+                                    .ifPresentOrElse((addressFromDb) -> {
+                                        addressFromDb.setStatus(true);
+                                        addressRepository.save(address);
+                                        addressRepository.save(addressFromDb);
+                                    }, () -> {
+                                        throw new BusinessException(String.format("Address with id %s doesn't found", id), HttpStatus.NOT_FOUND);
+                                    });
+                        }, () -> {
+                            throw new BusinessException("Active address doesn't found", HttpStatus.NOT_FOUND);
+                        }
+                );
 
-        Address address = addressRepository.findAddressByUserIdAndAndId(userById.getId(), id)
-                .orElseThrow(
-                        () -> new BusinessException(String.format("Address with id %s doesn't found", id), HttpStatus.NOT_FOUND));
-        address.setStatus(true);
-        addressRepository.save(first);
-        addressRepository.save(address);
         return getAllAddresses();
     }
 

@@ -28,4 +28,20 @@ public class ProductRequest {
     private List<Configuration> configurations;
     private List<Color> colors;
     private String video;
+    private String preview;
+    private String sizesAndWeight;
+    private String resistance;
+    private String processor;
+    private String camera;
+    private String frontCamera;
+    private String videoRecording;
+    private String faceID;
+    private String applePay;
+    private String cellularAndWireless;
+    private String location;
+    private String audioPlayback;
+    private String videoPlayback;
+    private String siri;
+    private String sensors;
+    private String operatingSystem;
 }

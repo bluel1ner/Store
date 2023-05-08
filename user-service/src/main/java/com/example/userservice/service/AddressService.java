@@ -1,16 +1,16 @@
 package com.example.userservice.service;
 
+import com.example.userservice.dto.request.AddressRequest;
 import com.example.userservice.dto.response.AddressResponse;
-import com.example.userservice.entity.Address;
 
 import java.util.List;
 
 public interface AddressService {
-    AddressResponse addAddress(Address address);
+    AddressResponse addAddress(AddressRequest address);
 
     List<AddressResponse> getAllAddresses();
 
-    AddressResponse editAddress(Address address);
+    AddressResponse editAddress(AddressRequest address);
 
     void deleteById(Integer id);
 

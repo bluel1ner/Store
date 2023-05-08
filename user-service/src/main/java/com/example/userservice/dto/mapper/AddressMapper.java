@@ -1,7 +1,10 @@
 package com.example.userservice.dto.mapper;
 
+import com.example.userservice.dto.request.AddressRequest;
 import com.example.userservice.dto.response.AddressResponse;
 import com.example.userservice.entity.Address;
+import com.example.userservice.entity.User;
+import com.example.userservice.entity.enums.Status;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -28,16 +31,17 @@ public class AddressMapper {
                 .build();
     }
 
-    public Address updateAddress(Address address) {
+    public Address updateAddress(AddressRequest address, Integer id, boolean status, User user) {
         return Address.builder()
-                .id(address.getId())
+                .id(id)
                 .house(address.getHouse())
                 .state(address.getState())
-                .status(address.getStatus())
+                .status(status)
                 .street(address.getStreet())
                 .apartment(address.getApartment())
                 .city(address.getCity())
                 .country(address.getCountry())
+                .user(user)
                 .build();
     }
 

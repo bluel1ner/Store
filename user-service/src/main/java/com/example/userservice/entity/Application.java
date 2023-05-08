@@ -26,5 +26,6 @@ public class Application {
     private String email;
     @Column(length = 1024)
     private String message;
+    @Enumerated(EnumType.STRING)
     private Role role;
 }

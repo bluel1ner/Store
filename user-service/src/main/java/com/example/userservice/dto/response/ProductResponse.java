@@ -18,6 +18,22 @@ public record ProductResponse(
         String powerAndBattery,
         List<Configuration> configurations,
         List<Color> colors,
-        String video
+        String video,
+        String preview,
+        String sizesAndWeight,
+        String resistance,
+        String processor,
+        String camera,
+        String frontCamera,
+        String videoRecording,
+        String faceID,
+        String applePay,
+        String cellularAndWireless,
+        String location,
+        String audioPlayback,
+        String videoPlayback,
+        String siri,
+        String sensors,
+        String operatingSystem
 ) {
 }

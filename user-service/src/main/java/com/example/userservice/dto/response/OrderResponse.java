@@ -14,14 +14,15 @@ import java.util.List;
  * @date 5/2/2023 9:45 PM
  */
 @Builder
-public record OrderResponse (
-         String id,
-         String address,
-         PaymentType paymentOption,
-         LocalDate date,
-         LocalDate dateDone,
-         OrderStatus status,
-         Double finalPrice,
-         List<OrderProduct>products
-) {
+public record OrderResponse(
+        String id,
+        String address,
+        PaymentType paymentOption,
+        LocalDate date,
+        LocalDate dateDone,
+        OrderStatus status,
+        Double finalPrice,
+        List<OrderProduct> products
+
+        ) {
 }

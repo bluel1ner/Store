@@ -100,6 +100,14 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
     }
 
+    @Override
+    public List<OrderResponse> getAllOrders() {
+        return orderRepository.findAll()
+                .stream()
+                .map(orderMapper::toResponseDto)
+                .toList();
+    }
+
 
     private Order getOrder(String id) {
         return orderRepository.findById(id)
