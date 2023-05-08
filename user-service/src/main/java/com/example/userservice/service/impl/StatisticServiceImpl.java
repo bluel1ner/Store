@@ -42,14 +42,11 @@ public class StatisticServiceImpl implements StatisticService {
                 .collect(Collectors.toMap(
                         value -> value,
                         value -> (int) allByStatus.stream()
-                                .map(order -> {
-                                            int sum = order.getProducts()
-                                                    .stream()
-                                                    .filter(orderProduct -> Objects.equals(orderProduct.getType(), value))
-                                                    .mapToInt(OrderProduct::getAmount)
-                                                    .sum();
-                                            return sum;
-                                        }
+                                .map(order -> order.getProducts()
+                                                .stream()
+                                                .filter(orderProduct -> Objects.equals(orderProduct.getType(), value))
+                                                .mapToInt(OrderProduct::getAmount)
+                                                .sum()
                                 )
                                 .count()))
                 .entrySet()

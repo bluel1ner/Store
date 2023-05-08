@@ -89,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductByName(String name) {
         return productRepository
-                .findByName(name.toLowerCase())
+                .findByName(name)
                 .orElseThrow(
                         () -> new BusinessException(String.format("Product with name: %s not found.", name), HttpStatus.NOT_FOUND)
                 );
@@ -127,7 +127,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll()
                 .stream()
                 .filter(product -> product.getName()
-                        .contains(searchString))
+                        .contains(searchString.toLowerCase()))
                 .map(product -> ProductSearchResponse.builder()
                         .id(product.getId())
                         .name(product.getName())
