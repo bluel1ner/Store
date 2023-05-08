@@ -5,7 +5,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/marketplace
     username: root
-    password: 
+    password: 212109
   jpa:
     hibernate.ddl-auto: none
     generate-ddl: true
@@ -20,14 +20,14 @@ spring:
       database: test
   mail:
     host: smtp.yandex.ru
-    username: 
-    password: 
+    username: uw@dru.su
+    password: 12345678
     port: 465
     protocol: smtps
 mail:
   debug: true
 
 amazon:
-  bucket: 
-  awsId: 
-  awsKey: 
+  bucket: test-backet-ilya
+  awsId: YCAJEC2QrKhEprDoVeRIF2WB0
+  awsKey: YCNE-vwuDtHSwRIr6FwQtd47UQKVzm_8sIqCu5aR

@@ -47,7 +47,7 @@ public class OrderController {
                 .body(orderService.getAllByOrderStatus(orderStatus));
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<OrderResponse>> getAll() {
         log.info("Get all by");
         return ResponseEntity.ok()
