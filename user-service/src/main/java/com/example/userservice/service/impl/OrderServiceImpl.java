@@ -77,7 +77,9 @@ public class OrderServiceImpl implements OrderService {
             } else {
                 order.setStatus(orderStatus);
             }
-        return orderMapper.toResponseDto(orderRepository.save(order), null, null, null);
+        return orderMapper.toResponseDto(orderRepository.save(order),user.getFirstName() + " " + user.getLastName(),
+                user.getEmail(),
+                user.getPhoneNumber());
     }
 
     @Override
