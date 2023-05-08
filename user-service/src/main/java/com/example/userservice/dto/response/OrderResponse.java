@@ -22,7 +22,9 @@ public record OrderResponse(
         LocalDate dateDone,
         OrderStatus status,
         Double finalPrice,
-        List<OrderProduct> products
-
+        List<OrderProduct> products,
+        String fullName,
+        String phoneNumber,
+        String email
         ) {
 }

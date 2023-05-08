@@ -1,6 +1,7 @@
 package com.example.userservice.service;
 
-import com.example.userservice.dto.response.ProfitByProductTypeRequest;
+import com.example.userservice.dto.response.AmountStatisticResponse;
+import com.example.userservice.dto.response.PriceStatisticResponse;
 
 import java.util.List;
 
@@ -10,5 +11,6 @@ import java.util.List;
  * @date 5/8/2023 9:09 PM
  */
 public interface StatisticService {
-    List<ProfitByProductTypeRequest> getProfitByProductType();
+    List<AmountStatisticResponse> getProfitByProductType();
+    List<PriceStatisticResponse> getPriceStatistic();
 }

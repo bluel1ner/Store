@@ -9,7 +9,7 @@ import lombok.Builder;
  * @date 5/8/2023 9:10 PM
  */
 @Builder
-public record ProfitByProductTypeRequest(
+public record AmountStatisticResponse(
         ProductType key,
         Integer value
 ) {

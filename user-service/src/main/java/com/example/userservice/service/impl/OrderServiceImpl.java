@@ -11,6 +11,7 @@ import com.example.userservice.entity.mongo.Order;
 import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.repository.CartRepository;
 import com.example.userservice.repository.OrderRepository;
+import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.OrderService;
 import com.example.userservice.utils.UserUtils;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,13 +35,15 @@ public class OrderServiceImpl implements OrderService {
     private final UserUtils userUtils;
     private final CartMapper cartMapper;
     private final CartRepository cartRepository;
+    private final UserRepository userRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, UserUtils userUtils, CartMapper cartMapper, CartRepository cartRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, UserUtils userUtils, CartMapper cartMapper, CartRepository cartRepository, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.userUtils = userUtils;
         this.cartMapper = cartMapper;
         this.cartRepository = cartRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
                 .forEach(cart -> cartRepository.deleteById(cart.getId()));
         Order order = orderMapper.toOrder(orderRequest, user.getId());
         order.setStatus(OrderStatus.PROCESSING);
-        return orderMapper.toResponseDto(orderRepository.save(order));
+        return orderMapper.toResponseDto(orderRepository.save(order), null, null, null);
     }
 
     @Override
@@ -76,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
         } else {
             throw new BusinessException("You cannot cancel the order as he hasn't status PROCESSING", HttpStatus.FORBIDDEN);
         }
-        return orderMapper.toResponseDto(orderRepository.save(order));
+        return orderMapper.toResponseDto(orderRepository.save(order), null, null, null);
     }
 
     @Override
@@ -86,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
         Collections.reverse(list);
         return list
                 .stream()
-                .map(orderMapper::toResponseDto)
+                .map(order -> orderMapper.toResponseDto(order, null, null, null))
                 .toList();
     }
 
@@ -96,7 +98,13 @@ public class OrderServiceImpl implements OrderService {
         Collections.reverse(list);
         return list
                 .stream()
-                .map(orderMapper::toResponseDto)
+                .map(order -> {
+                    User user = userRepository.findById(order.getUserId()).get();
+                    return orderMapper.toResponseDto(order,
+                            user.getFirstName() + " " + user.getLastName(),
+                            user.getEmail(),
+                            user.getPhoneNumber());
+                })
                 .toList();
     }
 
@@ -104,7 +112,13 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderResponse> getAllOrders() {
         return orderRepository.findAll()
                 .stream()
-                .map(orderMapper::toResponseDto)
+                .map(order -> {
+                    User user = userRepository.findById(order.getUserId()).get();
+                    return orderMapper.toResponseDto(order,
+                            user.getFirstName() + " " + user.getLastName(),
+                            user.getEmail(),
+                            user.getPhoneNumber());
+                })
                 .toList();
     }
 

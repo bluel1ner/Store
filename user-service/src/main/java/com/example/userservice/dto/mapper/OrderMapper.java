@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Component
 @NoArgsConstructor
 public class OrderMapper {
-    public OrderResponse toResponseDto(Order order) {
+    public OrderResponse toResponseDto(Order order, String fullName, String email, String phoneNumber) {
         return OrderResponse.builder()
                 .address(order.getAddress())
                 .dateDone(order.getDateDone())
@@ -26,6 +26,9 @@ public class OrderMapper {
                 .finalPrice(order.getFinalPrice())
                 .status(order.getStatus())
                 .date(order.getDate())
+                .fullName(fullName)
+                .phoneNumber(phoneNumber)
+                .email(email)
                 .build();
     }
 
