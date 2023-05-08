@@ -1,9 +1,11 @@
 package com.example.userservice.controller;
 
 import com.example.userservice.dto.request.OrderRequest;
+import com.example.userservice.dto.response.AmountStatisticResponse;
 import com.example.userservice.dto.response.OrderResponse;
 import com.example.userservice.entity.enums.OrderStatus;
 import com.example.userservice.service.OrderService;
+import com.example.userservice.service.StatisticService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +23,11 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final StatisticService statisticService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, StatisticService statisticService) {
         this.orderService = orderService;
+        this.statisticService = statisticService;
     }
 
     @PostMapping
@@ -52,6 +56,13 @@ public class OrderController {
         log.info("Get all by");
         return ResponseEntity.ok()
                 .body(orderService.getAllOrders());
+    }
+
+    @GetMapping("/amountStatistics")
+    public ResponseEntity<List<AmountStatisticResponse>> getAmountStatistics() {
+        log.info("Get all by");
+        return ResponseEntity.ok()
+                .body(statisticService.getProfitByProductType());
     }
 
     @PutMapping("/{id}/{orderStatus}")

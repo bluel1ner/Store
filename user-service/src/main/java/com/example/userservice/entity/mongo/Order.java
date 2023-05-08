@@ -2,6 +2,7 @@ package com.example.userservice.entity.mongo;
 
 import com.example.userservice.entity.enums.OrderStatus;
 import com.example.userservice.entity.enums.PaymentType;
+import com.example.userservice.entity.enums.ProductType;
 import jakarta.persistence.PrePersist;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;

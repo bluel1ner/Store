@@ -33,6 +33,7 @@ public class CartMapper {
                 .preview(cartRequest.getPreview())
                 .price(cartRequest.getPrice())
                 .userId(userId)
+                .type(cartRequest.getType())
                 .configurations(cartRequest.getConfigurations())
                 .build();
     }

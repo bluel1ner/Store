@@ -5,6 +5,7 @@ import com.example.userservice.dto.response.PriceStatisticResponse;
 import com.example.userservice.entity.enums.OrderStatus;
 import com.example.userservice.entity.enums.ProductType;
 import com.example.userservice.entity.mongo.Order;
+import com.example.userservice.entity.mongo.OrderProduct;
 import com.example.userservice.repository.OrderRepository;
 import com.example.userservice.repository.ProductRepository;
 import com.example.userservice.service.StatisticService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Neevels
@@ -36,24 +38,20 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public List<AmountStatisticResponse> getProfitByProductType() {
         List<Order> allByStatus = orderRepository.findAllByStatus(OrderStatus.COMPLETED);
-        return List.of(ProductType.values())
-                .stream()
+        return Stream.of(ProductType.values())
                 .collect(Collectors.toMap(
                         value -> value,
                         value -> (int) allByStatus.stream()
                                 .map(order -> {
-                                    return order.getProducts()
-                                            .stream()
-                                            .filter(orderProduct -> Objects.equals(productRepository.findById(orderProduct.getProduct()
-                                                                    .getId())
-                                                            .get()
-                                                            .getType(),
-                                                    value))
-//                                            .reduce((orderProduct, res) -> res + orderProduct.getAmount(), 0)
-                                            .count();
-                                })
-                                .count()
-                ))
+                                            int sum = order.getProducts()
+                                                    .stream()
+                                                    .filter(orderProduct -> Objects.equals(orderProduct.getType(), value))
+                                                    .mapToInt(OrderProduct::getAmount)
+                                                    .sum();
+                                            return sum;
+                                        }
+                                )
+                                .count()))
                 .entrySet()
                 .stream()
                 .map(map -> AmountStatisticResponse.builder()

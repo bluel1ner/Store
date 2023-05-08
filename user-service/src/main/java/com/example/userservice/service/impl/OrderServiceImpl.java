@@ -64,8 +64,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse changeOrderStatus(String id, OrderStatus orderStatus) {
         Order order = getOrder(id);
-        if (Objects.equals(order.getStatus(), OrderStatus.PROCESSING)) {
-            if (orderStatus.equals(OrderStatus.COMPLETED)) {
+        User user = userRepository.findById(order.getUserId()).get();
+
+        if (orderStatus.equals(OrderStatus.COMPLETED)) {
                 List<Cart> carts = order.getProducts()
                         .stream()
                         .map(cart -> cartMapper.toCart(cart.getProduct(), order.getUserId()))
@@ -75,9 +76,6 @@ public class OrderServiceImpl implements OrderService {
             } else {
                 order.setStatus(orderStatus);
             }
-        } else {
-            throw new BusinessException("You cannot cancel the order as he hasn't status PROCESSING", HttpStatus.FORBIDDEN);
-        }
         return orderMapper.toResponseDto(orderRepository.save(order), null, null, null);
     }
 
@@ -88,7 +86,9 @@ public class OrderServiceImpl implements OrderService {
         Collections.reverse(list);
         return list
                 .stream()
-                .map(order -> orderMapper.toResponseDto(order, null, null, null))
+                .map(order -> orderMapper.toResponseDto(order,  user.getFirstName() + " " + user.getLastName(),
+                                user.getEmail(),
+                                user.getPhoneNumber()))
                 .toList();
     }
 

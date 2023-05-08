@@ -1,5 +1,6 @@
 package com.example.userservice.entity.mongo;
 
+import com.example.userservice.entity.enums.ProductType;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -26,5 +27,6 @@ public class Cart {
     private String preview;
     private Double price;
     private String color;
+    private ProductType type;
     private List<Configuration> configurations;
 }
