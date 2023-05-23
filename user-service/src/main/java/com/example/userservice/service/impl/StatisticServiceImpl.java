@@ -7,9 +7,7 @@ import com.example.userservice.entity.enums.ProductType;
 import com.example.userservice.entity.mongo.Order;
 import com.example.userservice.entity.mongo.OrderProduct;
 import com.example.userservice.repository.OrderRepository;
-import com.example.userservice.repository.ProductRepository;
 import com.example.userservice.service.StatisticService;
-import com.example.userservice.utils.UserUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,13 +19,9 @@ import java.util.stream.Stream;
 public class StatisticServiceImpl implements StatisticService {
 
     private final OrderRepository orderRepository;
-    private final UserUtils userUtils;
-    private final ProductRepository productRepository;
 
-    public StatisticServiceImpl(OrderRepository orderRepository, UserUtils userUtils, ProductRepository productRepository) {
+    public StatisticServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-        this.userUtils = userUtils;
-        this.productRepository = productRepository;
     }
 
     @Override

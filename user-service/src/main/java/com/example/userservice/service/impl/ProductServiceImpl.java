@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+import static com.example.userservice.constants.Constants.*;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
@@ -38,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
         this.favoriteRepository = favoriteRepository;
     }
 
+
     @Override
     public ProductResponse addProduct(ProductRequest productRequest) {
         if (productRepository.findByName(productRequest.getName())
@@ -46,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
                     .save(productMapper
                             .toProduct(productRequest)));
         } else {
-            throw new BusinessException(String.format("Product with name %s already exist", productRequest.getName()), HttpStatus.NOT_FOUND);
+            throw new BusinessException(String.format(PRODUCT_WITH_NAME_ALREADY_EXIST, productRequest.getName()), HttpStatus.NOT_FOUND);
         }
 
     }
@@ -86,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository
                 .findByName(name)
                 .orElseThrow(
-                        () -> new BusinessException(String.format("Product with name: %s not found.", name), HttpStatus.NOT_FOUND)
+                        () -> new BusinessException(String.format(PRODUCT_WITH_NAME_NOT_FOUND, name), HttpStatus.NOT_FOUND)
                 );
     }
 
@@ -112,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
                             productRepository.save(productAfterMapping);
                         },
                         () -> {
-                            throw new BusinessException(String.format("Product with id %s not found!", productRequest.getId()), HttpStatus.NOT_FOUND);
+                            throw new BusinessException(String.format(PRODUCT_WITH_ID_NOT_FOUND, productRequest.getId()), HttpStatus.NOT_FOUND);
                         });
         return productMapper.toResponseDto(getProduct(productRequest.getId()));
     }
@@ -134,7 +137,7 @@ public class ProductServiceImpl implements ProductService {
     private Product getProduct(String productId) {
         return productRepository
                 .findById(productId)
-                .orElseThrow(() -> new BusinessException("Product not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
 }

@@ -12,12 +12,14 @@ import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.ApplicationService;
 import com.example.userservice.utils.MailSender;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
+import static com.example.userservice.constants.Constants.APPLICATION_NOT_FOUND;
+import static com.example.userservice.constants.Constants.USER_WITH_EMAIL_ALREADY_EXIST;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -26,21 +28,18 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final UserRepository userRepository;
     private final ApplicationMapper applicationMapper;
     private final MailSender mailSender;
-    private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
     public ApplicationServiceImpl(ApplicationRepository applicationRepository,
                                   UserRepository userRepository,
                                   ApplicationMapper applicationMapper,
                                   MailSender mailSender,
-                                  PasswordEncoder passwordEncoder,
                                   UserMapper userMapper
     ) {
         this.applicationRepository = applicationRepository;
         this.userRepository = userRepository;
         this.applicationMapper = applicationMapper;
         this.mailSender = mailSender;
-        this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
     }
 
@@ -52,7 +51,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                     .toResponseDto(applicationRepository
                             .save(applicationMapper.toApplication(applicationRequest)));
         } else {
-            throw new BusinessException(String.format("User with email %s already exist", applicationRequest.getEmail()),
+            throw new BusinessException(String.format(USER_WITH_EMAIL_ALREADY_EXIST, applicationRequest.getEmail()),
                     HttpStatus.FORBIDDEN);
         }
     }
@@ -75,7 +74,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public UserResponse updateToUser(Integer id) {
         Application application = applicationRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Application not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(APPLICATION_NOT_FOUND, HttpStatus.NOT_FOUND));
         var password = UUID.randomUUID().toString();
         mailSender.send(application.getEmail(), password);
         var user = userRepository.save(userMapper.toUser(application, password));

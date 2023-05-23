@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.example.userservice.constants.Constants.PRODUCT_WITH_COLOR_NOT_FOUND;
+import static com.example.userservice.constants.Constants.PRODUCT_WITH_ID_NOT_FOUND;
+
 @Slf4j
 @Service
 public class ProductPhotoServiceImpl implements ProductPhotoService {
@@ -61,12 +64,11 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
                             productRepository.save(product);
                         },
                         () -> {
-                            throw new BusinessException(String.format("Product with color: %s not found", productPhotoRequest.getProductColor()), HttpStatus.NOT_FOUND);
+                            throw new BusinessException(String.format(PRODUCT_WITH_COLOR_NOT_FOUND, productPhotoRequest.getProductColor()), HttpStatus.NOT_FOUND);
                         });
 
         return photoStorageService.uploadFile(path, multipartFile);
     }
-
 
     @Override
     public void deleteProductPhoto(DeletePhotoRequest deletePhotoRequest) {
@@ -125,7 +127,7 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
         return productRepository
                 .findById(productId)
                 .orElseThrow(() -> new BusinessException
-                        (String.format("Product with id: %s not found", productId),
+                        (String.format(PRODUCT_WITH_ID_NOT_FOUND, productId),
                                 HttpStatus.NOT_FOUND));
     }
 

@@ -17,6 +17,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.example.userservice.constants.Constants.USER_WITH_EMAIL_ALREADY_EXIST;
+import static com.example.userservice.constants.Constants.USER_WITH_EMAIL_NOT_FOUND;
+
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository repository;
@@ -54,7 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .userResponse(userMapper.toResponseDto(savedUser))
                     .build();
         } else {
-            throw new BusinessException(String.format("User with email %s already exist",
+            throw new BusinessException(String.format(USER_WITH_EMAIL_ALREADY_EXIST,
                     request.getEmail()), HttpStatus.CONFLICT);
         }
     }
@@ -68,7 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
         var user = repository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new BusinessException(String.format("User with email %s not found",
+                .orElseThrow(() -> new BusinessException(String.format(USER_WITH_EMAIL_NOT_FOUND,
                         request.getEmail()), HttpStatus.NOT_FOUND)
                 );
         var jwtToken = jwtService.generateToken(user);

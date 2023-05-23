@@ -11,21 +11,26 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ConnectionAWSS3Config {
     @Value("${amazon.awsId}")
-    private String awsId;
+    private String AWS_ID;
     @Value("${amazon.awsKey}")
-    private String awsKey;
+    private String AWS_KEY;
+    @Value("${amazon.serviceEndPoint}")
+    private String SERVICE_END_POINT;
+    @Value("${amazon.signingRegion}")
+    private String SIGNING_REGION;
 
     @Bean
     public BasicAWSCredentials basicAWSCredentials() {
-        return new BasicAWSCredentials(awsId, awsKey);
+        return new BasicAWSCredentials(AWS_ID, AWS_KEY);
     }
+
     @Bean
     public AmazonS3 amazonS3() {
-        return  AmazonS3ClientBuilder.standard()
+        return AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials()))
                 .withEndpointConfiguration(
                         new AmazonS3ClientBuilder.EndpointConfiguration(
-                                "storage.yandexcloud.net","ru-central1"
+                                SERVICE_END_POINT, SIGNING_REGION
                         )
                 )
                 .build();

@@ -13,5 +13,5 @@ public interface UserService {
 
     UserResponse updateUser(UserRequest userRequest);
 
-    String changePassword(ChangePasswordRequest password);
+    void changePassword(ChangePasswordRequest password);
 }

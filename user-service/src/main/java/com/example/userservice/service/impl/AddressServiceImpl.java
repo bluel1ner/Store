@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.example.userservice.constants.Constants.ACTIVE_ADDRESS_WITH_ID_NOT_FOUND;
+import static com.example.userservice.constants.Constants.ADDRESS_WITH_ID_NOT_FOUND;
+
 @Service
 public class AddressServiceImpl implements AddressService {
 
@@ -58,7 +61,7 @@ public class AddressServiceImpl implements AddressService {
     public AddressResponse editAddress(AddressRequest address) {
         Address addressEntity = addressRepository
                 .findById(address.getId())
-                .orElseThrow(() -> new BusinessException(String.format("Address with id %d not found", address.getId()),
+                .orElseThrow(() -> new BusinessException(String.format(ADDRESS_WITH_ID_NOT_FOUND, address.getId()),
                         HttpStatus.NOT_FOUND)
                 );
         Address updatedAddress = addressMapper.updateAddress(address, addressEntity.getId(), addressEntity.getStatus(), addressEntity.getUser());
@@ -83,7 +86,7 @@ public class AddressServiceImpl implements AddressService {
                             }
                         },
                         () -> {
-                            throw new BusinessException(String.format("Address with id %d not found", id),
+                            throw new BusinessException(String.format(ADDRESS_WITH_ID_NOT_FOUND, id),
                                     HttpStatus.NOT_FOUND);
                         });
     }
@@ -103,13 +106,12 @@ public class AddressServiceImpl implements AddressService {
                                         addressRepository.save(address);
                                         addressRepository.save(addressFromDb);
                                     }, () -> {
-                                        throw new BusinessException(String.format("Address with id %s doesn't found", id), HttpStatus.NOT_FOUND);
+                                        throw new BusinessException(String.format(ADDRESS_WITH_ID_NOT_FOUND, id), HttpStatus.NOT_FOUND);
                                     });
                         }, () -> {
-                            throw new BusinessException("Active address doesn't found", HttpStatus.NOT_FOUND);
+                            throw new BusinessException(String.format(ACTIVE_ADDRESS_WITH_ID_NOT_FOUND, id), HttpStatus.NOT_FOUND);
                         }
                 );
-
         return getAllAddresses();
     }
 

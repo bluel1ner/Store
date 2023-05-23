@@ -1,5 +1,6 @@
 package com.example.userservice.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,13 +10,18 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
-
-    private final String host = "smtp.yandex.ru";
-    private final int port = 465;
-    private final String username = "FastEmaaiil@yandex.ru";
-    private final String password = "EmaaiilFast";
-    private final String protocol = "smtps";
-    private final String debug = "true";
+    @Value("${mail.host}")
+    private String host;
+    @Value("${mail.port}")
+    private int port;
+    @Value("${mail.username}")
+    private String username;
+    @Value("${mail.password}")
+    private String password;
+    @Value("${mail.protocol}")
+    private String protocol;
+    @Value("${mail.debug}")
+    private String debug;
 
     @Bean
     public JavaMailSender getMailSender() {

@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import static com.example.userservice.constants.Constants.USER_WITH_EMAIL_NOT_FOUND;
+
 @Component
 public class UserUtils {
 
@@ -22,6 +24,6 @@ public class UserUtils {
         String email = authentication.getName();
         return userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new BusinessException(String.format("User with email: %s not found", email), HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(String.format(USER_WITH_EMAIL_NOT_FOUND, email), HttpStatus.NOT_FOUND));
     }
 }

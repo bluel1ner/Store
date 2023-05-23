@@ -3,6 +3,7 @@ package com.example.userservice.utils;
 import com.example.userservice.exception.type.BusinessException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,7 +15,8 @@ import java.io.UnsupportedEncodingException;
 public class MailSender {
 
     private final JavaMailSender mailSender;
-    private final String username = "FastEmaaiil@yandex.ru";
+    @Value("${mail.username}")
+    private String username;
 
     public MailSender(JavaMailSender mailSender) {
         this.mailSender = mailSender;

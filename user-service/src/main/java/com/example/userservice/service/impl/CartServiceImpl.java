@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.userservice.constants.Constants.*;
+
 @Service
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
@@ -37,11 +39,10 @@ public class CartServiceImpl implements CartService {
             Cart cart = cartMapper.toCart(cartRequest, user.getId());
             return cartMapper.toResponseDto(cartRepository.save(cart));
         } else {
-            throw new BusinessException(String.format("Product with name %s not found", cartRequest.getName()), HttpStatus.NOT_FOUND);
+            throw new BusinessException(String.format(PRODUCT_WITH_NAME_NOT_FOUND, cartRequest.getName()), HttpStatus.NOT_FOUND);
         }
 
     }
-
     @Override
     public List<CartResponse> getAllUserCart() {
         User user = userUtils.getUser();
@@ -55,7 +56,7 @@ public class CartServiceImpl implements CartService {
     public void deleteFromCart(String cartId) {
         cartRepository.findById(cartId)
                 .ifPresentOrElse(cartRepository::delete, () -> {
-                    throw new BusinessException("Product in cart doesnt found", HttpStatus.NOT_FOUND);
+                    throw new BusinessException(PRODUCT_IN_CART_NOT_FOUND, HttpStatus.NOT_FOUND);
                 });
     }
 
@@ -63,7 +64,7 @@ public class CartServiceImpl implements CartService {
     public CartResponse updateCart(CartRequest cartRequest) {
         User user = userUtils.getUser();
         cartRepository.findById(cartRequest.getId())
-                .orElseThrow(() -> new BusinessException("Item at cart doesnt found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ITEM_AT_CART_NOT_FOUND, HttpStatus.NOT_FOUND));
         Cart cart = cartRepository.save(cartMapper.toCart(cartRequest, user.getId()));
         return cartMapper.toResponseDto(cart);
     }

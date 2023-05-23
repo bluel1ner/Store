@@ -16,13 +16,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static com.example.userservice.constants.Constants.AUTHORIZATION_HEADER_NAME;
+import static com.example.userservice.constants.Constants.TOKEN_PREFIX;
+
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
-    private static final String TOKEN_PREFIX = "Bearer ";
     private static final int JWT_START_INDEX_IN_TOKEN = 7;
 
     @Override

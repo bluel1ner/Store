@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.UUID;
 
+import static com.example.userservice.constants.Constants.DELETE_PHOTO_MESSAGE;
+
 @Service
 public class UserPhotoServiceImpl implements UserPhotoService {
     private final PhotoStorageService photoStorageService;
@@ -35,15 +37,10 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     public String addUserPhoto(MultipartFile multipartFile) {
         User user = userUtils.getUser();
         UUID uuid = UUID.randomUUID();
-        String path = uuid + ".jpg";
+        String path = "%s.jpg".formatted(uuid);
         user.setAvatar(path);
         userRepository.save(user);
         return photoStorageService.uploadFile(Path.USER, path, multipartFile);
-    }
-
-    @Override
-    public void updateUserPhoto(String path, MultipartFile multipartFile) {
-
     }
 
     @Override
@@ -56,7 +53,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
             userRepository.save(user);
             return fileName;
         } else {
-            throw new BusinessException("You cannot delete default user photo", HttpStatus.FORBIDDEN);
+            throw new BusinessException(DELETE_PHOTO_MESSAGE, HttpStatus.FORBIDDEN);
         }
     }
 

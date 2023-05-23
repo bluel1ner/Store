@@ -21,6 +21,9 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
+import static com.example.userservice.constants.Constants.CART_IS_EMPTY_MESSAGE;
+import static com.example.userservice.constants.Constants.ORDER_NOT_FOUND;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -45,11 +48,10 @@ public class OrderServiceImpl implements OrderService {
         User user = userUtils.getUser();
         List<Cart> carts = cartRepository.findAllByUserId(user.getId());
         if (carts.isEmpty()) {
-            throw new BusinessException("Your cart is empty! If you want to make an order, try to fill your cart!",
+            throw new BusinessException(CART_IS_EMPTY_MESSAGE,
                     HttpStatus.FORBIDDEN);
         }
-        carts
-                .forEach(cart -> cartRepository.deleteById(cart.getId()));
+        carts.forEach(cart -> cartRepository.deleteById(cart.getId()));
         Order order = orderMapper.toOrder(orderRequest, user.getId());
         order.setStatus(OrderStatus.PROCESSING);
         return orderMapper.toResponseDto(orderRepository.save(order), null, null, null);
@@ -61,17 +63,17 @@ public class OrderServiceImpl implements OrderService {
         User user = userRepository.findById(order.getUserId()).get();
 
         if (orderStatus.equals(OrderStatus.COMPLETED)) {
-                List<Cart> carts = order.getProducts()
-                        .stream()
-                        .map(cart -> cartMapper.toCart(cart.getProduct(), order.getUserId()))
-                        .toList();
-                cartRepository.deleteAll(carts);
-                order.setStatus(orderStatus);
-                order.setDateDone(LocalDate.now());
-            } else {
-                order.setStatus(orderStatus);
-            }
-        return orderMapper.toResponseDto(orderRepository.save(order),user.getFirstName() + " " + user.getLastName(),
+            List<Cart> carts = order.getProducts()
+                    .stream()
+                    .map(cart -> cartMapper.toCart(cart.getProduct(), order.getUserId()))
+                    .toList();
+            cartRepository.deleteAll(carts);
+            order.setStatus(orderStatus);
+            order.setDateDone(LocalDate.now());
+        } else {
+            order.setStatus(orderStatus);
+        }
+        return orderMapper.toResponseDto(orderRepository.save(order), "%s %s".formatted(user.getFirstName(), user.getLastName()),
                 user.getEmail(),
                 user.getPhoneNumber());
     }
@@ -83,9 +85,9 @@ public class OrderServiceImpl implements OrderService {
         Collections.reverse(list);
         return list
                 .stream()
-                .map(order -> orderMapper.toResponseDto(order,  user.getFirstName() + " " + user.getLastName(),
-                                user.getEmail(),
-                                user.getPhoneNumber()))
+                .map(order -> orderMapper.toResponseDto(order, "%s %s".formatted(user.getFirstName(), user.getLastName()),
+                        user.getEmail(),
+                        user.getPhoneNumber()))
                 .toList();
     }
 
@@ -98,7 +100,7 @@ public class OrderServiceImpl implements OrderService {
                 .map(order -> {
                     User user = userRepository.findById(order.getUserId()).get();
                     return orderMapper.toResponseDto(order,
-                            user.getFirstName() + " " + user.getLastName(),
+                            "%s %s".formatted(user.getFirstName(), user.getLastName()),
                             user.getEmail(),
                             user.getPhoneNumber());
                 })
@@ -112,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
                 .map(order -> {
                     User user = userRepository.findById(order.getUserId()).get();
                     return orderMapper.toResponseDto(order,
-                            user.getFirstName() + " " + user.getLastName(),
+                            "%s %s".formatted(user.getFirstName(), user.getLastName()),
                             user.getEmail(),
                             user.getPhoneNumber());
                 })
@@ -122,6 +124,6 @@ public class OrderServiceImpl implements OrderService {
 
     private Order getOrder(String id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Order doesnt found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ORDER_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 }

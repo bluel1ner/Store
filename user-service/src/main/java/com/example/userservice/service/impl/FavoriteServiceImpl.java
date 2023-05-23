@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.userservice.constants.Constants.PRODUCT_NOT_FOUND;
+
 @Service
 public class FavoriteServiceImpl implements FavoriteService {
 
@@ -37,7 +39,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         User user = userUtils.getUser();
         String productId = favoriteRequest.getProductId();
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new BusinessException("Product not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
 
         Favorite favorite = Favorite.builder()
                 .user(user)
@@ -62,7 +64,7 @@ public class FavoriteServiceImpl implements FavoriteService {
                 .map(favorite -> {
                     String productId = favorite.getProductId();
                     var product = productRepository.findById(productId)
-                            .orElseThrow(() -> new BusinessException("Product not found", HttpStatus.NOT_FOUND));
+                            .orElseThrow(() -> new BusinessException(PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
                     return FavoriteResponse.builder()
                             .id(favorite.getId())
                             .productType(product.getType())

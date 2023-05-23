@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.example.userservice.constants.Constants.ACTIVE_CARD_WITH_ID_NOT_FOUND;
+import static com.example.userservice.constants.Constants.CARD_WITH_ID_NOT_FOUND;
+
 @Service
 public class CardServiceImpl implements CardService {
 
@@ -43,11 +46,12 @@ public class CardServiceImpl implements CardService {
         return cardMapper.toResponseDto(cardRepository.save(card));
     }
 
+
     @Override
     public CardResponse updateCard(Card card) {
         Card getCardFromDb = cardRepository
                 .findById(card.getId())
-                .orElseThrow(() -> new BusinessException("Card not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(String.format(CARD_WITH_ID_NOT_FOUND, card.getId()), HttpStatus.NOT_FOUND));
 
         getCardFromDb.setId(card.getId());
         getCardFromDb.setNumber(card.getNumber());
@@ -70,7 +74,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public void deleteById(Integer id) {
         Card card = cardRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(String.format("Card with id: %d not found", id), HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(String.format(CARD_WITH_ID_NOT_FOUND, id), HttpStatus.NOT_FOUND));
         if (Objects.equals(card.getStatus(), true)) {
             cardRepository.deleteById(id);
             cardRepository.findAll()
@@ -95,13 +99,13 @@ public class CardServiceImpl implements CardService {
                         .equals(true))
                 .findFirst()
                 .orElseThrow(
-                        () -> new BusinessException("Active card doesn't found", HttpStatus.NOT_FOUND));
+                        () -> new BusinessException(ACTIVE_CARD_WITH_ID_NOT_FOUND, HttpStatus.NOT_FOUND));
 
         firstCard.setStatus(false);
 
         Card card = cardRepository.findCardByUserIdAndAndId(userById.getId(), id)
                 .orElseThrow(
-                        () -> new BusinessException(String.format("Card with id %s doesn't found", id), HttpStatus.NOT_FOUND));
+                        () -> new BusinessException(String.format(CARD_WITH_ID_NOT_FOUND, id), HttpStatus.NOT_FOUND));
         card.setStatus(true);
         cardRepository.save(firstCard);
         cardRepository.save(card);

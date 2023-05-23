@@ -6,6 +6,7 @@ import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    //TODO: edit this method
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<UserResponse>> getAll() {
         return ResponseEntity
@@ -46,11 +46,10 @@ public class UserController {
                 .body(userService.updateUser(userRequest));
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-        return ResponseEntity
-                .ok()
-                .body(userService.changePassword(changePasswordRequest));
+    public void changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        userService.changePassword(changePasswordRequest);
     }
 
 }

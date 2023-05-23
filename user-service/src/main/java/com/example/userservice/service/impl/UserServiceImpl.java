@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.userservice.constants.Constants.INCORRECT_PASSWORD_EXCEPTION;
+import static com.example.userservice.constants.Constants.SAME_PASSWORD_EXCEPTION;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -40,7 +43,6 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
-
     @Override
     public UserResponse getUser() {
         return userMapper.toResponseDto(userUtils.getUser());
@@ -55,22 +57,22 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponseDto(userRepository.save(userById));
     }
 
+
     @Override
-    public String changePassword(ChangePasswordRequest changePasswordRequest) {
+    public void changePassword(ChangePasswordRequest changePasswordRequest) {
         User user = userUtils.getUser();
         String oldPassword = user.getPassword();
 
         if (passwordEncoder.matches(changePasswordRequest.getNewPassword(), oldPassword) ||
                 changePasswordRequest.getNewPassword().equals(changePasswordRequest.getOldPassword())
         ) {
-            throw new BusinessException("Old and new password are the same. Please, try again!", HttpStatus.CONFLICT);
+            throw new BusinessException(SAME_PASSWORD_EXCEPTION, HttpStatus.CONFLICT);
         }
         if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), oldPassword)) {
-            throw new BusinessException("Old password doesn't correct. Please, try again!", HttpStatus.BAD_REQUEST);
+            throw new BusinessException(INCORRECT_PASSWORD_EXCEPTION, HttpStatus.BAD_REQUEST);
         }
         user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
         userRepository.save(user);
-        return "Password successfully changed";
     }
 
 }

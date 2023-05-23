@@ -18,16 +18,16 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import static com.example.userservice.constants.Constants.AMAZON_MESSAGE;
+import static com.example.userservice.constants.Constants.FILE_DOES_NOT_EXIST;
+
 @Slf4j
 @Service
 public class PhotoStorageServiceImpl implements PhotoStorageService {
-
     private final AmazonS3 s3client;
 
     @Value("${amazon.bucket}")
     private String bucket;
-    private static final String AMAZON_MESSAGE = "Problem in Amazon Access - ";
-    private static final String FILE_DOES_NOT_EXIST = "The file does not exist";
 
     public PhotoStorageServiceImpl(AmazonS3 s3client) {
         this.s3client = s3client;
@@ -116,7 +116,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
     public String deleteFile(Path path, String fileName) {
         log.info("delete file with path {} and filename {}", path, fileName);
         try {
-            s3client.deleteObject(bucket,path.getUrl() + fileName);
+            s3client.deleteObject(bucket, path.getUrl() + fileName);
             return fileName;
         } catch (AmazonServiceException e) {
             throw new BusinessException(AMAZON_MESSAGE + e.getMessage(), HttpStatus.FORBIDDEN);
@@ -127,7 +127,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
 
 
     @Override
-    public String deleteFile( String fileName) {
+    public String deleteFile(String fileName) {
         log.info("delete file with filename {}", fileName);
         try {
             s3client.deleteObject(bucket, fileName);
