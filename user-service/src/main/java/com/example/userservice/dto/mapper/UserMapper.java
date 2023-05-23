@@ -7,11 +7,6 @@ import com.example.userservice.entity.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/9/2023 11:55 AM
- */
 @Component
 public class UserMapper {
     private final PasswordEncoder passwordEncoder;

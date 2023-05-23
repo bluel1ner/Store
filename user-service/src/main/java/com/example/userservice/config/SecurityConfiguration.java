@@ -14,12 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
-/**
- * @author Neevels
- * @version 1.0
- * @date 2/7/2023 3:13 PM
- */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

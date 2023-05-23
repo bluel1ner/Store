@@ -6,11 +6,6 @@ import com.example.userservice.entity.mongo.Product;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/19/2023 11:07 AM
- */
 @NoArgsConstructor
 @Component
 public class ProductMapper {

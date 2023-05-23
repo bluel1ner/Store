@@ -14,11 +14,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/21/2023 3:22 PM
- */
 @Component("customAuthenticationEntryPoint")
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

@@ -7,12 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
-/**
- * @author Neevels
- * @version 1.0
- * @date 3/28/2023 1:11 AM
- */
 @RestController
 @RequestMapping("/users/photo")
 public class UserPhotoController {

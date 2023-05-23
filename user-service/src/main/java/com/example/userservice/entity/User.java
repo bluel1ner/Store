@@ -1,6 +1,5 @@
 package com.example.userservice.entity;
 
-
 import com.example.userservice.entity.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -13,11 +12,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 2/7/2023 12:36 PM
- */
 @Entity
 @Table(name = "`user`")
 @Getter

@@ -8,11 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 3/24/2023 2:28 PM
- */
 @Configuration
 public class ConnectionAWSS3Config {
     @Value("${amazon.awsId}")

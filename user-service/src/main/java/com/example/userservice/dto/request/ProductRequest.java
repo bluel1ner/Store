@@ -3,16 +3,10 @@ package com.example.userservice.dto.request;
 import com.example.userservice.entity.enums.ProductType;
 import com.example.userservice.entity.mongo.Color;
 import com.example.userservice.entity.mongo.Configuration;
-import com.example.userservice.entity.mongo.Product;
 import lombok.*;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/19/2023 10:21 AM
- */
 @Data
 @Builder
 @AllArgsConstructor

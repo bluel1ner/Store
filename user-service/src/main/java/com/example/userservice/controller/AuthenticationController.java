@@ -1,8 +1,8 @@
 package com.example.userservice.controller;
 
 import com.example.userservice.dto.request.AuthenticationRequest;
-import com.example.userservice.dto.response.AuthenticationResponse;
 import com.example.userservice.dto.request.RegisterRequest;
+import com.example.userservice.dto.response.AuthenticationResponse;
 import com.example.userservice.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

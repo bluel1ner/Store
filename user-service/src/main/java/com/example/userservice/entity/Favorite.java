@@ -1,13 +1,8 @@
 package com.example.userservice.entity;
 
-
-import lombok.*;
 import jakarta.persistence.*;
-/**
- * @author Neevels
- * @version 1.0
- * @date 3/3/2023 1:40 AM
- */
+import lombok.*;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

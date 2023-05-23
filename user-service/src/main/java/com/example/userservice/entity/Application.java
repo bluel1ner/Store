@@ -1,15 +1,9 @@
 package com.example.userservice.entity;
 
 import com.example.userservice.entity.enums.Role;
-import com.example.userservice.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/4/2023 2:17 PM
- */
 @Entity
 @Getter
 @Setter

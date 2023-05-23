@@ -6,11 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/19/2023 11:38 AM
- */
 public interface ProductPhotoService {
     File getProductPhoto(String productId, String photoName);
     String addProductPhoto(MultipartFile multipartFile, ProductPhotoRequest productPhotoRequest);

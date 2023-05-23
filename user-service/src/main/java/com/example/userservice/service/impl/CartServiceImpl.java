@@ -15,11 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/2/2023 7:48 PM
- */
 @Service
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;

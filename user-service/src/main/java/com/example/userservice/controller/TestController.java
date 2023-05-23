@@ -5,11 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/19/2023 10:18 AM
- */
 @Slf4j
 @RestController
 @RequestMapping("/test")

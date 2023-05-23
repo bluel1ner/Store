@@ -6,13 +6,12 @@ import com.example.userservice.dto.mapper.UserMapper;
 import com.example.userservice.dto.request.AuthenticationRequest;
 import com.example.userservice.dto.request.RegisterRequest;
 import com.example.userservice.dto.response.AuthenticationResponse;
-import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.User;
 import com.example.userservice.entity.enums.Role;
-import com.example.userservice.exception.type.user.UserAlreadyExistException;
-import com.example.userservice.exception.type.user.UserNotFoundException;
+import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.AuthenticationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,9 +54,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .userResponse(userMapper.toResponseDto(savedUser))
                     .build();
         } else {
-            throw new UserAlreadyExistException(String.format("User with email %s already exist",
-                    request.getEmail())
-            );
+            throw new BusinessException(String.format("User with email %s already exist",
+                    request.getEmail()), HttpStatus.CONFLICT);
         }
     }
 
@@ -70,8 +68,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
         var user = repository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UserNotFoundException(String.format("User with email %s not found",
-                        request.getEmail()))
+                .orElseThrow(() -> new BusinessException(String.format("User with email %s not found",
+                        request.getEmail()), HttpStatus.NOT_FOUND)
                 );
         var jwtToken = jwtService.generateToken(user);
 

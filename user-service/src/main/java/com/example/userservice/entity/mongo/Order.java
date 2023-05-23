@@ -2,8 +2,6 @@ package com.example.userservice.entity.mongo;
 
 import com.example.userservice.entity.enums.OrderStatus;
 import com.example.userservice.entity.enums.PaymentType;
-import com.example.userservice.entity.enums.ProductType;
-import jakarta.persistence.PrePersist;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -11,11 +9,6 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/2/2023 7:35 PM
- */
 @Builder
 @Getter
 @Setter

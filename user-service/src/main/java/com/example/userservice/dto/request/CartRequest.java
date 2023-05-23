@@ -6,11 +6,6 @@ import lombok.*;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/2/2023 8:23 PM
- */
 @Builder
 @Getter
 @Setter

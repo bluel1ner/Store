@@ -11,11 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/19/2023 11:44 AM
- */
 @Slf4j
 @RestController
 @RequestMapping("/products/photo")

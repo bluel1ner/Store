@@ -20,11 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/10/2023 4:27 PM
- */
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;

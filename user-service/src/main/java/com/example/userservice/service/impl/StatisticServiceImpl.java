@@ -17,11 +17,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/8/2023 9:11 PM
- */
 @Service
 public class StatisticServiceImpl implements StatisticService {
 
@@ -43,10 +38,10 @@ public class StatisticServiceImpl implements StatisticService {
                         value -> value,
                         value -> (int) allByStatus.stream()
                                 .map(order -> order.getProducts()
-                                                .stream()
-                                                .filter(orderProduct -> Objects.equals(orderProduct.getType(), value))
-                                                .mapToInt(OrderProduct::getAmount)
-                                                .sum()
+                                        .stream()
+                                        .filter(orderProduct -> Objects.equals(orderProduct.getType(), value))
+                                        .mapToInt(OrderProduct::getAmount)
+                                        .sum()
                                 )
                                 .count()))
                 .entrySet()

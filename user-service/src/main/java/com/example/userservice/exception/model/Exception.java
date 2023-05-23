@@ -2,6 +2,7 @@ package com.example.userservice.exception.model;
 
 import lombok.Builder;
 import org.springframework.http.HttpStatus;
+
 import java.time.ZonedDateTime;
 
 /**

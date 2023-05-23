@@ -12,11 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/10/2023 4:25 PM
- */
 @RestController()
 @RequestMapping("/products")
 public class ProductController {

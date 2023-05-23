@@ -8,11 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/2/2023 9:45 PM
- */
 @Component
 @NoArgsConstructor
 public class OrderMapper {

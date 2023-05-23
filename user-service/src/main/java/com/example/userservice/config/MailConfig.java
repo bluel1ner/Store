@@ -7,11 +7,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/12/2023 3:39 PM
- */
 @Configuration
 public class MailConfig {
 

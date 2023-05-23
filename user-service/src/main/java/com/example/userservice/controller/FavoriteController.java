@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/27/2023 12:46 AM
- */
 @RestController()
 @RequestMapping("/favorites")
 public class FavoriteController {

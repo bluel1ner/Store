@@ -6,11 +6,6 @@ import com.example.userservice.entity.enums.OrderStatus;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/2/2023 9:44 PM
- */
 public interface OrderService {
     OrderResponse addOrder(OrderRequest orderRequest);
     OrderResponse changeOrderStatus(String id, OrderStatus orderStatus);

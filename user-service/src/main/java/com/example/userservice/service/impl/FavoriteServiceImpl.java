@@ -17,11 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/26/2023 10:16 PM
- */
 @Service
 public class FavoriteServiceImpl implements FavoriteService {
 

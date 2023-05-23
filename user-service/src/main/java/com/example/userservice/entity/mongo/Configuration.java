@@ -2,12 +2,6 @@ package com.example.userservice.entity.mongo;
 
 import lombok.*;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/10/2023 1:29 PM
- */
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

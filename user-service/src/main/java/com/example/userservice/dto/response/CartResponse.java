@@ -5,11 +5,6 @@ import lombok.Builder;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/2/2023 8:23 PM
- */
 @Builder
 public record CartResponse(
         String id,

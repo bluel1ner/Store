@@ -7,11 +7,6 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/19/2023 10:10 AM
- */
 @Builder
 @Getter
 @Setter

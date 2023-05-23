@@ -1,9 +1,10 @@
 package com.example.userservice.aws.service.impl;
 
 
-import java.io.File;
-import java.io.FileOutputStream;
-
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
 import com.example.userservice.aws.enums.Path;
 import com.example.userservice.aws.service.PhotoStorageService;
@@ -14,16 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 3/24/2023 2:36 PM
- */
 @Slf4j
 @Service
 public class PhotoStorageServiceImpl implements PhotoStorageService {

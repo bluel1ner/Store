@@ -14,11 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.UUID;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 3/28/2023 1:15 AM
- */
 @Service
 public class UserPhotoServiceImpl implements UserPhotoService {
     private final PhotoStorageService photoStorageService;

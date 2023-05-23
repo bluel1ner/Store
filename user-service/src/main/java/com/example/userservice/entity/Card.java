@@ -1,8 +1,7 @@
 package com.example.userservice.entity;
 
-import lombok.*;
-
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "card")

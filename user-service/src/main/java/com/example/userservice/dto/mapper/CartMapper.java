@@ -6,11 +6,6 @@ import com.example.userservice.entity.mongo.Cart;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/2/2023 8:26 PM
- */
 @Component
 @NoArgsConstructor
 public class CartMapper {

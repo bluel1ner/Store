@@ -6,11 +6,6 @@ import com.example.userservice.dto.response.UserResponse;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/4/2023 2:22 PM
- */
 public interface ApplicationService {
     ApplicationResponse addApplication(ApplicationRequest applicationRequest);
 

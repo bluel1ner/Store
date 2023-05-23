@@ -12,11 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/2/2023 9:47 PM
- */
 @Slf4j
 @RestController()
 @RequestMapping("/orders")

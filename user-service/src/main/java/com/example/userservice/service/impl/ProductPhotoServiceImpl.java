@@ -19,11 +19,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/19/2023 11:43 AM
- */
 @Slf4j
 @Service
 public class ProductPhotoServiceImpl implements ProductPhotoService {
@@ -92,8 +87,6 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
                             });
                 });
         photoStorageService.deleteFile(photo);
-
-
     }
 
     @Override
@@ -128,7 +121,6 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
     }
 
 
-
     private Product getProduct(String productId) {
         return productRepository
                 .findById(productId)
@@ -136,4 +128,5 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
                         (String.format("Product with id: %s not found", productId),
                                 HttpStatus.NOT_FOUND));
     }
+
 }

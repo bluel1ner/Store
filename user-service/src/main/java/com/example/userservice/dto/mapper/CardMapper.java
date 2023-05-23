@@ -5,11 +5,6 @@ import com.example.userservice.entity.Card;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/9/2023 11:56 AM
- */
 @Component
 @NoArgsConstructor
 public class CardMapper {

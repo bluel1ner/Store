@@ -5,11 +5,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 3/11/2023 12:01 AM
- */
 @Entity
 @Table(name = "comment")
 @Getter
@@ -31,7 +26,6 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-
 
     @PrePersist
     private void init() {

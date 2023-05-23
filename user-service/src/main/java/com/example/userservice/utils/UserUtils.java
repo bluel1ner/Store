@@ -1,17 +1,13 @@
 package com.example.userservice.utils;
 
 import com.example.userservice.entity.User;
-import com.example.userservice.exception.type.user.UserNotFoundException;
+import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/25/2023 1:15 PM
- */
 @Component
 public class UserUtils {
 
@@ -26,6 +22,6 @@ public class UserUtils {
         String email = authentication.getName();
         return userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(String.format("User with email: %s not found", email)));
+                .orElseThrow(() -> new BusinessException(String.format("User with email: %s not found", email), HttpStatus.NOT_FOUND));
     }
 }

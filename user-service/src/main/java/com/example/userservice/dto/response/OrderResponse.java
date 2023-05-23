@@ -8,11 +8,6 @@ import lombok.Builder;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 5/2/2023 9:45 PM
- */
 @Builder
 public record OrderResponse(
         String id,

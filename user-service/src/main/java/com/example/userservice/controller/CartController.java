@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/26/2023 9:49 PM
- */
 @Slf4j
 @RestController()
 @RequestMapping("/carts")

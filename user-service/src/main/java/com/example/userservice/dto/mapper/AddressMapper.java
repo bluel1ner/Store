@@ -4,18 +4,11 @@ import com.example.userservice.dto.request.AddressRequest;
 import com.example.userservice.dto.response.AddressResponse;
 import com.example.userservice.entity.Address;
 import com.example.userservice.entity.User;
-import com.example.userservice.entity.enums.Status;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 4/9/2023 11:56 AM
- */
 @Component
 @NoArgsConstructor
-
 public class AddressMapper {
 
     public AddressResponse toResponseDto(Address address) {

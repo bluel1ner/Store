@@ -13,11 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- * @author Neevels
- * @version 1.0
- * @date 2/7/2023 3:20 PM
- */
 @Configuration
 public class ApplicationConfig {
     private final UserRepository repository;
