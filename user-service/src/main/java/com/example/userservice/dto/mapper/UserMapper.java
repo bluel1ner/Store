@@ -1,6 +1,6 @@
 package com.example.userservice.dto.mapper;
 
-import com.example.userservice.aws.enums.Path;
+import com.example.userservice.aws.enums.PHOTO_PATH;
 import com.example.userservice.dto.response.UserResponse;
 import com.example.userservice.entity.Application;
 import com.example.userservice.entity.User;
@@ -33,7 +33,7 @@ public class UserMapper {
                 .email(application.getEmail())
                 .role(application.getRole())
                 .phoneNumber(application.getPhone())
-                .avatar(Path.DEFAULT_PATH.getUrl())
+                .avatar(PHOTO_PATH.DEFAULT_PATH.getUrl())
                 .password(passwordEncoder.encode(password))
                 .build();
     }

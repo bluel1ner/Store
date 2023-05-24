@@ -1,7 +1,7 @@
 package com.example.userservice.dto.response;
 
-import com.example.userservice.entity.enums.OrderStatus;
-import com.example.userservice.entity.enums.PaymentType;
+import com.example.userservice.entity.enums.ORDER_STATUS;
+import com.example.userservice.entity.enums.PAYMENT_TYPE;
 import com.example.userservice.entity.mongo.OrderProduct;
 import lombok.Builder;
 
@@ -12,10 +12,10 @@ import java.util.List;
 public record OrderResponse(
         String id,
         String address,
-        PaymentType paymentOption,
+        PAYMENT_TYPE paymentOption,
         LocalDate date,
         LocalDate dateDone,
-        OrderStatus status,
+        ORDER_STATUS status,
         Double finalPrice,
         List<OrderProduct> products,
         String fullName,

@@ -2,8 +2,8 @@ package com.example.userservice.service.impl;
 
 import com.example.userservice.dto.response.AmountStatisticResponse;
 import com.example.userservice.dto.response.PriceStatisticResponse;
-import com.example.userservice.entity.enums.OrderStatus;
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.ORDER_STATUS;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import com.example.userservice.entity.mongo.Order;
 import com.example.userservice.entity.mongo.OrderProduct;
 import com.example.userservice.repository.OrderRepository;
@@ -26,8 +26,8 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public List<AmountStatisticResponse> getProfitByProductType() {
-        List<Order> allByStatus = orderRepository.findAllByStatus(OrderStatus.COMPLETED);
-        return Stream.of(ProductType.values())
+        List<Order> allByStatus = orderRepository.findAllByStatus(ORDER_STATUS.COMPLETED);
+        return Stream.of(PRODUCT_TYPE.values())
                 .collect(Collectors.toMap(
                         value -> value,
                         value -> (int) allByStatus.stream()
@@ -49,8 +49,8 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public List<PriceStatisticResponse> getPriceStatistic() {
-        List<Order> allByStatus = orderRepository.findAllByStatus(OrderStatus.COMPLETED);
-        return List.of(ProductType.values())
+        List<Order> allByStatus = orderRepository.findAllByStatus(ORDER_STATUS.COMPLETED);
+        return List.of(PRODUCT_TYPE.values())
                 .stream()
                 .collect(Collectors.toMap(
                         value -> value,

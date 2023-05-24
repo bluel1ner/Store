@@ -1,12 +1,12 @@
 package com.example.userservice.dto.response;
 
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import lombok.Builder;
 
 @Builder
 public record ProductSearchResponse (
         String id,
         String name,
-        ProductType type
+        PRODUCT_TYPE type
 ) {
 }

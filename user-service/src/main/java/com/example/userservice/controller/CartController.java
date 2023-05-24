@@ -23,21 +23,24 @@ public class CartController {
     @PostMapping
     public ResponseEntity<CartResponse> addToCart(@RequestBody CartRequest cartRequest) {
         log.info("Adding {} dto to cart", cartRequest);
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .ok()
                 .body(cartService.addToCart(cartRequest));
     }
 
     @GetMapping
     public ResponseEntity<List<CartResponse>> getAllFromCart() {
         log.info("Getting all from cart");
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .ok()
                 .body(cartService.getAllUserCart());
     }
 
     @PutMapping
     public ResponseEntity<CartResponse> update(@RequestBody CartRequest cartRequest) {
         log.info("Update {} dto in cart", cartRequest);
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .ok()
                 .body(cartService.updateCart(cartRequest));
     }
 

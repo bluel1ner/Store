@@ -21,19 +21,24 @@ public class AddressController {
 
     @PostMapping
     public ResponseEntity<AddressResponse> createAddress(@RequestBody AddressRequest addressRequest) {
-        return ResponseEntity.ok(addressService.addAddress(addressRequest));
+        return ResponseEntity
+                .ok()
+                .body(addressService.addAddress(addressRequest));
     }
 
     @PutMapping
     public ResponseEntity<AddressResponse> editAddress(@RequestBody AddressRequest address) {
         addressService.editAddress(address);
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .ok()
                 .body(addressService.editAddress(address));
     }
 
     @GetMapping
     public ResponseEntity<List<AddressResponse>> getAllAddresses() {
-        return ResponseEntity.ok(addressService.getAllAddresses());
+        return ResponseEntity
+                .ok()
+                .body(addressService.getAllAddresses());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -44,7 +49,8 @@ public class AddressController {
 
     @PutMapping("/{id}/setActive")
     public ResponseEntity<List<AddressResponse>> changeAddressStatusForMain(@PathVariable Integer id) {
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .ok()
                 .body(addressService.changeActiveAddress(id));
     }
 

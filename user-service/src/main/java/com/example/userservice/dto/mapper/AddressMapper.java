@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @NoArgsConstructor
 public class AddressMapper {
-
     public AddressResponse toResponseDto(Address address) {
         return AddressResponse.builder()
                 .id(address.getId())

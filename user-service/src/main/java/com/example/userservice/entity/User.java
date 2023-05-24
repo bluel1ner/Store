@@ -1,6 +1,6 @@
 package com.example.userservice.entity;
 
-import com.example.userservice.entity.enums.Role;
+import com.example.userservice.entity.enums.USER_ROLE;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -33,7 +33,7 @@ public class User implements UserDetails {
     private String phoneNumber;
     private String avatar;
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private USER_ROLE role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Card> cards;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

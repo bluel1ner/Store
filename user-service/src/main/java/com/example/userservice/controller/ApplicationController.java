@@ -21,19 +21,22 @@ public class ApplicationController {
 
     @PostMapping
     public ResponseEntity<ApplicationResponse> addApplication(@RequestBody ApplicationRequest applicationRequest) {
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .ok()
                 .body(applicationService.addApplication(applicationRequest));
     }
 
     @GetMapping
     public ResponseEntity<List<ApplicationResponse>> getAllApplications() {
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .ok()
                 .body(applicationService.getAllApplications());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateToUser(@PathVariable Integer id) {
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .ok()
                 .body(applicationService.updateToUser(id));
     }
 

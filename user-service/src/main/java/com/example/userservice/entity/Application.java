@@ -1,6 +1,6 @@
 package com.example.userservice.entity;
 
-import com.example.userservice.entity.enums.Role;
+import com.example.userservice.entity.enums.USER_ROLE;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,5 +21,5 @@ public class Application {
     @Column(length = 1024)
     private String message;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private USER_ROLE role;
 }

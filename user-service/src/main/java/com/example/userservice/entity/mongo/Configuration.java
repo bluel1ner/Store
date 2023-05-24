@@ -9,18 +9,17 @@ import lombok.*;
 @Builder
 public class Configuration {
     private String value;
-    private ProductConfiguration name;
-    private Double extraPrice;
+    private PRODUCT_CONFIGURATION_TYPE name;
+    private Integer extraPrice;
 
 
-    public enum ProductConfiguration {
+    public enum PRODUCT_CONFIGURATION_TYPE {
         STORAGE,
         MEMORY,
         PROCESSOR,
         SIZES_AND_WEIGHT ,
         DISPLAY ,
         RESISTANCE ,
-//        PROCESSOR,
         CAMERA,
         FRONT_CAMERA,
         VIDEO_RECORDING,

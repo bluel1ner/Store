@@ -1,13 +1,13 @@
 package com.example.userservice.service.impl;
 
-import com.example.userservice.aws.enums.Path;
+import com.example.userservice.aws.enums.PHOTO_PATH;
 import com.example.userservice.config.JwtService;
 import com.example.userservice.dto.mapper.UserMapper;
 import com.example.userservice.dto.request.AuthenticationRequest;
 import com.example.userservice.dto.request.RegisterRequest;
 import com.example.userservice.dto.response.AuthenticationResponse;
 import com.example.userservice.entity.User;
-import com.example.userservice.entity.enums.Role;
+import com.example.userservice.entity.enums.USER_ROLE;
 import com.example.userservice.exception.type.BusinessException;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.AuthenticationService;
@@ -47,8 +47,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .lastName(request.getLastName())
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
-                    .role(Role.USER)
-                    .avatar(Path.DEFAULT_PATH.getUrl())
+                    .role(USER_ROLE.USER)
+                    .avatar(PHOTO_PATH.DEFAULT_PATH.getUrl())
                     .build();
             var savedUser = repository.save(user);
             var jwtToken = jwtService.generateToken(user);

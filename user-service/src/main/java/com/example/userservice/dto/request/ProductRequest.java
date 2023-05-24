@@ -1,6 +1,6 @@
 package com.example.userservice.dto.request;
 
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import com.example.userservice.entity.mongo.Color;
 import com.example.userservice.entity.mongo.Configuration;
 import lombok.*;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ProductRequest {
     private String id;
     private String name;
-    private ProductType type;
+    private PRODUCT_TYPE type;
     private Integer price;
     private String display;
     private String powerAndBattery;

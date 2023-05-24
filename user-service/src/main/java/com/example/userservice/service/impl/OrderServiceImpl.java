@@ -5,7 +5,7 @@ import com.example.userservice.dto.mapper.OrderMapper;
 import com.example.userservice.dto.request.OrderRequest;
 import com.example.userservice.dto.response.OrderResponse;
 import com.example.userservice.entity.User;
-import com.example.userservice.entity.enums.OrderStatus;
+import com.example.userservice.entity.enums.ORDER_STATUS;
 import com.example.userservice.entity.mongo.Cart;
 import com.example.userservice.entity.mongo.Order;
 import com.example.userservice.exception.type.BusinessException;
@@ -53,16 +53,16 @@ public class OrderServiceImpl implements OrderService {
         }
         carts.forEach(cart -> cartRepository.deleteById(cart.getId()));
         Order order = orderMapper.toOrder(orderRequest, user.getId());
-        order.setStatus(OrderStatus.PROCESSING);
+        order.setStatus(ORDER_STATUS.PROCESSING);
         return orderMapper.toResponseDto(orderRepository.save(order), null, null, null);
     }
 
     @Override
-    public OrderResponse changeOrderStatus(String id, OrderStatus orderStatus) {
+    public OrderResponse changeOrderStatus(String id, ORDER_STATUS orderStatus) {
         Order order = getOrder(id);
         User user = userRepository.findById(order.getUserId()).get();
 
-        if (orderStatus.equals(OrderStatus.COMPLETED)) {
+        if (orderStatus.equals(ORDER_STATUS.COMPLETED)) {
             List<Cart> carts = order.getProducts()
                     .stream()
                     .map(cart -> cartMapper.toCart(cart.getProduct(), order.getUserId()))
@@ -92,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponse> getAllByOrderStatus(OrderStatus orderStatus) {
+    public List<OrderResponse> getAllByOrderStatus(ORDER_STATUS orderStatus) {
         List<Order> list = orderRepository.findAllByStatus(orderStatus);
         Collections.reverse(list);
         return list

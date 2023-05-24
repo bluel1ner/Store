@@ -1,6 +1,6 @@
 package com.example.userservice.dto.response;
 
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import com.example.userservice.entity.mongo.Color;
 import com.example.userservice.entity.mongo.Configuration;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.List;
 public record ProductResponse(
         String id,
         String name,
-        ProductType type,
+        PRODUCT_TYPE type,
         Integer price,
         String display,
         String powerAndBattery,

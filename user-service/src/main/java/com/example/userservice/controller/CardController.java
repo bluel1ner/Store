@@ -1,5 +1,6 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.request.CardRequest;
 import com.example.userservice.dto.response.CardResponse;
 import com.example.userservice.entity.Card;
 import com.example.userservice.service.CardService;
@@ -20,20 +21,26 @@ public class CardController {
     }
 
     @PostMapping
-    public ResponseEntity<CardResponse> createCard(@RequestBody Card card) {
-        return ResponseEntity.ok(cardService.createCard(card));
+    public ResponseEntity<CardResponse> createCard(@RequestBody CardRequest cardRequest) {
+        return ResponseEntity
+                .ok()
+                .body(cardService.createCard(cardRequest));
     }
 
 
     @PutMapping
-    public ResponseEntity<CardResponse> updateCard(@RequestBody Card card) {
-        return ResponseEntity.ok(cardService.updateCard(card));
+    public ResponseEntity<CardResponse> updateCard(@RequestBody CardRequest cardRequest) {
+        return ResponseEntity
+                .ok()
+                .body(cardService.updateCard(cardRequest));
     }
 
 
     @GetMapping
     public ResponseEntity<List<CardResponse>> getAllByUserId() {
-        return ResponseEntity.ok(cardService.getAllByUserId());
+        return ResponseEntity
+                .ok()
+                .body(cardService.getAllByUserId());
 
     }
 
@@ -46,7 +53,9 @@ public class CardController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}/setActive")
     public ResponseEntity<List<CardResponse>> changeAddressStatusForMain(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(cardService.changeActiveCard(id));
+        return ResponseEntity
+                .ok()
+                .body(cardService.changeActiveCard(id));
     }
 
 }

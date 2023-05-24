@@ -72,14 +72,14 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
 
     @Override
     public void deleteProductPhoto(DeletePhotoRequest deletePhotoRequest) {
-        String photo = deletePhotoRequest.getProductId() + "/" + deletePhotoRequest.getPhotoPath();
+        String photo = "%s/%s".formatted(deletePhotoRequest.getProductId(), deletePhotoRequest.getPhotoPath());
         Product product = getProduct(deletePhotoRequest.getProductId());
         product
                 .getColors()
                 .forEach(color -> {
                     color.getPhotos()
                             .stream()
-                            .filter(photoPath -> photoPath.equals(deletePhotoRequest.getProductId() + "/" + deletePhotoRequest.getPhotoPath()))
+                            .filter(photoPath -> photoPath.equals("%s/%s".formatted(deletePhotoRequest.getProductId(), deletePhotoRequest.getPhotoPath())))
                             .findAny()
                             .ifPresent(path -> {
                                 List<String> photos = color.getPhotos();
@@ -98,7 +98,7 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
 
     @Override
     public File getPreviewProductPhoto(String productId, String photoName) {
-        return photoStorageService.getFile(productId + "/", photoName);
+        return photoStorageService.getFile("%s/".formatted(productId), photoName);
 
     }
 
@@ -107,7 +107,7 @@ public class ProductPhotoServiceImpl implements ProductPhotoService {
     public String addPreviewPhoto(MultipartFile file, ProductPhotoRequest productPhotoRequest) {
         Product product = getProduct(productPhotoRequest.getProductId());
         UUID uuid = UUID.randomUUID();
-        String path = uuid + ".jpg";
+        String path = "%s.jpg".formatted(uuid);
         product.setPreview(path);
         productRepository.save(product);
         photoStorageService.uploadFile("%s/%s".formatted(productPhotoRequest.getProductId(), path), file);

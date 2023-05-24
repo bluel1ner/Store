@@ -1,6 +1,6 @@
 package com.example.userservice.entity.enums;
 
-public enum Status {
+public enum USER_STATUS {
     ACTIVE,
     NOT_ACTIVE
 }

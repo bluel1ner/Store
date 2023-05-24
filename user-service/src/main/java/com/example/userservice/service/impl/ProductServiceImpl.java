@@ -5,7 +5,7 @@ import com.example.userservice.dto.mapper.ProductMapper;
 import com.example.userservice.dto.request.ProductRequest;
 import com.example.userservice.dto.response.ProductResponse;
 import com.example.userservice.dto.response.ProductSearchResponse;
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import com.example.userservice.entity.mongo.Color;
 import com.example.userservice.entity.mongo.Product;
 import com.example.userservice.exception.type.BusinessException;
@@ -71,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductByType(ProductType productTypeEnum) {
+    public List<Product> getProductByType(PRODUCT_TYPE productTypeEnum) {
         return productRepository
                 .findAll()
                 .stream()

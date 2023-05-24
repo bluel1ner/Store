@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
-import com.example.userservice.aws.enums.Path;
+import com.example.userservice.aws.enums.PHOTO_PATH;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.exception.type.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +33,8 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
         this.s3client = s3client;
     }
 
-
     @Override
-    public String uploadFile(Path path, String photoPath, MultipartFile file) {
+    public String uploadFile(PHOTO_PATH path, String photoPath, MultipartFile file) {
         try {
             File tmp = File.createTempFile("test", file.getOriginalFilename());
             file.transferTo(tmp);
@@ -62,9 +61,8 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
         }
     }
 
-
     @Override
-    public File getFile(Path path, String fileName) {
+    public File getFile(PHOTO_PATH path, String fileName) {
         try {
             if (!s3client.doesObjectExist(bucket, path.getUrl() + fileName)) {
                 throw new BusinessException(FILE_DOES_NOT_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -113,7 +111,7 @@ public class PhotoStorageServiceImpl implements PhotoStorageService {
 
 
     @Override
-    public String deleteFile(Path path, String fileName) {
+    public String deleteFile(PHOTO_PATH path, String fileName) {
         log.info("delete file with path {} and filename {}", path, fileName);
         try {
             s3client.deleteObject(bucket, path.getUrl() + fileName);

@@ -1,6 +1,6 @@
 package com.example.userservice.dto.response;
 
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import lombok.Builder;
 
 @Builder
@@ -9,6 +9,6 @@ public record FavoriteResponse (
         String productId,
         String productName,
         String productPreview,
-        ProductType productType
+        PRODUCT_TYPE productType
 ) {
 }

@@ -1,6 +1,6 @@
 package com.example.userservice.dto.request;
 
-import com.example.userservice.entity.enums.PaymentType;
+import com.example.userservice.entity.enums.PAYMENT_TYPE;
 import com.example.userservice.entity.mongo.OrderProduct;
 import lombok.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 public class OrderRequest {
     private String address;
-    private PaymentType paymentOption;
+    private PAYMENT_TYPE paymentOption;
     private Double finalPrice;
     private List<OrderProduct> products;
 }

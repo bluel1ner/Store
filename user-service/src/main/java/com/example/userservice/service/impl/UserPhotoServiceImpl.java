@@ -1,6 +1,6 @@
 package com.example.userservice.service.impl;
 
-import com.example.userservice.aws.enums.Path;
+import com.example.userservice.aws.enums.PHOTO_PATH;
 import com.example.userservice.aws.service.PhotoStorageService;
 import com.example.userservice.entity.User;
 import com.example.userservice.exception.type.BusinessException;
@@ -30,7 +30,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
 
     @Override
     public File getUserPhoto(String imagePath) {
-        return photoStorageService.getFile(Path.USER, imagePath);
+        return photoStorageService.getFile(PHOTO_PATH.USER, imagePath);
     }
 
     @Override
@@ -40,16 +40,16 @@ public class UserPhotoServiceImpl implements UserPhotoService {
         String path = "%s.jpg".formatted(uuid);
         user.setAvatar(path);
         userRepository.save(user);
-        return photoStorageService.uploadFile(Path.USER, path, multipartFile);
+        return photoStorageService.uploadFile(PHOTO_PATH.USER, path, multipartFile);
     }
 
     @Override
     public String deleteUserPhoto() {
         User user = userUtils.getUser();
         String photoPath = user.getAvatar();
-        if (!photoPath.equals(Path.DEFAULT_PATH.getUrl())) {
-            String fileName = photoStorageService.deleteFile(Path.USER, photoPath);
-            user.setAvatar(Path.DEFAULT_PATH.getUrl());
+        if (!photoPath.equals(PHOTO_PATH.DEFAULT_PATH.getUrl())) {
+            String fileName = photoStorageService.deleteFile(PHOTO_PATH.USER, photoPath);
+            user.setAvatar(PHOTO_PATH.DEFAULT_PATH.getUrl());
             userRepository.save(user);
             return fileName;
         } else {
@@ -59,7 +59,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
 
     @Override
     public String addDefaultPhoto(MultipartFile file) {
-        return photoStorageService.uploadFile(Path.USER, file.getOriginalFilename(), file);
+        return photoStorageService.uploadFile(PHOTO_PATH.USER, file.getOriginalFilename(), file);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.example.userservice.entity.mongo;
 
-import com.example.userservice.entity.enums.OrderStatus;
-import com.example.userservice.entity.enums.PaymentType;
+import com.example.userservice.entity.enums.ORDER_STATUS;
+import com.example.userservice.entity.enums.PAYMENT_TYPE;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -21,10 +21,10 @@ public class Order {
     private String id;
     private Long userId;
     private String address;
-    private PaymentType paymentOption;
+    private PAYMENT_TYPE paymentOption;
     private LocalDate date;
     private LocalDate dateDone;
-    private OrderStatus status;
+    private ORDER_STATUS status;
     private Double finalPrice;
     private List<OrderProduct> products;
 

@@ -1,6 +1,6 @@
 package com.example.userservice.entity;
 
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,11 +16,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Double price;
+    private Integer price;
     private String brand;
     private String name;
     @Enumerated(EnumType.STRING)
-    private ProductType productType;
+    private PRODUCT_TYPE productType;
     @Column(length = 1000)
     private String description;
     private String color;
@@ -29,6 +29,5 @@ public class Product {
     private Float averageRate;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> commentList;
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    private Cart cart;
+
 }

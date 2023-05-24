@@ -1,5 +1,5 @@
 package com.example.userservice.entity.enums;
 
-public enum OrderStatus {
+public enum ORDER_STATUS {
     PROCESSING, DELIVERY, COMPLETED, CANCELLED
 }

@@ -3,7 +3,7 @@ package com.example.userservice.controller;
 import com.example.userservice.dto.request.ProductRequest;
 import com.example.userservice.dto.response.ProductResponse;
 import com.example.userservice.dto.response.ProductSearchResponse;
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import com.example.userservice.entity.mongo.Product;
 import com.example.userservice.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProductsByType(@PathVariable String productTypeEnum) {
         return ResponseEntity
                 .ok()
-                .body(productService.getProductByType(ProductType.valueOf(productTypeEnum)));
+                .body(productService.getProductByType(PRODUCT_TYPE.valueOf(productTypeEnum)));
     }
 
     @GetMapping("/search/{searchString}")

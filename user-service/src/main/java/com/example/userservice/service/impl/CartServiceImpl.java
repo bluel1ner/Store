@@ -31,7 +31,6 @@ public class CartServiceImpl implements CartService {
         this.productRepository = productRepository;
     }
 
-
     @Override
     public CartResponse addToCart(CartRequest cartRequest) {
         if (productRepository.findByName(cartRequest.getName()).isPresent()) {

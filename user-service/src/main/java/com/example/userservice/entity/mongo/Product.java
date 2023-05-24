@@ -1,6 +1,6 @@
 package com.example.userservice.entity.mongo;
 
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -18,7 +18,7 @@ public class Product {
     @MongoId
     private String id;
     private String name;
-    private ProductType type;
+    private PRODUCT_TYPE type;
     private Integer price;
     private String display;
     private String powerAndBattery;

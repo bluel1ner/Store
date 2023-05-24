@@ -18,17 +18,20 @@ spring:
       host: localhost
       port: 27017
       database: test
-  mail:
-    host: smtp.yandex.ru
-    username: FastEmaaiil@yandex.ru
-    password: EmaaiilFast
-    port: 465
-    protocol: smtps
-    debug: true
-
+mail:
+  host: smtp.yandex.ru
+  username: FastEmaaiil@yandex.ru
+  password: EmaaiilFast
+  port: 465
+  protocol: smtps
+  debug: true
 amazon:
   bucket: test-backet-ilya
   awsId: YCAJEC2QrKhEprDoVeRIF2WB0
   awsKey: YCNE-vwuDtHSwRIr6FwQtd47UQKVzm_8sIqCu5aR
   serviceEndPoint: storage.yandexcloud.net
   signingRegion: ru-central1
+jwt:
+  secretKey: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+front:
+  url: http://localhost:3000

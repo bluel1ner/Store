@@ -1,11 +1,11 @@
 package com.example.userservice.dto.response;
 
-import com.example.userservice.entity.enums.ProductType;
+import com.example.userservice.entity.enums.PRODUCT_TYPE;
 import lombok.Builder;
 
 @Builder
 public record PriceStatisticResponse(
-        ProductType key,
+        PRODUCT_TYPE key,
         Double value
 ) {
 

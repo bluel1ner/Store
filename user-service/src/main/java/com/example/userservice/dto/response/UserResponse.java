@@ -1,6 +1,6 @@
 package com.example.userservice.dto.response;
 
-import com.example.userservice.entity.enums.Role;
+import com.example.userservice.entity.enums.USER_ROLE;
 import lombok.Builder;
 
 @Builder
@@ -9,7 +9,7 @@ public record UserResponse(
         String firstName,
         String lastName,
         String phoneNumber,
-        Role role,
+        USER_ROLE role,
         String avatar
 ) {
 }

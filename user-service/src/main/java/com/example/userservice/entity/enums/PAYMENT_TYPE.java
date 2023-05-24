@@ -1,5 +1,5 @@
 package com.example.userservice.entity.enums;
 
-public enum PaymentType {
+public enum PAYMENT_TYPE {
     CASH, CARD
 }
