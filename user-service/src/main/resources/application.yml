@@ -1,11 +1,11 @@
 server:
-  port: 8081
+  port:
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/web
-    username: root
-    password: 212109
+    username:
+    password:
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
@@ -15,23 +15,23 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
   data:
     mongodb:
-      host: localhost
-      port: 27017
+      host:
+      port:
       database: test
 mail:
-  host: smtp.yandex.ru
-  username: FastEmaaiil@yandex.ru
-  password: EmaaiilFast
-  port: 465
+  host:
+  username:
+  password:
+  port:
   protocol: smtps
   debug: true
 amazon:
-  bucket: test-backet-ilya
-  awsId: YCAJEC2QrKhEprDoVeRIF2WB0
-  awsKey: YCNE-vwuDtHSwRIr6FwQtd47UQKVzm_8sIqCu5aR
-  serviceEndPoint: storage.yandexcloud.net
-  signingRegion: ru-central1
+  bucket:
+  awsId:
+  awsKey:
+  serviceEndPoint:
+  signingRegion:
 jwt:
-  secretKey: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  secretKey:
 front:
-  url: http://localhost:3000
+  url:
