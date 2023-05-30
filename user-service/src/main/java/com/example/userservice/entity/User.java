@@ -40,8 +40,6 @@ public class User implements UserDetails {
     private Set<Address> address;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Favorite> favorites;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> commentList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
